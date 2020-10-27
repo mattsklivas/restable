@@ -14,6 +14,7 @@ public class ResultsActivity extends AppCompatActivity {
     ArrayList<Float> soundData;
     ArrayList<Float> motionData;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
