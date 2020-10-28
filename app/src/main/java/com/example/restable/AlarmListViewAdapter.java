@@ -13,8 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
@@ -25,7 +27,6 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
     TextView wakeTimeTextView;
     TextView durationTextView;
     TextView ratingTextView;
-    TextView alarmSetTextView;
     ImageView alarmClockImageView;
 
     private Context context;
@@ -49,8 +50,7 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
         Log.d(TAG, "getView called");
 
         // Set variables
-        int hour = Objects.requireNonNull(getItem(position)).getWakeTime().getHour();
-        int minute = Objects.requireNonNull(getItem(position)).getWakeTime().getMinute();
+        LocalDateTime wakeTime = Objects.requireNonNull(getItem(position)).getWakeTime();
         String duration = Objects.requireNonNull(getItem(position)).getDuration();
         String rating = Objects.requireNonNull(getItem(position)).getRating();
 
@@ -62,12 +62,10 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
         wakeTimeTextView = (TextView) convertView.findViewById(R.id.wakeTimeTextView);
         durationTextView = (TextView) convertView.findViewById(R.id.hoursTextView);
         ratingTextView = (TextView) convertView.findViewById(R.id.ratingTextView);
-        alarmSetTextView = (TextView) convertView.findViewById(R.id.setTextView);
         alarmClockImageView = (ImageView) convertView.findViewById(R.id.alarmClockImageView);
 
         // Set the text
-        wakeTimeTextView.setText(String.format(Locale.CANADA, "%d:%s", hour,
-                String.format(Locale.CANADA, "%02d", minute)));
+        wakeTimeTextView.setText(wakeTime.format(DateTimeFormatter.ofPattern("h:mm a")));
         durationTextView.setText(duration);
         ratingTextView.setText(rating);
 

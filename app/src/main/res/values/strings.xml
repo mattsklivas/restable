@@ -18,7 +18,7 @@
     <string name="tap_a_time_to_set_an_alarm">Tap a Time to Set an Alarm</string>
     <string name="tap_a_set_alarm_to_cancel_it">Tap a Set Alarm to Cancel It</string>
     <string name="custom_alarm">Custom alarm</string>
-    <string name="start_recording">Start recording</string>
+    <string name="start_without_alarm">Start without Alarm</string>
     <string name="alarm_set">Alarm Set</string>
     <string name="hours_of_sleep">hours of sleep</string>
     <string name="rating">Rating</string>

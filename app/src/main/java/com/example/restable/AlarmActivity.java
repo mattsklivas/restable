@@ -1,5 +1,6 @@
 package com.example.restable;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
@@ -8,16 +9,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AlarmActivity  extends AppCompatActivity {
+public class AlarmActivity  extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "AlarmActivity";
 
@@ -48,7 +50,9 @@ public class AlarmActivity  extends AppCompatActivity {
         customAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToClockApp();
+                // Show user TimePicker dialog to enter time
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker for custom alarm");
             }
         });
 
@@ -60,16 +64,6 @@ public class AlarmActivity  extends AppCompatActivity {
     protected void goToRecActivity() {
         Intent intent = new Intent(this, RecActivity.class);
         startActivity(intent);
-    }
-
-    //Go to Clock app
-    protected void goToClockApp() {
-        Intent intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
-        startActivity(intent);
-        Toast.makeText(AlarmActivity.this,
-                "Press back button to go back to Restable",
-                Toast.LENGTH_LONG)
-                .show();
     }
 
     // Display ListView of suggested sleep times
@@ -88,40 +82,14 @@ public class AlarmActivity  extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.d(TAG, "onItemClick for clicking ListView item " + position);
+            Log.d(TAG, "onItemClick for clicking ListView item " + position);
 
-                // Get time information
-                int hour = alarmTimes.get(position).getWakeTime().getHour();
-                int minute = alarmTimes.get(position).getWakeTime().getMinute();
+            // Get time information
+            int hour = alarmTimes.get(position).getWakeTime().getHour();
+            int minute = alarmTimes.get(position).getWakeTime().getMinute();
 
-                // Set/Cancel alarm
-                if (!alarmTimes.get(position).isSet()) {
-                    Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM); // Intent to set alarm
-                    intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
-                    intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
-                    intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                    Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA,
-                            "%02d", minute));
-                    startActivity(intent); // Set alarm
-                    view.findViewById(R.id.setTextView).setVisibility(View.VISIBLE); // Alarm is set
-                    alarmTimes.get(position).setSet(true); // Set alarm set to true
-                }
-                else {
-                    Intent intent = new Intent(AlarmClock.ACTION_DISMISS_ALARM); // Intent cancel alarm
-                    intent.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE,
-                            AlarmClock.ALARM_SEARCH_MODE_TIME);
-                    intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
-                    intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
-                    Log.i(TAG, "Dismissing alarm for " + hour + ":" +
-                            String.format(Locale.CANADA, "%02d", minute));
-                    startActivity(intent); // Cancel alarm
-                    Toast.makeText(AlarmActivity.this,
-                            "Alarm dismissed. Press back button to go back to Restable",
-                            Toast.LENGTH_LONG)
-                            .show(); //
-                    view.findViewById(R.id.setTextView).setVisibility(View.INVISIBLE); // Alarm not set
-                    alarmTimes.get(position).setSet(false); // Set alarm set to false
-                }
+            goToRecActivity(); // Go to RecActivity
+            setAlarm(hour, minute); // Set alarm
             }
         });
     }
@@ -147,4 +115,21 @@ public class AlarmActivity  extends AppCompatActivity {
         return alarmTimes;
     }
 
+    // When custom time is inputted by user, set the alarm and go to RecActivity
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        goToRecActivity();
+        setAlarm(hourOfDay, minute);
+    }
+
+    // Set the alarm with the provided time
+    protected void setAlarm(int hour, int minute) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM); // Intent to set alarm
+        intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
+        intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
+        intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA,
+                "%02d", minute));
+        startActivity(intent); // Set alarm
+    }
 }

@@ -60,17 +60,5 @@
         android:contentDescription="@string/clock_logo"
         app:srcCompat="@drawable/ic_baseline_add_alarm_24" />
 
-    <TextView
-        android:id="@+id/setTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/wakeTimeTextView"
-        android:layout_alignEnd="@id/ratingTextView"
-        android:text="@string/alarm_set"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
 
 </RelativeLayout>
