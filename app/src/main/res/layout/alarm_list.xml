@@ -10,7 +10,7 @@
         android:id="@+id/wakeTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/imageView"
+        android:layout_toEndOf="@id/alarmClockImageView"
         android:text="Time"
         android:textSize="22sp"
         android:layout_marginStart="10dp"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/wakeTimeTextView"
-        android:layout_toEndOf="@id/imageView"
+        android:layout_toEndOf="@id/alarmClockImageView"
         android:text="H.H"
         android:layout_alignStart="@id/wakeTimeTextView"
         android:textSize="18sp"
@@ -50,13 +50,25 @@
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/alarmClockImageView"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         app:srcCompat="@drawable/ic_baseline_add_alarm_24" />
+
+    <TextView
+        android:id="@+id/setTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/wakeTimeTextView"
+        android:layout_alignEnd="@id/ratingTextView"
+        android:text="Alarm Set"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

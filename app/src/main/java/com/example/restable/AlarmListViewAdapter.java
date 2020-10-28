@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,12 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
     private int resource;
 
     private static final String TAG = "AlarmLiveViewAdapter";
+
+    TextView wakeTimeTextView;
+    TextView durationTextView;
+    TextView ratingTextView;
+    TextView alarmSetTextView;
+    ImageView alarmClockImageView;
 
     public AlarmListViewAdapter(@NonNull Context context, int resource, @NonNull List<AlarmTime> objects) {
         super(context, resource, objects);
@@ -48,9 +55,11 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
         convertView = inflater.inflate(resource, parent, false);
 
         // Get views from alarm_list xml
-        TextView wakeTimeTextView = (TextView) convertView.findViewById(R.id.wakeTimeTextView);
-        TextView durationTextView = (TextView) convertView.findViewById(R.id.hoursTextView);
-        TextView ratingTextView = (TextView) convertView.findViewById(R.id.ratingTextView);
+        wakeTimeTextView = (TextView) convertView.findViewById(R.id.wakeTimeTextView);
+        durationTextView = (TextView) convertView.findViewById(R.id.hoursTextView);
+        ratingTextView = (TextView) convertView.findViewById(R.id.ratingTextView);
+        alarmSetTextView = (TextView) convertView.findViewById(R.id.setTextView);
+        alarmClockImageView = (ImageView) convertView.findViewById(R.id.alarmClockImageView);
 
         // Set the text
         wakeTimeTextView.setText(String.format(Locale.CANADA, "%d:%s", hour, String.format(Locale.CANADA, "%02d", minute)));
