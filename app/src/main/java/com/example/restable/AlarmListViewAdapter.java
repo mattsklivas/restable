@@ -30,7 +30,8 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
     TextView alarmSetTextView;
     ImageView alarmClockImageView;
 
-    public AlarmListViewAdapter(@NonNull Context context, int resource, @NonNull List<AlarmTime> objects) {
+    public AlarmListViewAdapter(@NonNull Context context, int resource,
+                                @NonNull List<AlarmTime> objects) {
         super(context, resource, objects);
         Log.d(TAG, "Constructor called");
 
@@ -62,7 +63,8 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
         alarmClockImageView = (ImageView) convertView.findViewById(R.id.alarmClockImageView);
 
         // Set the text
-        wakeTimeTextView.setText(String.format(Locale.CANADA, "%d:%s", hour, String.format(Locale.CANADA, "%02d", minute)));
+        wakeTimeTextView.setText(String.format(Locale.CANADA, "%d:%s", hour,
+                String.format(Locale.CANADA, "%02d", minute)));
         durationTextView.setText(duration);
         ratingTextView.setText(rating);
 

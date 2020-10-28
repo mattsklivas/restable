@@ -66,6 +66,10 @@ public class AlarmActivity  extends AppCompatActivity {
     protected void goToClockApp() {
         Intent intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
         startActivity(intent);
+        Toast.makeText(AlarmActivity.this,
+                "Press back button to go back to Restable",
+                Toast.LENGTH_LONG)
+                .show();
     }
 
     protected void configureListView() {
@@ -74,7 +78,8 @@ public class AlarmActivity  extends AppCompatActivity {
         final List<AlarmTime> alarmTimes = getSuggestedSleepTimes();
 
         listView = findViewById(R.id.alarmListView);
-        AlarmListViewAdapter adapter = new AlarmListViewAdapter(this, R.layout.alarm_list, alarmTimes);
+        AlarmListViewAdapter adapter = new AlarmListViewAdapter(this, R.layout.alarm_list,
+                alarmTimes);
         listView.setAdapter(adapter);
 
         // Handle pressing on a ListView item to set Alarm
@@ -92,19 +97,25 @@ public class AlarmActivity  extends AppCompatActivity {
                     intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
                     intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
                     intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                    Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA, "%02d", minute));
+                    Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA,
+                            "%02d", minute));
                     startActivity(intent);
                     view.findViewById(R.id.setTextView).setVisibility(View.VISIBLE);
                     alarmTimes.get(position).setSet(true);
                 }
                 else {
                     Intent intent = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
-                    intent.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE, AlarmClock.ALARM_SEARCH_MODE_TIME);
+                    intent.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE,
+                            AlarmClock.ALARM_SEARCH_MODE_TIME);
                     intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
                     intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
-                    Log.i(TAG, "Dismissing alarm for " + hour + ":" + String.format(Locale.CANADA, "%02d", minute));
+                    Log.i(TAG, "Dismissing alarm for " + hour + ":" +
+                            String.format(Locale.CANADA, "%02d", minute));
                     startActivity(intent);
-                    Toast.makeText(AlarmActivity.this, "Alarm dismissed. Press back button to go back to Restable", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AlarmActivity.this,
+                            "Alarm dismissed. Press back button to go back to Restable",
+                            Toast.LENGTH_LONG)
+                            .show();
                     view.findViewById(R.id.setTextView).setVisibility(View.INVISIBLE);
                     alarmTimes.get(position).setSet(false);
                 }
@@ -124,7 +135,8 @@ public class AlarmActivity  extends AppCompatActivity {
         String[] ratings = new String[]{"OK", "OK", "Good", "Good", "Good", "Good", "Good"};
 
         for (int i = 0; i < timePeriods; i++) {
-            alarmTimes.add(i, new AlarmTime(currentTime.plusMinutes(startAtHour * 60 + 30 * i), durations[i], ratings[i]));
+            alarmTimes.add(i, new AlarmTime(currentTime.plusMinutes(startAtHour * 60 + 30 * i),
+                    durations[i], ratings[i]));
         }
 
         return alarmTimes;
