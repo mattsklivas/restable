@@ -32,7 +32,12 @@ public class ResultsActivity extends AppCompatActivity {
     private LineChart tempchart;
     private LineChart soundchart;
     private LineChart motionchart;
-    
+
+    private String humidity = "Humidity";
+    private String temperature = "Temperature";
+    private String sound = "Sound";
+    private String motion = "Motion";
+
     ArrayList<Float> humidityData;
     ArrayList<Float> tempData;
     ArrayList<Float> soundData;
@@ -55,28 +60,28 @@ public class ResultsActivity extends AppCompatActivity {
 
         humiditychart = (LineChart) findViewById(R.id.line_chart_humidity);
         humiditychart.setDragEnabled(true);
-        humiditychart.setScaleEnabled(false);
+        humiditychart.setScaleEnabled(true);
 
         tempchart = (LineChart) findViewById(R.id.line_chart_temp);
         tempchart.setDragEnabled(true);
-        tempchart.setScaleEnabled(false);
+        tempchart.setScaleEnabled(true);
 
         soundchart = (LineChart) findViewById(R.id.line_chart_sound);
         soundchart.setDragEnabled(true);
-        soundchart.setScaleEnabled(false);
+        soundchart.setScaleEnabled(true);
 
         motionchart = (LineChart) findViewById(R.id.line_chart_motion);
         motionchart.setDragEnabled(true);
-        motionchart.setScaleEnabled(false);
+        motionchart.setScaleEnabled(true);
 
-        setData(tempData, tempchart);
-        setData(humidityData ,humiditychart);
-        setData(soundData, soundchart);
-        setData(motionData, motionchart);
+        setData(tempData,tempchart,temperature);
+        setData(humidityData,humiditychart,humidity);
+        setData(soundData,soundchart,sound);
+        setData(motionData,motionchart,motion);
 
     }
     
-    protected void setData(ArrayList<Float> data, LineChart chart ){
+    protected void setData(ArrayList<Float> data, LineChart chart, String name ){
 
         ArrayList<Entry> yValues = new ArrayList<>();
         for (int x = 0; x < data.size(); x++)
@@ -84,7 +89,7 @@ public class ResultsActivity extends AppCompatActivity {
             yValues.add(new Entry(x, data.get(x)));
         }
 
-        LineDataSet set = new LineDataSet(yValues, "Humidity Data Set 1");
+        LineDataSet set = new LineDataSet(yValues, name + " Data Set");
 
         set.setFillAlpha(110);
 
