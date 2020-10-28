@@ -27,12 +27,16 @@ import java.util.ArrayList;
 public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultsActivity";
-    private LineChart mchart;
+    
+    private LineChart humiditychart;
+    private LineChart tempchart;
+    private LineChart soundchart;
+    private LineChart motionchart;
+    
     ArrayList<Float> humidityData;
     ArrayList<Float> tempData;
     ArrayList<Float> soundData;
     ArrayList<Float> motionData;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,27 +53,46 @@ public class ResultsActivity extends AppCompatActivity {
         System.out.println("soundData:" + soundData);
         System.out.println("motionData:" + motionData);
 
-        mchart = (LineChart) findViewById(R.id.linechart);
-//        mchart.setOnChartGestureListener(ResultsActivity.this);
-//        mchart.setOnChartValueSelectedListener(ResultsActivity.this);
-        mchart.setDragEnabled(true);
-        mchart.setScaleEnabled(false);
+        humiditychart = (LineChart) findViewById(R.id.line_chart_humidity);
+        humiditychart.setDragEnabled(true);
+        humiditychart.setScaleEnabled(false);
+
+        tempchart = (LineChart) findViewById(R.id.line_chart_temp);
+        tempchart.setDragEnabled(true);
+        tempchart.setScaleEnabled(false);
+
+        soundchart = (LineChart) findViewById(R.id.line_chart_sound);
+        soundchart.setDragEnabled(true);
+        soundchart.setScaleEnabled(false);
+
+        motionchart = (LineChart) findViewById(R.id.line_chart_motion);
+        motionchart.setDragEnabled(true);
+        motionchart.setScaleEnabled(false);
+
+        setData(tempData, tempchart);
+        setData(humidityData ,humiditychart);
+        setData(soundData, soundchart);
+        setData(motionData, motionchart);
+
+    }
+    
+    protected void setData(ArrayList<Float> data, LineChart chart ){
 
         ArrayList<Entry> yValues = new ArrayList<>();
+        for (int x = 0; x < data.size(); x++)
+        {
+            yValues.add(new Entry(x, data.get(x)));
+        }
 
-        yValues.add(new Entry(0, 60f));
-        yValues.add(new Entry(1, 60f));
+        LineDataSet set = new LineDataSet(yValues, "Humidity Data Set 1");
 
-        LineDataSet set1 = new LineDataSet(yValues, "Humidity Data Set 1");
-
-        set1.setFillAlpha(110);
+        set.setFillAlpha(110);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
+        dataSets.add(set);
 
-        LineData data = new LineData(dataSets);
+        LineData linedata = new LineData(dataSets);
 
-        mchart.setData(data);
-
+        chart.setData(linedata);
     }
 }
