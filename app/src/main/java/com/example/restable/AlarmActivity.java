@@ -72,15 +72,16 @@ public class AlarmActivity  extends AppCompatActivity {
                 .show();
     }
 
+    // Display ListView of suggested sleep times
     protected void configureListView() {
         Log.d(TAG, "configureListView called");
 
-        final List<AlarmTime> alarmTimes = getSuggestedSleepTimes();
+        final List<AlarmTime> alarmTimes = getSuggestedSleepTimes(); // Get the suggested times
 
         listView = findViewById(R.id.alarmListView);
         AlarmListViewAdapter adapter = new AlarmListViewAdapter(this, R.layout.alarm_list,
                 alarmTimes);
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter); // Populate ListView
 
         // Handle pressing on a ListView item to set Alarm
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,51 +90,55 @@ public class AlarmActivity  extends AppCompatActivity {
 
                 Log.d(TAG, "onItemClick for clicking ListView item " + position);
 
+                // Get time information
                 int hour = alarmTimes.get(position).getWakeTime().getHour();
                 int minute = alarmTimes.get(position).getWakeTime().getMinute();
 
+                // Set/Cancel alarm
                 if (!alarmTimes.get(position).isSet()) {
-                    Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                    Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM); // Intent to set alarm
                     intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
                     intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
                     intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
                     Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA,
                             "%02d", minute));
-                    startActivity(intent);
-                    view.findViewById(R.id.setTextView).setVisibility(View.VISIBLE);
-                    alarmTimes.get(position).setSet(true);
+                    startActivity(intent); // Set alarm
+                    view.findViewById(R.id.setTextView).setVisibility(View.VISIBLE); // Alarm is set
+                    alarmTimes.get(position).setSet(true); // Set alarm set to true
                 }
                 else {
-                    Intent intent = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
+                    Intent intent = new Intent(AlarmClock.ACTION_DISMISS_ALARM); // Intent cancel alarm
                     intent.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE,
                             AlarmClock.ALARM_SEARCH_MODE_TIME);
                     intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
                     intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
                     Log.i(TAG, "Dismissing alarm for " + hour + ":" +
                             String.format(Locale.CANADA, "%02d", minute));
-                    startActivity(intent);
+                    startActivity(intent); // Cancel alarm
                     Toast.makeText(AlarmActivity.this,
                             "Alarm dismissed. Press back button to go back to Restable",
                             Toast.LENGTH_LONG)
-                            .show();
-                    view.findViewById(R.id.setTextView).setVisibility(View.INVISIBLE);
-                    alarmTimes.get(position).setSet(false);
+                            .show(); //
+                    view.findViewById(R.id.setTextView).setVisibility(View.INVISIBLE); // Alarm not set
+                    alarmTimes.get(position).setSet(false); // Set alarm set to false
                 }
             }
         });
     }
 
+    // Get the recommended wake times
     protected List<AlarmTime> getSuggestedSleepTimes() {
         Log.d(TAG, "getSuggestedSleepTimes called");
 
         int startAtHour = 6; // Start 6 hours from now
-        int timePeriods = 7; // 30 min periods starting 6 hours from now
+        int timePeriods = 7; // 7 30 min periods starting 6 hours from now
         LocalDateTime currentTime = LocalDateTime.now(); // Current time
 
         alarmTimes = new ArrayList<>(timePeriods);
         String[] durations = new String[]{"6", "6.5", "7", "7.5", "8", "8.5", "9"};
         String[] ratings = new String[]{"OK", "OK", "Good", "Good", "Good", "Good", "Good"};
 
+        // Populate alarmTimes list
         for (int i = 0; i < timePeriods; i++) {
             alarmTimes.add(i, new AlarmTime(currentTime.plusMinutes(startAtHour * 60 + 30 * i),
                     durations[i], ratings[i]));

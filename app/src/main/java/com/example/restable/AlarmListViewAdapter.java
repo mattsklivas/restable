@@ -19,17 +19,19 @@ import java.util.Objects;
 
 public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
 
-    private Context context;
-    private int resource;
-
     private static final String TAG = "AlarmLiveViewAdapter";
 
+    // Instance variables
     TextView wakeTimeTextView;
     TextView durationTextView;
     TextView ratingTextView;
     TextView alarmSetTextView;
     ImageView alarmClockImageView;
 
+    private Context context;
+    private int resource;
+
+    // Constructor for adapter
     public AlarmListViewAdapter(@NonNull Context context, int resource,
                                 @NonNull List<AlarmTime> objects) {
         super(context, resource, objects);
@@ -39,6 +41,7 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
         this.resource = resource;
     }
 
+    // Set up the ListView view
     @SuppressLint("ViewHolder")
     @NonNull
     @Override
