@@ -20,7 +20,7 @@
     <string name="custom_alarm">Custom alarm</string>
     <string name="start_recording">Start recording</string>
     <string name="alarm_set">Alarm Set</string>
-    <string name="hours_of_sleep">hours of sleep</string>
+    <string name="hours_of_sleep"> hours of sleep</string>
     <string name="rating">Rating</string>
     <string name="h_h">H.H</string>
     <string name="time">Time</string>
