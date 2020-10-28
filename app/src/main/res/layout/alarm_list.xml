@@ -46,7 +46,7 @@
         android:gravity="end"
         android:text="@string/hours_of_sleep"
         android:layout_toEndOf="@id/hoursTextView"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="5dp"
         android:layout_alignBaseline="@id/hoursTextView"
         android:textSize="18sp" />
 
