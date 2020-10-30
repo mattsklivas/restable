@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -61,18 +62,34 @@ public class ResultsActivity extends AppCompatActivity {
         humiditychart = (LineChart) findViewById(R.id.line_chart_humidity);
         humiditychart.setDragEnabled(true);
         humiditychart.setScaleEnabled(true);
+        humiditychart.getDescription().setEnabled(false);
+        humiditychart.getXAxis().setDrawGridLines(false);
+        humiditychart.getAxisRight().setEnabled(false);
+        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         tempchart = (LineChart) findViewById(R.id.line_chart_temp);
         tempchart.setDragEnabled(true);
         tempchart.setScaleEnabled(true);
+        tempchart.getDescription().setEnabled(false);
+        tempchart.getXAxis().setDrawGridLines(false);
+        tempchart.getAxisRight().setEnabled(false);
+        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         soundchart = (LineChart) findViewById(R.id.line_chart_sound);
         soundchart.setDragEnabled(true);
         soundchart.setScaleEnabled(true);
+        soundchart.getDescription().setEnabled(false);
+        soundchart.getXAxis().setDrawGridLines(false);
+        soundchart.getAxisRight().setEnabled(false);
+        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         motionchart = (LineChart) findViewById(R.id.line_chart_motion);
         motionchart.setDragEnabled(true);
         motionchart.setScaleEnabled(true);
+        motionchart.getDescription().setEnabled(false);
+        motionchart.getXAxis().setDrawGridLines(false);
+        motionchart.getAxisRight().setEnabled(false);
+        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         setData(tempData,tempchart,temperature);
         setData(humidityData,humiditychart,humidity);
@@ -90,6 +107,7 @@ public class ResultsActivity extends AppCompatActivity {
         }
 
         LineDataSet set = new LineDataSet(yValues, name + " Data Set");
+        set.setDrawValues(false);
 
         set.setFillAlpha(110);
 
@@ -99,5 +117,16 @@ public class ResultsActivity extends AppCompatActivity {
         LineData linedata = new LineData(dataSets);
 
         chart.setData(linedata);
+    }
+
+    private double calculateAverage(ArrayList <Float> marks) {
+        int sum = 0;
+        if(!marks.isEmpty()) {
+            for (Float mark : marks) {
+                sum += mark;
+            }
+           // return sum.floatValue() / marks.size();
+        }
+        return sum;
     }
 }
