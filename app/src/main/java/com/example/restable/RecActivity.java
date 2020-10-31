@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -30,9 +31,12 @@ public class RecActivity  extends BlunoLibrary {
     protected Button stopButton;
     protected StringBuilder receivedData;
     protected Boolean connected = false;
+    protected LocalDateTime stopTime;
+    protected LocalDateTime startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
 
@@ -80,6 +84,7 @@ public class RecActivity  extends BlunoLibrary {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ResultsActivity.class);
 
+                stopTime = LocalDateTime.now();
                 //Store the received data if the user connected to the device
                 if (connected) {
                     //Parse and store the received data in separate ArrayLists
@@ -94,6 +99,8 @@ public class RecActivity  extends BlunoLibrary {
                     intent.putExtra("tempData", tempData);
                     intent.putExtra("soundData", soundData);
                     intent.putExtra("motionData", motionData);
+                    intent.putExtra("start time", startTime);
+                    intent.putExtra("stop time", stopTime);
                 }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 else {
@@ -123,6 +130,9 @@ public class RecActivity  extends BlunoLibrary {
                     intent.putExtra("tempData", tempData);
                     intent.putExtra("soundData", soundData);
                     intent.putExtra("motionData", motionData);
+                    intent.putExtra("start time", startTime);
+                    intent.putExtra("end time", stopTime);
+
                 }
 
                 startActivity(intent);

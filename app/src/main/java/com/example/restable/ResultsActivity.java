@@ -23,6 +23,8 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ResultsActivity extends AppCompatActivity {
@@ -44,15 +46,32 @@ public class ResultsActivity extends AppCompatActivity {
     ArrayList<Float> soundData;
     ArrayList<Float> motionData;
 
+    LocalDateTime stopTime;
+    LocalDateTime startTime;
+
+    TextView start_Time;
+    TextView stop_Time;
+    TextView average_Temp;
+    TextView average_Humid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        start_Time = (TextView) findViewById(R.id.start_time);
+        stop_Time = (TextView) findViewById(R.id.stop_time);
+        average_Temp = (TextView) findViewById(R.id.average_temp);
+        average_Humid = (TextView) findViewById(R.id.average_humidity);
+
         tempData = (ArrayList<Float>) getIntent().getSerializableExtra("tempData");
         humidityData = (ArrayList<Float>) getIntent().getSerializableExtra("humidityData");
         soundData = (ArrayList<Float>) getIntent().getSerializableExtra("soundData");
         motionData = (ArrayList<Float>) getIntent().getSerializableExtra("motionData");
+
+        startTime =(LocalDateTime) getIntent().getSerializableExtra("start time");
+        stopTime =(LocalDateTime) getIntent().getSerializableExtra("stop time");
+
         System.out.println("Dummy data if user hasn't connected to the hardware:");
         System.out.println("tempData:" + tempData);
         System.out.println("humidityData:" + humidityData);
@@ -96,6 +115,11 @@ public class ResultsActivity extends AppCompatActivity {
         setData(soundData,soundchart,sound);
         setData(motionData,motionchart,motion);
 
+        start_Time.setText("Start time" + startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
+        stop_Time.setText("Stoptime" + stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
+        average_Temp.setText("Average Temp" + calculateAverage(tempData));
+        average_Humid.setText("Average Temp" + calculateAverage(humidityData));
+
     }
     
     protected void setData(ArrayList<Float> data, LineChart chart, String name ){
@@ -119,13 +143,13 @@ public class ResultsActivity extends AppCompatActivity {
         chart.setData(linedata);
     }
 
-    private double calculateAverage(ArrayList <Float> marks) {
-        int sum = 0;
+    private Float calculateAverage(ArrayList <Float> marks) {
+        Float sum = (float) 0;
         if(!marks.isEmpty()) {
             for (Float mark : marks) {
                 sum += mark;
             }
-           // return sum.floatValue() / marks.size();
+            return sum / marks.size();
         }
         return sum;
     }
