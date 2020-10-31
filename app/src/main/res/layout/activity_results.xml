@@ -6,58 +6,193 @@
     android:layout_height="match_parent"
     tools:context=".ResultsActivity">
 
+
     <TextView
         android:id="@+id/textResultsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="36dp"
-        android:text="Your sleep activity results:"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/textResultsTitle"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/line_chart_humidity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_humidity"
-        android:layout_width="391dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="525dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_width="345dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="33dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textResultsTitle"></com.github.mikephil.charting.charts.LineChart>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_temp"
-        android:layout_width="391dp"
-        android:layout_height="127dp"
-        app:layout_constraintBottom_toTopOf="@+id/line_chart_sound"
+        android:layout_width="345dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity"></com.github.mikephil.charting.charts.LineChart>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_sound"
-        android:layout_width="391dp"
-        android:layout_height="127dp"
-        app:layout_constraintBottom_toTopOf="@+id/line_chart_motion"
+        android:layout_width="345dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_chart_temp"></com.github.mikephil.charting.charts.LineChart>
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_temp" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_motion"
-        android:layout_width="391dp"
-        android:layout_height="127dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="345dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_sound" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="136dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/save_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="117dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/done_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
+
+    <TextView
+        android:id="@+id/x_axis_title_humidity_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="180dp"
+        android:text="@string/x_axis_title_humidity_chart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity" />
+
+    <TextView
+        android:id="@+id/y_axis_title_humidity_chart"
+        android:layout_width="35dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
+        android:rotation="-90"
+        android:text="@string/y_axis_title_humidity_chart"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_chart_sound"></com.github.mikephil.charting.charts.LineChart>
+        app:layout_constraintTop_toBottomOf="@+id/textResultsTitle" />
+
+    <TextView
+        android:id="@+id/x_axis_title_temp_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="181dp"
+        android:text="@string/x_axis_title_temp_chart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_temp" />
+
+    <TextView
+        android:id="@+id/y_axis_title_temp_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="112dp"
+        android:rotation="-90"
+        android:text="@string/y_axis_title_temp_chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/y_axis_title_humidity_chart" />
+
+    <TextView
+        android:id="@+id/x_axis_title_sound_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="181dp"
+        android:text="@string/x_axis_title_sound_chart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_sound" />
+
+    <TextView
+        android:id="@+id/y_axis_title_sound_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="68dp"
+        android:rotation="-90"
+        android:text="@string/y_axis_title_sound_chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_temp" />
+
+    <TextView
+        android:id="@+id/x_axis_title_motion_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="181dp"
+        android:text="@string/x_axis_title_motion_chart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
+
+    <TextView
+        android:id="@+id/y_axis_title_motion_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="96dp"
+        android:rotation="-90"
+        android:text="@string/y_axis_title_motion_chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/y_axis_title_sound_chart" />
+
+    <TextView
+        android:id="@+id/average_temp"
+        android:layout_width="123dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/average_temp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
+
+    <TextView
+        android:id="@+id/average_humidity"
+        android:layout_width="117dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/average_humidity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/average_temp" />
+
+    <TextView
+        android:id="@+id/start_time"
+        android:layout_width="121dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/start_time"
+        app:layout_constraintStart_toEndOf="@+id/average_temp"
+        app:layout_constraintTop_toBottomOf="@+id/x_axis_title_motion_chart" />
+
+    <TextView
+        android:id="@+id/wakeup_time"
+        android:layout_width="119dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/wakeup_time"
+        app:layout_constraintStart_toEndOf="@+id/average_humidity"
+        app:layout_constraintTop_toBottomOf="@+id/start_time" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

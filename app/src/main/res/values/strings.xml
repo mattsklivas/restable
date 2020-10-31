@@ -14,4 +14,20 @@
     <string name="unknown_device">Unknown device</string>
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_service">Unknown service</string>
+
+    <string name="textResultsTitle">Your sleep activity results:</string>
+    <string name="save_button">Save</string>
+    <string name="done_button">Done</string>
+    <string name="x_axis_title_humidity_chart">Time</string>
+    <string name="y_axis_title_humidity_chart">RH %</string>
+    <string name="x_axis_title_temp_chart">Time</string>
+    <string name="y_axis_title_temp_chart">°C</string>
+    <string name="x_axis_title_sound_chart">Time</string>
+    <string name="y_axis_title_sound_chart">High/Low</string>
+    <string name="x_axis_title_motion_chart">Time</string>
+    <string name="y_axis_title_motion_chart">High/Low</string>
+    <string name="average_temp">Average Temperature(°C):</string>
+    <string name="average_humidity">Average Humidity(RH %):</string>
+    <string name="start_time">Start time:</string>
+    <string name="wakeup_time">Wake up time:</string>
 </resources>
