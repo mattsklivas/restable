@@ -30,6 +30,7 @@
     <string name="average_humidity">Average Humidity(RH %):</string>
     <string name="start_time">Start time:</string>
     <string name="stop_time">Wake up time:</string>
+    <string name="time_slept">Time Slept:</string>
 
     <string name="suggested_wake_up_times">Suggested Wake-Up Times</string>
     <string name="tap_a_time_to_set_an_alarm">Tap a Time to Set an Alarm</string>

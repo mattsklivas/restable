@@ -25,6 +25,7 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -55,8 +56,11 @@ public class ResultsActivity extends AppCompatActivity {
     TextView stop_Time;
     TextView average_Temp;
     TextView average_Humid;
+    TextView time_Slept;
 
     Button done_button;
+
+    Duration duration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class ResultsActivity extends AppCompatActivity {
         stop_Time = (TextView) findViewById(R.id.stop_time);
         average_Temp = (TextView) findViewById(R.id.average_temp);
         average_Humid = (TextView) findViewById(R.id.average_humidity);
+        time_Slept = (TextView) findViewById(R.id.time_slept);
 
         tempData = (ArrayList<Float>) getIntent().getSerializableExtra("tempData");
         humidityData = (ArrayList<Float>) getIntent().getSerializableExtra("humidityData");
@@ -121,10 +126,13 @@ public class ResultsActivity extends AppCompatActivity {
         setData(soundData,soundchart,sound);
         setData(motionData,motionchart,motion);
 
+        duration = Duration.between(startTime, stopTime);
+
         start_Time.setText("Start time" + startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
         stop_Time.setText("Stoptime" + stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
-        average_Temp.setText("Average Temp" + calculateAverage(tempData));
-        average_Humid.setText("Average Temp" + calculateAverage(humidityData));
+        average_Temp.setText("Average Temp: " + calculateAverage(tempData));
+        average_Humid.setText("Average Humidity: " + calculateAverage(humidityData));
+        time_Slept.setText("Time Slept: " + duration.toHours() + "Hours" + duration.toMinutes() + "Minutes");
 
         //Setup doneButton
         done_button.setOnClickListener(new View.OnClickListener() {
@@ -157,14 +165,17 @@ public class ResultsActivity extends AppCompatActivity {
         chart.setData(linedata);
     }
 
-    private Float calculateAverage(ArrayList <Float> marks) {
+    private String calculateAverage(ArrayList <Float> marks) {
         Float sum = (float) 0;
         if(!marks.isEmpty()) {
+            Float average;
             for (Float mark : marks) {
                 sum += mark;
             }
-            return sum / marks.size();
+            average = sum / marks.size();
+            String strDouble = String.format("%.2f", average);
+             return strDouble;
         }
-        return sum;
+        return "0";
     }
 }
