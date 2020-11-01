@@ -85,6 +85,7 @@ public class RecActivity  extends BlunoLibrary {
                 Intent intent = new Intent(v.getContext(), ResultsActivity.class);
 
                 stopTime = LocalDateTime.now();
+
                 //Store the received data if the user connected to the device
                 if (connected) {
                     //Parse and store the received data in separate ArrayLists
@@ -99,6 +100,8 @@ public class RecActivity  extends BlunoLibrary {
                     intent.putExtra("tempData", tempData);
                     intent.putExtra("soundData", soundData);
                     intent.putExtra("motionData", motionData);
+
+                    //Store start time and stop time in the intent.
                     intent.putExtra("start time", startTime);
                     intent.putExtra("stop time", stopTime);
                 }

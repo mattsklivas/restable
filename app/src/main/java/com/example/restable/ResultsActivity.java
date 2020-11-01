@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -54,10 +56,14 @@ public class ResultsActivity extends AppCompatActivity {
     TextView average_Temp;
     TextView average_Humid;
 
+    Button done_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        done_button = (Button) findViewById(R.id.done_button);
 
         start_Time = (TextView) findViewById(R.id.start_time);
         stop_Time = (TextView) findViewById(R.id.stop_time);
@@ -120,6 +126,14 @@ public class ResultsActivity extends AppCompatActivity {
         average_Temp.setText("Average Temp" + calculateAverage(tempData));
         average_Humid.setText("Average Temp" + calculateAverage(humidityData));
 
+        //Setup doneButton
+        done_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
+                startActivity(main_intent);
+            }
+        });
     }
     
     protected void setData(ArrayList<Float> data, LineChart chart, String name ){
