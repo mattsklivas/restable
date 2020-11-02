@@ -47,14 +47,14 @@
 
     <Button
         android:id="@+id/save_button"
-        android:layout_width="115dp"
-        android:layout_height="41dp"
+        android:layout_width="104dp"
+        android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/stop_time"
         app:layout_constraintTop_toBottomOf="@+id/done_button"
         app:layout_constraintVertical_bias="0.0" />
@@ -63,8 +63,8 @@
         android:id="@+id/done_button"
         android:layout_width="108dp"
         android:layout_height="37dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
         android:text="@string/done_button"
         app:layout_constraintStart_toEndOf="@+id/start_time"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
@@ -86,7 +86,7 @@
         android:id="@+id/y_axis_title_humidity_chart"
         android:layout_width="35dp"
         android:layout_height="22dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="20dp"
         android:rotation="-90"
         android:text="@string/y_axis_title_humidity_chart"
@@ -106,7 +106,7 @@
         android:id="@+id/y_axis_title_temp_chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="112dp"
         android:rotation="-90"
         android:text="@string/y_axis_title_temp_chart"
@@ -125,8 +125,8 @@
 
     <TextView
         android:id="@+id/y_axis_title_sound_chart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="43dp"
+        android:layout_height="17dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="68dp"
         android:rotation="-90"
@@ -145,8 +145,8 @@
 
     <TextView
         android:id="@+id/y_axis_title_motion_chart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="44dp"
+        android:layout_height="16dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="96dp"
         android:rotation="-90"
@@ -159,7 +159,7 @@
         android:layout_width="123dp"
         android:layout_height="38dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:text="@string/average_temp"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
