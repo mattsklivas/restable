@@ -33,7 +33,7 @@
         android:layout_width="345dp"
         android:layout_height="88dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity"></com.github.mikephil.charting.charts.LineChart>
 
@@ -88,7 +88,7 @@
         android:text="@string/x_axis_title_humidity_chart"
         app:layout_constraintBottom_toTopOf="@+id/line_chart_temp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity"
         app:layout_constraintVertical_bias="0.0" />
@@ -172,6 +172,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/average_temp"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
 
@@ -182,6 +183,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="@string/average_humidity"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/average_temp"
@@ -213,8 +215,8 @@
 
     <TextView
         android:id="@+id/time_slept"
-        android:layout_width="118dp"
-        android:layout_height="27dp"
+        android:layout_width="135dp"
+        android:layout_height="41dp"
         android:layout_marginStart="257dp"
         android:layout_marginEnd="20dp"
         android:text="@string/time_slept"
