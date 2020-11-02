@@ -7,26 +7,15 @@
     tools:context=".ResultsActivity">
 
 
-    <TextView
-        android:id="@+id/textResultsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/textResultsTitle"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_humidity"
         android:layout_width="345dp"
         android:layout_height="88dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="33dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textResultsTitle"></com.github.mikephil.charting.charts.LineChart>
+        app:layout_constraintTop_toBottomOf="@+id/time_slept"></com.github.mikephil.charting.charts.LineChart>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart_temp"
@@ -65,19 +54,19 @@
         android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toEndOf="@+id/stop_time"
         app:layout_constraintTop_toBottomOf="@+id/done_button"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/done_button"
-        android:layout_width="117dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="108dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="23dp"
         android:text="@string/done_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/start_time"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
 
     <TextView
@@ -172,7 +161,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/average_temp"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
 
@@ -183,7 +172,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="@string/average_humidity"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/average_temp"
@@ -196,7 +185,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="28dp"
         android:text="@string/start_time"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/done_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/average_temp"
@@ -209,7 +198,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/stop_time"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/average_humidity"
         app:layout_constraintTop_toBottomOf="@+id/start_time"
@@ -217,14 +206,12 @@
 
     <TextView
         android:id="@+id/time_slept"
-        android:layout_width="135dp"
+        android:layout_width="258dp"
         android:layout_height="41dp"
-        android:layout_marginStart="257dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
         android:text="@string/time_slept"
-        android:textSize="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textResultsTitle"
-        app:layout_constraintTop_toTopOf="@+id/textResultsTitle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
