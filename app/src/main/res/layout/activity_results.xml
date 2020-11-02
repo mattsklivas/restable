@@ -11,7 +11,7 @@
         android:id="@+id/textResultsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="28dp"
         android:text="@string/textResultsTitle"
         android:textSize="20sp"
@@ -22,8 +22,9 @@
         android:id="@+id/line_chart_humidity"
         android:layout_width="345dp"
         android:layout_height="88dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textResultsTitle"></com.github.mikephil.charting.charts.LineChart>
 
@@ -31,8 +32,8 @@
         android:id="@+id/line_chart_temp"
         android:layout_width="345dp"
         android:layout_height="88dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity"></com.github.mikephil.charting.charts.LineChart>
 
@@ -41,8 +42,9 @@
         android:layout_width="345dp"
         android:layout_height="88dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_temp" />
 
     <com.github.mikephil.charting.charts.LineChart
@@ -56,20 +58,24 @@
 
     <Button
         android:id="@+id/save_button"
-        android:layout_width="136dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="115dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/save_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toEndOf="@+id/stop_time"
+        app:layout_constraintTop_toBottomOf="@+id/done_button"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/done_button"
         android:layout_width="117dp"
         android:layout_height="41dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
         android:text="@string/done_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
@@ -78,21 +84,25 @@
         android:id="@+id/x_axis_title_humidity_chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="9dp"
         android:text="@string/x_axis_title_humidity_chart"
+        app:layout_constraintBottom_toTopOf="@+id/line_chart_temp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity" />
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_humidity"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/y_axis_title_humidity_chart"
         android:layout_width="35dp"
         android:layout_height="22dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
         android:rotation="-90"
         android:text="@string/y_axis_title_humidity_chart"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textResultsTitle" />
+        app:layout_constraintTop_toTopOf="@+id/line_chart_humidity" />
 
     <TextView
         android:id="@+id/x_axis_title_temp_chart"
@@ -160,7 +170,7 @@
         android:layout_width="123dp"
         android:layout_height="38dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:text="@string/average_temp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
@@ -169,40 +179,47 @@
         android:id="@+id/average_humidity"
         android:layout_width="117dp"
         android:layout_height="38dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="@string/average_humidity"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/average_temp" />
+        app:layout_constraintTop_toBottomOf="@+id/average_temp"
+        app:layout_constraintVertical_bias="0.368" />
 
     <TextView
         android:id="@+id/start_time"
         android:layout_width="121dp"
         android:layout_height="33dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="28dp"
         android:text="@string/start_time"
+        app:layout_constraintEnd_toStartOf="@+id/done_button"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/average_temp"
-        app:layout_constraintTop_toBottomOf="@+id/x_axis_title_motion_chart" />
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
 
     <TextView
         android:id="@+id/stop_time"
         android:layout_width="119dp"
         android:layout_height="33dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/stop_time"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/average_humidity"
-        app:layout_constraintTop_toBottomOf="@+id/start_time" />
+        app:layout_constraintTop_toBottomOf="@+id/start_time"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/time_slept"
-        android:layout_width="106dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="118dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="257dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/time_slept"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/done_button" />
+        app:layout_constraintStart_toStartOf="@+id/textResultsTitle"
+        app:layout_constraintTop_toTopOf="@+id/textResultsTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
