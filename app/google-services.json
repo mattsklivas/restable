@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "528211153957",
+    "firebase_url": "https://restable-4a917.firebaseio.com",
+    "project_id": "restable-4a917",
+    "storage_bucket": "restable-4a917.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528211153957:android:1259d0de381573c0b51bcc",
+        "android_client_info": {
+          "package_name": "com.example.restable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528211153957-qb8i15jduaefal2ekvnr2hjtb1frd3j2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK0SZASuiYuI3f64gBq9cgLKz4nUMJSyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528211153957-qb8i15jduaefal2ekvnr2hjtb1frd3j2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
