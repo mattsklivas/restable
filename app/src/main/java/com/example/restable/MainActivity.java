@@ -1,5 +1,7 @@
 package com.example.restable;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
@@ -8,8 +10,11 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -30,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         //Setup activity views
         alarmButton = findViewById(R.id.buttonSleep);
         logsButton = findViewById(R.id.buttonLogs);
+
+        // Show actionBar
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
 
         //Go to AlarmActivity
         alarmButton.setOnClickListener(new View.OnClickListener() {
@@ -67,5 +76,23 @@ public class MainActivity extends AppCompatActivity {
     protected void goToLogsActivity() {
         Intent intent = new Intent(this, LogsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logOut) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
