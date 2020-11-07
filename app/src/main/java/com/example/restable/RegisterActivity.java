@@ -129,6 +129,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.VISIBLE);
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        startActivity(intent);
                                     }
                                     else {
                                         Toast.makeText(RegisterActivity.this, "Registration failed. Try again!", Toast.LENGTH_LONG).show();
