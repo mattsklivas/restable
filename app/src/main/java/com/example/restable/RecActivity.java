@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import android.content.Intent;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 public class RecActivity  extends BlunoLibrary {
 
     //Instance variables
-    private DatabaseReference sessionsDb;
+    private DatabaseReference databaseReference;
     private static final String TAG = "RecActivity";
     protected Button buttonScan;
     protected TextView serialReceivedText;
@@ -41,7 +44,7 @@ public class RecActivity  extends BlunoLibrary {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
-        sessionsDb = FirebaseDatabase.getInstance().getReference().child("Sessions");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Sessions");
 
         //onCreateProcess from BlunoLibrary
         onCreateProcess();
@@ -84,30 +87,52 @@ public class RecActivity  extends BlunoLibrary {
         //Setup stopButton
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ResultsActivity.class);
+            public void onClick(final View v) {
+                final Intent intent = new Intent(v.getContext(), ResultsActivity.class);
 
                 //Store the received data if the user connected to the device
                 if (connected) {
                     //Parse and store the received data in separate ArrayLists
+                    final SleepData parsedData = new SleepData(receivedData);
+
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     assert user != null;
                     String owner = user.getUid();
+                    DatabaseReference dbRefPush = databaseReference.child(owner).push();
+                    final String key = dbRefPush.getKey();
+                    dbRefPush.setValue(parsedData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Write was successful!
 
-                    SleepData parsedData = new SleepData(receivedData);
-                    sessionsDb.child(owner).push();
-                    sessionsDb.setValue(parsedData);
+                                    //Store the ArrayLists in the Intent
+                                    Intent intent = new Intent(v.getContext(), ResultsActivity.class);
 
-                    ArrayList<Float> humidityData = new ArrayList<>(parsedData.getHumidityData());
-                    ArrayList<Float> tempData = new ArrayList<>(parsedData.getTempData());
-                    ArrayList<Float> soundData = new ArrayList<>(parsedData.getSoundData());
-                    ArrayList<Float> motionData = new ArrayList<>(parsedData.getMotionData());
+                                    //TODO Remove below block, implement RecActivity DB lookup
+                                    ArrayList<Float> humidityData = new ArrayList<>(parsedData.getHumidityData());
+                                    ArrayList<Float> tempData = new ArrayList<>(parsedData.getTempData());
+                                    ArrayList<Float> soundData = new ArrayList<>(parsedData.getSoundData());
+                                    ArrayList<Float> motionData = new ArrayList<>(parsedData.getMotionData());
+                                    intent.putExtra("humidityData", humidityData);
+                                    intent.putExtra("tempData", tempData);
+                                    intent.putExtra("soundData", soundData);
+                                    intent.putExtra("motionData", motionData);
 
-                    //Store the ArrayLists in the Intent
-                    intent.putExtra("humidityData", humidityData);
-                    intent.putExtra("tempData", tempData);
-                    intent.putExtra("soundData", soundData);
-                    intent.putExtra("motionData", motionData);
+                                    intent.putExtra("key", key);
+
+                                    startActivity(intent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Write failed
+                                    Toast.makeText(RecActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
                 }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 else {
@@ -118,10 +143,10 @@ public class RecActivity  extends BlunoLibrary {
                     double[] motion = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0};
 
                     //Initialize ArrayLists
-                    ArrayList<Float> humidityData = new ArrayList<>();
-                    ArrayList<Float> tempData = new ArrayList<>();
-                    ArrayList<Float> soundData = new ArrayList<>();
-                    ArrayList<Float> motionData = new ArrayList<>();
+                    final ArrayList<Float> humidityData = new ArrayList<>();
+                    final ArrayList<Float> tempData = new ArrayList<>();
+                    final ArrayList<Float> soundData = new ArrayList<>();
+                    final ArrayList<Float> motionData = new ArrayList<>();
 
                     //Store dummy sensor data in their respective ArrayLists
                     for (int i = 0; i < humidity.length; i++){
@@ -130,22 +155,43 @@ public class RecActivity  extends BlunoLibrary {
                         soundData.add((float) sound[i]);
                         motionData.add((float) motion[i]);
                     }
+                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData);
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    assert user != null;
                     String owner = user.getUid();
-                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData);
-                    sessionsDb.child(owner).push();
-                    sessionsDb.setValue(parsedData);
+                    DatabaseReference dbRefPush = databaseReference.child(owner).push();
+                    final String key = dbRefPush.getKey();
+                    dbRefPush.setValue(parsedData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Write was successful!
 
-                    //Store the ArrayLists in the Intent
-                    intent.putExtra("humidityData", humidityData);
-                    intent.putExtra("tempData", tempData);
-                    intent.putExtra("soundData", soundData);
-                    intent.putExtra("motionData", motionData);
+                                    //Store the ArrayLists in the Intent
+                                    Intent intent = new Intent(v.getContext(), ResultsActivity.class);
+
+                                    //TODO Remove below block, implement RecActivity DB lookup
+                                    intent.putExtra("humidityData", humidityData);
+                                    intent.putExtra("tempData", tempData);
+                                    intent.putExtra("soundData", soundData);
+                                    intent.putExtra("motionData", motionData);
+
+                                    intent.putExtra("key", key);
+
+                                    startActivity(intent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Write failed
+                                    Toast.makeText(RecActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
                 }
 
-                startActivity(intent);
             }
         });
     }
