@@ -17,12 +17,18 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 
 public class RecActivity  extends BlunoLibrary {
 
     //Instance variables
+    private DatabaseReference sessionsDb;
     private static final String TAG = "RecActivity";
     protected Button buttonScan;
     protected TextView serialReceivedText;
@@ -35,6 +41,7 @@ public class RecActivity  extends BlunoLibrary {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
+        sessionsDb = FirebaseDatabase.getInstance().getReference().child("Sessions");
 
         //onCreateProcess from BlunoLibrary
         onCreateProcess();
@@ -83,7 +90,14 @@ public class RecActivity  extends BlunoLibrary {
                 //Store the received data if the user connected to the device
                 if (connected) {
                     //Parse and store the received data in separate ArrayLists
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
+                    String owner = user.getUid();
+
                     SleepData parsedData = new SleepData(receivedData);
+                    sessionsDb.child(owner).push();
+                    sessionsDb.setValue(parsedData);
+
                     ArrayList<Float> humidityData = new ArrayList<>(parsedData.getHumidityData());
                     ArrayList<Float> tempData = new ArrayList<>(parsedData.getTempData());
                     ArrayList<Float> soundData = new ArrayList<>(parsedData.getSoundData());
@@ -114,9 +128,15 @@ public class RecActivity  extends BlunoLibrary {
                         humidityData.add((float) humidity[i]);
                         tempData.add((float) temp[i]);
                         soundData.add((float) sound[i]);
-                        soundData.add((float) sound[i]);
                         motionData.add((float) motion[i]);
                     }
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
+                    String owner = user.getUid();
+                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData);
+                    sessionsDb.child(owner).push();
+                    sessionsDb.setValue(parsedData);
 
                     //Store the ArrayLists in the Intent
                     intent.putExtra("humidityData", humidityData);

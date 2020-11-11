@@ -9,6 +9,17 @@ public class SleepData {
     ArrayList<Float> soundData;
     ArrayList<Float> motionData;
 
+    public SleepData() {
+
+    }
+
+    public SleepData(ArrayList<Float> humidityData, ArrayList<Float> tempData, ArrayList<Float> soundData, ArrayList<Float> motionData) {
+        this.humidityData = humidityData;
+        this.tempData = tempData;
+        this.soundData = soundData;
+        this.motionData = motionData;
+    }
+
     public SleepData(StringBuilder receivedData) {
         humidityData = new ArrayList<>();
         tempData = new ArrayList<>();
@@ -16,7 +27,7 @@ public class SleepData {
         motionData = new ArrayList<>();
 
         String[] lines = receivedData.toString().split("\n");
-        for (String line : lines) {
+            for (String line : lines) {
             switch(line.split(" ")[0]) {
                 case "RH:":
                     humidityData.add(Float.parseFloat(line.split(" ")[1]));
