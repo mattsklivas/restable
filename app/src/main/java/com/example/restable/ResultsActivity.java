@@ -64,6 +64,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        stopTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
@@ -81,7 +82,6 @@ public class ResultsActivity extends AppCompatActivity {
         motionData = (ArrayList<Float>) getIntent().getSerializableExtra("motionData");
 
         startTime =(LocalDateTime) getIntent().getSerializableExtra("start time");
-        stopTime =(LocalDateTime) getIntent().getSerializableExtra("stop time");
 
         System.out.println("Dummy data if user hasn't connected to the hardware:");
         System.out.println("tempData:" + tempData);
