@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
 
@@ -93,7 +94,7 @@ public class RecActivity  extends BlunoLibrary {
                 //Store the received data if the user connected to the device
                 if (connected) {
                     //Parse and store the received data in separate ArrayLists
-                    final SleepData parsedData = new SleepData(receivedData);
+                    final SleepData parsedData = new SleepData(receivedData, ServerValue.TIMESTAMP);
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     assert user != null;
@@ -155,7 +156,7 @@ public class RecActivity  extends BlunoLibrary {
                         soundData.add((float) sound[i]);
                         motionData.add((float) motion[i]);
                     }
-                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData);
+                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData, ServerValue.TIMESTAMP);
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String owner = user.getUid();
