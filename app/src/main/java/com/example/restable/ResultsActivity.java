@@ -128,11 +128,11 @@ public class ResultsActivity extends AppCompatActivity {
 
         duration = Duration.between(startTime, stopTime);
 
-        start_Time.setText("Start time" + startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
-        stop_Time.setText("Stoptime" + stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
-        average_Temp.setText("Average Temp: " + calculateAverage(tempData));
-        average_Humid.setText("Average Humidity: " + calculateAverage(humidityData));
-        time_Slept.setText("Time Slept: " + duration.toHours() + "Hours" + duration.toMinutes() + "Minutes");
+        start_Time.setText("Start Time " + startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
+        stop_Time.setText("Stop Time " + stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
+        average_Temp.setText("Average Temperature (°C): " + calculateAverage(tempData));
+        average_Humid.setText("Average Humidity (RH %): " + calculateAverage(humidityData));
+        time_Slept.setText("Time Slept: " + duration.toHours() + "Hours " + duration.toMinutes() + "Minutes");
 
         //Setup doneButton
         done_button.setOnClickListener(new View.OnClickListener() {
