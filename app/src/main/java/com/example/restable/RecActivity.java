@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -30,9 +31,11 @@ public class RecActivity  extends BlunoLibrary {
     protected Button stopButton;
     protected StringBuilder receivedData;
     protected Boolean connected = false;
+    protected LocalDateTime startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
 
@@ -94,6 +97,9 @@ public class RecActivity  extends BlunoLibrary {
                     intent.putExtra("tempData", tempData);
                     intent.putExtra("soundData", soundData);
                     intent.putExtra("motionData", motionData);
+
+                    //Store start time and stop time in the intent.
+                    intent.putExtra("start time", startTime);
                 }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 else {
@@ -123,6 +129,8 @@ public class RecActivity  extends BlunoLibrary {
                     intent.putExtra("tempData", tempData);
                     intent.putExtra("soundData", soundData);
                     intent.putExtra("motionData", motionData);
+                    intent.putExtra("start time", startTime);
+
                 }
 
                 startActivity(intent);
