@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -40,9 +40,11 @@ public class RecActivity  extends BlunoLibrary {
     protected Button stopButton;
     protected StringBuilder receivedData;
     protected Boolean connected = false;
+    protected LocalDateTime startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Sessions");
@@ -119,6 +121,7 @@ public class RecActivity  extends BlunoLibrary {
                                     intent.putExtra("tempData", tempData);
                                     intent.putExtra("soundData", soundData);
                                     intent.putExtra("motionData", motionData);
+                                    intent.putExtra("start time", startTime);
 
                                     intent.putExtra("key", key);
 
@@ -132,8 +135,6 @@ public class RecActivity  extends BlunoLibrary {
                                     Toast.makeText(RecActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
                                 }
                             });
-
-
                 }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 else {
@@ -176,6 +177,7 @@ public class RecActivity  extends BlunoLibrary {
                                     intent.putExtra("tempData", tempData);
                                     intent.putExtra("soundData", soundData);
                                     intent.putExtra("motionData", motionData);
+                                    intent.putExtra("start time", startTime);
 
                                     intent.putExtra("key", key);
 
@@ -189,8 +191,6 @@ public class RecActivity  extends BlunoLibrary {
                                     Toast.makeText(RecActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
                                 }
                             });
-
-
                 }
 
             }
