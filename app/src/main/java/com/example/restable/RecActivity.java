@@ -89,7 +89,7 @@ public class RecActivity  extends BlunoLibrary {
         //Setup stopButton
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
+            public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ResultsActivity.class);
                 endTime = LocalDateTime.now();
                 //Store the received data if the user connected to the device

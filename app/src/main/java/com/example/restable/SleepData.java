@@ -40,7 +40,7 @@ public class SleepData implements Serializable {
         this.endTime = endTime;
 
         String[] lines = receivedData.toString().split("\n");
-            for (String line : lines) {
+        for (String line : lines) {
             switch(line.split(" ")[0]) {
                 case "RH:":
                     humidityData.add(Float.parseFloat(line.split(" ")[1]));
