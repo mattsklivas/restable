@@ -24,10 +24,10 @@ public class SleepData {
                 case "TMP:":
                     tempData.add(Float.parseFloat(line.split(" ")[1]));
                     break;
-                case "SOUND:":
+                case "DB:":
                     soundData.add(Float.parseFloat(line.split(" ")[1]));
                     break;
-                case "PIR:":
+                case "DIST:":
                     motionData.add(Float.parseFloat(line.split(" ")[1]));
                     break;
                 default:
