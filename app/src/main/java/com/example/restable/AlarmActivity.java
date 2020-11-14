@@ -98,13 +98,14 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     protected List<AlarmTime> getSuggestedSleepTimes() {
         Log.d(TAG, "getSuggestedSleepTimes called");
 
-        int startAtHour = 6; // Start 6 hours from now
-        int timePeriods = 7; // 7 30 min periods starting 6 hours from now
+        int startAtHour = 4; // Start 6 hours from now
+        int timePeriods = 11; // 11 30 min periods starting 6 hours from now
         LocalDateTime currentTime = LocalDateTime.now(); // Current time
 
         alarmTimes = new ArrayList<>(timePeriods);
-        String[] durations = new String[]{"6", "6.5", "7", "7.5", "8", "8.5", "9"};
-        String[] ratings = new String[]{"OK", "OK", "Good", "Good", "Good", "Good", "Good"};
+        String[] durations = new String[]{"4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"};
+        String[] ratings = new String[]{"Unhealthy", "Unhealthy", "Unhealthy", "Unhealthy",
+                                        "Decent", "Decent", "Healthy", "Healthy", "Healthy", "Healthy", "Healthy"};
 
         // Populate alarmTimes list
         for (int i = 0; i < timePeriods; i++) {
