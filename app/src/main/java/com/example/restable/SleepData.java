@@ -87,4 +87,32 @@ public class SleepData implements Serializable {
     public LocalDateTime getEndTime() {
         return endTime;
     }
+
+    public void setHumidityData(ArrayList<Float> humidityData) {
+        this.humidityData = humidityData;
+    }
+
+    public void setTempData(ArrayList<Float> tempData) {
+        this.tempData = tempData;
+    }
+
+    public void setSoundData(ArrayList<Float> soundData) {
+        this.soundData = soundData;
+    }
+
+    public void setMotionData(ArrayList<Float> motionData) {
+        this.motionData = motionData;
+    }
+
+    public void setTime(Map time) {
+        this.time = time;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }

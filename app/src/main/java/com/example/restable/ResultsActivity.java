@@ -96,7 +96,7 @@ public class ResultsActivity extends AppCompatActivity {
         startTime = sleepData.getStartTime();
         stopTime = sleepData.getEndTime();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Sessions");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
         System.out.println("Dummy data if user hasn't connected to the hardware:");
         System.out.println("tempData:" + tempData);

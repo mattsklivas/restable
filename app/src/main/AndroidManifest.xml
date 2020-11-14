@@ -25,10 +25,12 @@
             android:name=".LogsActivity"
             android:theme="@style/Theme.AppCompat.DayNight"
             android:parentActivityName="com.example.restable.MainActivity"
-            android:label="Sleep Activity Logs" />
+            android:label="Saved Sleep Sessions" />
         <activity
             android:name=".AlarmActivity"
-            android:label="Set Alarm" />
+            android:label="Set an Alarm"
+            android:parentActivityName="com.example.restable.MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight" />
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
