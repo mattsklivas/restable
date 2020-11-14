@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -27,12 +28,18 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     protected Button recButton;
     protected Button customAlarmButton;
     protected ListView listView;
-    List<AlarmTime> alarmTimes;
+    private List<AlarmTime> alarmTimes;
+    private AlarmListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+        /* Insert app bar and enable back button to MainActivity */
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
         //Setup activity views
         recButton = findViewById(R.id.buttonRec);
@@ -73,7 +80,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         final List<AlarmTime> alarmTimes = getSuggestedSleepTimes(); // Get the suggested times
 
         listView = findViewById(R.id.alarmListView);
-        AlarmListViewAdapter adapter = new AlarmListViewAdapter(this, R.layout.alarm_list,
+        adapter = new AlarmListViewAdapter(this, R.layout.alarm_list,
                 alarmTimes);
         listView.setAdapter(adapter); // Populate ListView
 

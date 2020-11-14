@@ -220,8 +220,8 @@
             android:layout_height="80dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="230dp"
-            android:layout_marginTop="932dp"
+            android:layout_marginStart="232dp"
+            android:layout_marginTop="1034dp"
             android:text="@string/save_button" />
 
         <Button
