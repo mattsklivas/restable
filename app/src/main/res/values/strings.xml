@@ -19,7 +19,7 @@
     <string name="save_button">Save</string>
     <string name="done_button">Done</string>
     <string name="x_axis_title_humidity_chart">Time</string>
-    <string name="y_axis_title_humidity_chart">RH %</string>
+    <string name="y_axis_title_humidity_chart">RH%</string>
     <string name="x_axis_title_temp_chart">Time</string>
     <string name="y_axis_title_temp_chart">°C</string>
     <string name="x_axis_title_sound_chart">Time</string>

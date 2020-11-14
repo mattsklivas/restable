@@ -121,10 +121,10 @@ public class ResultsActivity extends AppCompatActivity {
         motionchart.getAxisRight().setEnabled(false);
         motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        setData(tempData,tempchart,temperature);
-        setData(humidityData,humiditychart,humidity);
-        setData(soundData,soundchart,sound);
-        setData(motionData,motionchart,motion);
+        setData(tempData,tempchart,temperature,startTime,stopTime);
+        setData(humidityData,humiditychart,humidity,startTime,stopTime);
+        setData(soundData,soundchart,sound,startTime,stopTime);
+        setData(motionData,motionchart,motion,startTime,stopTime);
 
         duration = Duration.between(startTime, stopTime);
 
@@ -144,11 +144,15 @@ public class ResultsActivity extends AppCompatActivity {
         });
     }
     
-    protected void setData(ArrayList<Float> data, LineChart chart, String name ){
+    protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
 
         ArrayList<Entry> yValues = new ArrayList<>();
         for (int x = 0; x < data.size(); x++)
         {
+            if(x ==0)
+            {
+                yValues.add(new Entry(startTime.format(x, data.get(x)));
+            }
             yValues.add(new Entry(x, data.get(x)));
         }
 
