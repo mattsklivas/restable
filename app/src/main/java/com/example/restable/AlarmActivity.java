@@ -70,6 +70,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     //Go to RecActivity
     protected void goToRecActivity() {
         Intent intent = new Intent(this, RecActivity.class);
+        Log.i(TAG, "Starting RecActivity");
         startActivity(intent);
     }
 

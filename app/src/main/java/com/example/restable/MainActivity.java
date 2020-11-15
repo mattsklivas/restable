@@ -23,6 +23,8 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     //Instance variables
     protected Button alarmButton;
     protected Button logsButton;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate called");
 
         //Setup activity views
         alarmButton = findViewById(R.id.buttonSleep);
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Log.i(TAG, "Starting LoginActivity");
             startActivity(intent);
         }
     }
@@ -69,12 +73,14 @@ public class MainActivity extends AppCompatActivity {
     //Go to AlarmActivity
     protected void goToAlarmActivity() {
         Intent intent = new Intent(this, AlarmActivity.class);
+        Log.i(TAG, "Starting AlarmActivity");
         startActivity(intent);
     }
 
     //Go to LogsActivity
     protected void goToLogsActivity() {
         Intent intent = new Intent(this, LogsActivity.class);
+        Log.i(TAG, "Starting LogsActivity");
         startActivity(intent);
     }
 
@@ -87,9 +93,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logOut) {
+            Log.i(TAG, "Logging user out");
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Log.i(TAG, "Starting LoginActivity");
             startActivity(intent);
         }
 
