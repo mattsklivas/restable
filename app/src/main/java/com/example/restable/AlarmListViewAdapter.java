@@ -24,10 +24,10 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
     private static final String TAG = "AlarmLiveViewAdapter";
 
     // Instance variables
-    TextView wakeTimeTextView;
-    TextView durationTextView;
-    TextView ratingTextView;
-    ImageView alarmClockImageView;
+    protected TextView wakeTimeTextView;
+    protected TextView durationTextView;
+    protected TextView ratingTextView;
+    protected ImageView alarmClockImageView;
 
     private Context context;
     private int resource;
@@ -54,7 +54,7 @@ public class AlarmListViewAdapter extends ArrayAdapter<AlarmTime> {
         String duration = Objects.requireNonNull(getItem(position)).getDuration();
         String rating = Objects.requireNonNull(getItem(position)).getRating();
 
-        // Show the listView for the selected course
+        // Show the listView for the selected alarmTime
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
 

@@ -38,9 +38,18 @@
     <string name="custom_alarm">Custom alarm</string>
     <string name="start_without_alarm">Start without Alarm</string>
     <string name="alarm_set">Alarm Set</string>
-    <string name="hours_of_sleep">hours of sleep</string>
+    <string name="of_sleep">of sleep</string>
+    <string name="hours_of_sleep">of sleep</string>
     <string name="rating">Rating</string>
     <string name="h_h">H.H</string>
     <string name="time">Time</string>
     <string name="clock_logo">Clock Logo</string>
+    <string name="to">to</string>
+    <string name="month_day">Month Day</string>
+    <string name="end">End</string>
+    <string name="start">Start</string>
+    <string name="no_sleep_sessions_saved">No Sleep Sessions Saved</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="restable_now_recording">Restable now recording…</string>
+    <string name="connect">Connect</string>
 </resources>
