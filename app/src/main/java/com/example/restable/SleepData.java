@@ -1,19 +1,45 @@
 package com.example.restable;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Map;
 
-public class SleepData {
+public class SleepData implements Serializable {
 
-    ArrayList<Float> humidityData;
-    ArrayList<Float> tempData;
-    ArrayList<Float> soundData;
-    ArrayList<Float> motionData;
+    private ArrayList<Float> humidityData;
+    private ArrayList<Float> tempData;
+    private ArrayList<Float> soundData;
+    private ArrayList<Float> motionData;
+    private long startTime;
+    private long endTime;
 
-    public SleepData(StringBuilder receivedData) {
+
+    public SleepData() {
+
+    }
+
+    public SleepData(ArrayList<Float> humidityData, ArrayList<Float> tempData, ArrayList<Float> soundData, ArrayList<Float> motionData, LocalDateTime startTime, LocalDateTime endTime) {
+        this.humidityData = humidityData;
+        this.tempData = tempData;
+        this.soundData = soundData;
+        this.motionData = motionData;
+
+        ZoneId zoneId = ZoneId.systemDefault();
+        this.startTime = startTime.atZone(zoneId).toEpochSecond();
+        this.endTime = endTime.atZone(zoneId).toEpochSecond();
+    }
+
+    public SleepData(StringBuilder receivedData, LocalDateTime startTime, LocalDateTime endTime) {
         humidityData = new ArrayList<>();
         tempData = new ArrayList<>();
         soundData = new ArrayList<>();
         motionData = new ArrayList<>();
+
+        ZoneId zoneId = ZoneId.systemDefault();
+        this.startTime = startTime.atZone(zoneId).toEpochSecond();
+        this.endTime = endTime.atZone(zoneId).toEpochSecond();
 
         String[] lines = receivedData.toString().split("\n");
         for (String line : lines) {
@@ -24,10 +50,10 @@ public class SleepData {
                 case "TMP:":
                     tempData.add(Float.parseFloat(line.split(" ")[1]));
                     break;
-                case "SOUND:":
+                case "DB:":
                     soundData.add(Float.parseFloat(line.split(" ")[1]));
                     break;
-                case "PIR:":
+                case "DIST:":
                     motionData.add(Float.parseFloat(line.split(" ")[1]));
                     break;
                 default:
@@ -50,5 +76,38 @@ public class SleepData {
 
     public ArrayList<Float> getMotionData() {
         return motionData;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+
+    public void setHumidityData(ArrayList<Float> humidityData) {
+        this.humidityData = humidityData;
+    }
+
+    public void setTempData(ArrayList<Float> tempData) {
+        this.tempData = tempData;
+    }
+
+    public void setSoundData(ArrayList<Float> soundData) {
+        this.soundData = soundData;
+    }
+
+    public void setMotionData(ArrayList<Float> motionData) {
+        this.motionData = motionData;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 }

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".ViewLogActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/x_axis_title_humidity_chart"
+            android:id="@+id/x_axis_title_humidity_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_below="@+id/line_chart_humidity"
+            android:layout_below="@+id/line_chart_humidity_log"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="168dp"
@@ -21,7 +22,7 @@
 
 
         <TextView
-            android:id="@+id/y_axis_title_humidity_chart"
+            android:id="@+id/y_axis_title_humidity_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -30,16 +31,16 @@
             android:layout_marginStart="21dp"
             android:layout_marginTop="149dp"
             android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@+id/line_chart_humidity"
+            android:layout_toStartOf="@+id/line_chart_humidity_log"
             android:rotation="-90"
             android:text="@string/y_axis_title_humidity_chart" />
 
         <TextView
-            android:id="@+id/x_axis_title_temp_chart"
+            android:id="@+id/x_axis_title_temp_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_below="@+id/line_chart_motion"
+            android:layout_below="@+id/line_chart_motion_log"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="202dp"
@@ -48,25 +49,23 @@
             android:text="@string/x_axis_title_temp_chart" />
 
         <TextView
-            android:id="@+id/y_axis_title_temp_chart"
+            android:id="@+id/y_axis_title_temp_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_below="@+id/y_axis_title_humidity_chart"
+            android:layout_below="@+id/y_axis_title_humidity_chart_log"
             android:layout_alignParentStart="true"
             android:layout_marginStart="22dp"
             android:layout_marginTop="208dp"
             android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@+id/line_chart_motion"
+            android:layout_toStartOf="@+id/line_chart_motion_log"
             android:rotation="-90"
             android:text="@string/y_axis_title_temp_chart" />
 
         <TextView
-            android:id="@+id/x_axis_title_sound_chart"
+            android:id="@+id/x_axis_title_sound_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_below="@+id/line_chart_sound"
+            android:layout_below="@+id/line_chart_sound_log"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="205dp"
@@ -75,24 +74,23 @@
             android:text="@string/x_axis_title_sound_chart" />
 
         <TextView
-            android:id="@+id/y_axis_title_sound_chart"
+            android:id="@+id/y_axis_title_sound_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/y_axis_title_temp_chart"
+            android:layout_below="@+id/y_axis_title_temp_chart_log"
             android:layout_alignParentStart="true"
             android:layout_marginStart="2dp"
             android:layout_marginTop="191dp"
             android:layout_marginEnd="7dp"
-            android:layout_toStartOf="@+id/line_chart_sound"
+            android:layout_toStartOf="@+id/line_chart_sound_log"
             android:rotation="-90"
             android:text="@string/y_axis_title_sound_chart" />
 
         <TextView
-            android:id="@+id/x_axis_title_motion_chart"
+            android:id="@+id/x_axis_title_motion_chart_log"
             android:layout_width="37dp"
             android:layout_height="wrap_content"
-
-            android:layout_below="@+id/line_chart_temp"
+            android:layout_below="@+id/line_chart_temp_log"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="198dp"
@@ -101,73 +99,71 @@
             android:text="@string/x_axis_title_motion_chart" />
 
         <TextView
-            android:id="@+id/y_axis_title_motion_chart"
+            android:id="@+id/y_axis_title_motion_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_below="@+id/y_axis_title_sound_chart"
+            android:layout_below="@+id/y_axis_title_sound_chart_log"
             android:layout_alignParentStart="true"
             android:layout_marginStart="2dp"
             android:layout_marginTop="186dp"
             android:layout_marginEnd="4dp"
-            android:layout_toStartOf="@+id/line_chart_temp"
+            android:layout_toStartOf="@+id/line_chart_temp_log"
             android:rotation="-90"
             android:text="@string/y_axis_title_motion_chart" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart_humidity"
-            android:layout_width="349dp"
-            android:layout_height="169dp"
-            android:layout_below="@+id/time_slept"
+            android:id="@+id/line_chart_humidity_log"
+            android:layout_width="350dp"
+            android:layout_height="170dp"
+            android:layout_below="@+id/time_slept_log"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="2dp"></com.github.mikephil.charting.charts.LineChart>
+            android:layout_marginEnd="5dp" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart_temp"
+            android:id="@+id/line_chart_temp_log"
             android:layout_width="350dp"
-            android:layout_height="153dp"
-            android:layout_below="@+id/x_axis_title_sound_chart"
+            android:layout_height="170dp"
+            android:layout_below="@+id/x_axis_title_sound_chart_log"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="7dp"></com.github.mikephil.charting.charts.LineChart>
+            android:layout_marginEnd="5dp" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart_sound"
-            android:layout_width="349dp"
-            android:layout_height="169dp"
-            android:layout_below="@+id/x_axis_title_temp_chart"
+            android:id="@+id/line_chart_sound_log"
+            android:layout_width="350dp"
+            android:layout_height="170dp"
+            android:layout_below="@+id/x_axis_title_temp_chart_log"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="4dp" />
+            android:layout_marginEnd="5dp" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart_motion"
-            android:layout_width="349dp"
-            android:layout_height="171dp"
-            android:layout_below="@+id/x_axis_title_humidity_chart"
+            android:id="@+id/line_chart_motion_log"
+            android:layout_width="350dp"
+            android:layout_height="170dp"
+            android:layout_below="@+id/x_axis_title_humidity_chart_log"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="5dp" />
 
         <TextView
-            android:id="@+id/average_temp"
+            android:id="@+id/average_temp_log"
             android:layout_width="195dp"
             android:layout_height="65dp"
-            android:layout_below="@+id/average_humidity"
-            android:layout_alignParentStart="true"
+            android:layout_below="@+id/average_humidity_log"
+            android:layout_alignStart="@+id/average_humidity_log"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="206dp"
             android:text="@string/average_temp"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/average_humidity"
+            android:id="@+id/average_humidity_log"
             android:layout_width="194dp"
             android:layout_height="56dp"
-            android:layout_below="@+id/x_axis_title_motion_chart"
+            android:layout_below="@+id/x_axis_title_motion_chart_log"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="9dp"
@@ -177,63 +173,39 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/start_time"
+            android:id="@+id/start_time_log"
             android:layout_width="wrap_content"
             android:layout_height="41dp"
-            android:layout_below="@+id/average_temp"
-            android:layout_alignParentStart="true"
+            android:layout_below="@+id/average_temp_log"
+            android:layout_alignStart="@+id/average_humidity_log"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="11dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="210dp"
             android:text="@string/start_time"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/stop_time"
+            android:id="@+id/stop_time_log"
             android:layout_width="213dp"
             android:layout_height="35dp"
-            android:layout_below="@+id/start_time"
-            android:layout_alignParentStart="true"
+            android:layout_below="@+id/start_time_log"
+            android:layout_alignStart="@+id/average_humidity_log"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="191dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="188dp"
             android:text="@string/stop_time"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/time_slept"
-            android:layout_width="371dp"
-            android:layout_height="56dp"
+            android:id="@+id/time_slept_log"
+            android:layout_width="226dp"
+            android:layout_height="53dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="-8dp"
+            android:layout_marginStart="93dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="93dp"
             android:text="@string/time_slept" />
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="232dp"
-            android:layout_marginTop="1034dp"
-            android:text="@string/save_button" />
-
-        <Button
-            android:id="@+id/done_button"
-            android:layout_width="162dp"
-            android:layout_height="69dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="1048dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/done_button" />
-
-
     </RelativeLayout>
 </ScrollView>

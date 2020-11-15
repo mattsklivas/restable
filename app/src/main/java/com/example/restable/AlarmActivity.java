@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -27,12 +28,18 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     protected Button recButton;
     protected Button customAlarmButton;
     protected ListView listView;
-    List<AlarmTime> alarmTimes;
+    private List<AlarmTime> alarmTimes;
+    private AlarmListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+        /* Insert app bar and enable back button to MainActivity */
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
         //Setup activity views
         recButton = findViewById(R.id.buttonRec);
@@ -63,6 +70,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     //Go to RecActivity
     protected void goToRecActivity() {
         Intent intent = new Intent(this, RecActivity.class);
+        Log.i(TAG, "Starting RecActivity");
         startActivity(intent);
     }
 
@@ -73,7 +81,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         final List<AlarmTime> alarmTimes = getSuggestedSleepTimes(); // Get the suggested times
 
         listView = findViewById(R.id.alarmListView);
-        AlarmListViewAdapter adapter = new AlarmListViewAdapter(this, R.layout.alarm_list,
+        adapter = new AlarmListViewAdapter(this, R.layout.alarm_list,
                 alarmTimes);
         listView.setAdapter(adapter); // Populate ListView
 
@@ -98,13 +106,14 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     protected List<AlarmTime> getSuggestedSleepTimes() {
         Log.d(TAG, "getSuggestedSleepTimes called");
 
-        int startAtHour = 6; // Start 6 hours from now
-        int timePeriods = 7; // 7 30 min periods starting 6 hours from now
+        int startAtHour = 4; // Start 6 hours from now
+        int timePeriods = 11; // 11 30 min periods starting 6 hours from now
         LocalDateTime currentTime = LocalDateTime.now(); // Current time
 
         alarmTimes = new ArrayList<>(timePeriods);
-        String[] durations = new String[]{"6", "6.5", "7", "7.5", "8", "8.5", "9"};
-        String[] ratings = new String[]{"OK", "OK", "Good", "Good", "Good", "Good", "Good"};
+        String[] durations = new String[]{"4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"};
+        String[] ratings = new String[]{"Unhealthy", "Unhealthy", "Unhealthy", "Unhealthy",
+                                        "Decent", "Decent", "Healthy", "Healthy", "Healthy", "Healthy", "Healthy"};
 
         // Populate alarmTimes list
         for (int i = 0; i < timePeriods; i++) {
@@ -128,7 +137,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
         intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
         intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-        Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA,
+        Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.getDefault(),
                 "%02d", minute));
         startActivity(intent); // Set alarm
     }

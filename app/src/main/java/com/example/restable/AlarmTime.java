@@ -6,7 +6,6 @@ public class AlarmTime {
     private LocalDateTime wakeTime;
     private String duration;
     private String rating;
-    private boolean isSet = false;
 
     AlarmTime(LocalDateTime wakeTime, String duration, String rating) {
         this.wakeTime = wakeTime;
@@ -35,12 +34,5 @@ public class AlarmTime {
         return rating;
     }
 
-    public boolean isSet() {
-        return isSet;
-    }
-
-    public void setSet(boolean set) {
-        isSet = set;
-    }
 }
 

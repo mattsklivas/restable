@@ -19,12 +19,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="10dp"
         android:text="@string/suggested_wake_up_times"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +54,7 @@
     <Button
         android:id="@+id/buttonRec"
         android:layout_width="177dp"
-        android:layout_height="53dp"
+        android:layout_height="58dp"
         android:layout_marginBottom="20dp"
         android:text="@string/start_without_alarm"
         app:layout_constraintBottom_toBottomOf="parent"
