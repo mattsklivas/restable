@@ -10,7 +10,7 @@
         android:id="@+id/editTextTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -20,21 +20,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editTextTextPasswordRegister"
+        android:id="@+id/editTextTextPasswordConfirmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Confirm Password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddressRegister"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddressRegister" />
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPasswordRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordRegister" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddressRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -42,15 +42,15 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
     <EditText
-        android:id="@+id/editTextTextPasswordConfirmRegister"
+        android:id="@+id/editTextTextPasswordRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Confirm Password"
+        android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPasswordRegister"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordRegister" />
+        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddressRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddressRegister" />
 
     <TextView
         android:id="@+id/textView3"
