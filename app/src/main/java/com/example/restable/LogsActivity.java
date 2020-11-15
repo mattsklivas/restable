@@ -1,5 +1,6 @@
 package com.example.restable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,7 +45,7 @@ public class LogsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Text saying no sleep sessions saved
-        noSessions = (TextView) findViewById(R.id.noSessionsTextView);
+        noSessions = findViewById(R.id.noSessionsTextView);
 
         /* Insert app bar and enable back button to MainActivity */
         ActionBar ab = getSupportActionBar();
@@ -57,6 +58,7 @@ public class LogsActivity extends AppCompatActivity {
         // Get sleep sessions from db to be displayed in list view
         sleepSessions = new ArrayList<>();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null;
         userID = currentUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("Sessions").child(userID);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -100,8 +102,10 @@ public class LogsActivity extends AppCompatActivity {
 
                 // Get time information
                 SleepData sleepData = sleepSessions.get(position);
-
-                // TODO send sleepData as intent to view it
+                Intent intent = new Intent(LogsActivity.this, ViewLogActivity.class);
+                intent.putExtra("sleepData", sleepData);
+                Log.i(TAG, "Starting ViewLogActivity");
+                startActivity(intent);
             }
         });
     }

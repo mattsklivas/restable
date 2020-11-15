@@ -19,6 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -42,18 +44,19 @@ public class RegisterActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
 
-        backButton = (Button) findViewById(R.id.buttonExitRegister);
-        registerButton = (Button) findViewById(R.id.buttonRegisterUser);
-        personNameEditText = (EditText) findViewById(R.id.editTextTextPersonName);
-        emailEditText = (EditText) findViewById(R.id.editTextTextEmailAddressRegister);
-        passwordEditText = (EditText) findViewById(R.id.editTextTextPasswordRegister);
-        passwordConfirmEditText = (EditText) findViewById(R.id.editTextTextPasswordConfirmRegister);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarRegister);
+        backButton = findViewById(R.id.buttonExitRegister);
+        registerButton = findViewById(R.id.buttonRegisterUser);
+        personNameEditText = findViewById(R.id.editTextTextPersonName);
+        emailEditText = findViewById(R.id.editTextTextEmailAddressRegister);
+        passwordEditText = findViewById(R.id.editTextTextPasswordRegister);
+        passwordConfirmEditText = findViewById(R.id.editTextTextPasswordConfirmRegister);
+        progressBar = findViewById(R.id.progressBarRegister);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                Log.i(TAG, "Starting LoginActivity");
                 startActivity(intent);
             }
         });
@@ -125,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             User user = new User(name, email);
                             FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -134,6 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.VISIBLE);
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        Log.i(TAG, "Starting MainActivity");
                                         startActivity(intent);
                                     }
                                     else {

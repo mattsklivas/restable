@@ -1,39 +1,21 @@
 package com.example.restable;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.Utils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -43,10 +25,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class ResultsActivity extends AppCompatActivity {
+public class ViewLogActivity extends AppCompatActivity {
 
-    private static final String TAG = "ResultsActivity";
-    
+    private static final String TAG = "LogsActivity";
+
     private LineChart humiditychart;
     private LineChart tempchart;
     private LineChart soundchart;
@@ -73,25 +55,25 @@ public class ResultsActivity extends AppCompatActivity {
     protected TextView average_Humid;
     protected TextView time_Slept;
 
-    protected Button done_button;
-    protected Button save_button;
-
     private Duration duration;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
+        setContentView(R.layout.activity_view_log);
         Log.d(TAG, "onCreate called");
 
-        done_button = findViewById(R.id.done_button);
-        save_button = findViewById(R.id.save_button);
+        /* Insert app bar and enable back button to MainActivity */
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
-        start_Time = findViewById(R.id.start_time);
-        stop_Time = findViewById(R.id.stop_time);
-        average_Temp = findViewById(R.id.average_temp);
-        average_Humid = findViewById(R.id.average_humidity);
-        time_Slept = findViewById(R.id.time_slept);
+        start_Time = findViewById(R.id.start_time_log);
+        stop_Time = findViewById(R.id.stop_time_log);
+        average_Temp = findViewById(R.id.average_temp_log);
+        average_Humid = findViewById(R.id.average_humidity_log);
+        time_Slept = findViewById(R.id.time_slept_log);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
         assert sleepData != null;
@@ -110,7 +92,7 @@ public class ResultsActivity extends AppCompatActivity {
         System.out.println("soundData:" + soundData);
         System.out.println("motionData:" + motionData);
 
-        humiditychart = findViewById(R.id.line_chart_humidity);
+        humiditychart = findViewById(R.id.line_chart_humidity_log);
         humiditychart.setDragEnabled(true);
         humiditychart.setScaleEnabled(true);
         humiditychart.getDescription().setEnabled(false);
@@ -118,7 +100,7 @@ public class ResultsActivity extends AppCompatActivity {
         humiditychart.getAxisRight().setEnabled(false);
         humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        tempchart = findViewById(R.id.line_chart_temp);
+        tempchart = findViewById(R.id.line_chart_temp_log);
         tempchart.setDragEnabled(true);
         tempchart.setScaleEnabled(true);
         tempchart.getDescription().setEnabled(false);
@@ -126,7 +108,7 @@ public class ResultsActivity extends AppCompatActivity {
         tempchart.getAxisRight().setEnabled(false);
         tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        soundchart = findViewById(R.id.line_chart_sound);
+        soundchart = findViewById(R.id.line_chart_sound_log);
         soundchart.setDragEnabled(true);
         soundchart.setScaleEnabled(true);
         soundchart.getDescription().setEnabled(false);
@@ -134,7 +116,7 @@ public class ResultsActivity extends AppCompatActivity {
         soundchart.getAxisRight().setEnabled(false);
         soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        motionchart = findViewById(R.id.line_chart_motion);
+        motionchart = findViewById(R.id.line_chart_motion_log);
         motionchart.setDragEnabled(true);
         motionchart.setScaleEnabled(true);
         motionchart.getDescription().setEnabled(false);
@@ -154,53 +136,8 @@ public class ResultsActivity extends AppCompatActivity {
         average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
         average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
         time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
-
-        //Setup doneButton
-        done_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "done_button onClick called");
-                Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
-                Log.i(TAG, "Starting MainActivity");
-                startActivity(main_intent);
-            }
-        });
-
-        //Setup saveButton
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "save_button onClick called");
-                Log.i(TAG, "saving to firebase database");
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                assert user != null;
-                String owner = user.getUid();
-                DatabaseReference dbRefPush = databaseReference.child(owner).push();
-                dbRefPush.setValue(sleepData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Write was successful!
-                                Log.i(TAG, "Write to firebase database successful");
-                                //Store the ArrayLists in the Intent
-                                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                                Log.i(TAG, "Starting MainActivity");
-                                startActivity(intent);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Write failed
-                                Log.e(TAG, "Write to firebase database failed");
-                                Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
-                            }
-                        });
-            }
-        });
     }
-    
+
     protected void setData(ArrayList<Float> data, LineChart chart, String name ){
         ArrayList<Entry> yValues = new ArrayList<>();
         for (int x = 0; x < data.size(); x++)
@@ -229,13 +166,8 @@ public class ResultsActivity extends AppCompatActivity {
                 sum += mark;
             }
             average = sum / marks.size();
-             return String.format(Locale.getDefault(), "%.2f", average);
+            return String.format(Locale.getDefault(), "%.2f", average);
         }
         return "0";
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Do Nothing
     }
 }

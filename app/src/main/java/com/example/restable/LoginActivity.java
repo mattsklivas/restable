@@ -39,11 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
 
-        loginButton = (Button) findViewById(R.id.buttonLogin);
-        registerButton = (Button) findViewById(R.id.buttonRegister);
-        emailEditText = (EditText) findViewById(R.id.editTextTextEmailAddressLogin);
-        passwordEditText = (EditText) findViewById(R.id.editTextTextPasswordLogin);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
+        loginButton = findViewById(R.id.buttonLogin);
+        registerButton = findViewById(R.id.buttonRegister);
+        emailEditText = findViewById(R.id.editTextTextEmailAddressLogin);
+        passwordEditText = findViewById(R.id.editTextTextPasswordLogin);
+        progressBar = findViewById(R.id.progressBarLogin);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Log.i(TAG, "Starting RegisterActivity");
                 startActivity(intent);
             }
         });
@@ -109,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Log.i(TAG, "Starting MainActivity");
                     startActivity(intent);
                 }
                 else {
