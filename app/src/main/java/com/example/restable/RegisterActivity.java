@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private static final String TAG = "LoginActivity";
+
+    private FirebaseAuth auth;
 
     protected Button backButton;
     protected Button registerButton;
@@ -34,9 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Log.d(TAG, "onCreate called");
 
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         backButton = (Button) findViewById(R.id.buttonExitRegister);
         registerButton = (Button) findViewById(R.id.buttonRegisterUser);
@@ -113,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

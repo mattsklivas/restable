@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 
@@ -47,6 +48,7 @@ public class RecActivity  extends BlunoLibrary {
         startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
+        Log.d(TAG, "onCreate called");
 
         //onCreateProcess from BlunoLibrary
         onCreateProcess();
@@ -90,16 +92,21 @@ public class RecActivity  extends BlunoLibrary {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "Stop Button pressed");
+                Log.d(TAG, "stopButton onclick called");
                 Intent intent = new Intent(v.getContext(), ResultsActivity.class);
                 endTime = LocalDateTime.now();
+
                 //Store the received data if the user connected to the device
                 if (connected) {
                     //Parse and store the received data in separate ArrayLists
-                    SleepData parsedData = new SleepData(receivedData, ServerValue.TIMESTAMP, startTime, endTime);
+                    Log.d(TAG, "received data being stored");
+                    SleepData parsedData = new SleepData(receivedData, startTime, endTime);
                     intent.putExtra("sleepData", parsedData);
                 }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 else {
+                    Log.d(TAG, "dummy data being stored");
                     //Dummy sensor data from hardware
                     double[] humidity = {53.5, 53.6, 53.6, 53.5, 53.6, 53.6, 53.5, 53.6, 53.5, 53.6, 53.5, 53.5, 53.5, 53.6, 53.6, 53.5, 53.5, 53.5, 53.5, 53.5, 53.6, 53.5, 53.6, 53.7, 53.6, 53.6, 53.7};
                     double[] temp = {23.6, 23.7, 23.7, 23.6, 23.7, 23.7, 23.6, 23.7, 23.6, 23.7, 23.6, 23.6, 23.6, 23.7, 23.7, 23.6, 23.6, 23.6, 23.6, 23.6, 23.7, 23.6, 23.7, 23.7, 23.6, 23.6, 23.7};
@@ -120,19 +127,18 @@ public class RecActivity  extends BlunoLibrary {
                         motionData.add((float) motion[i]);
                     }
 
-                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData, ServerValue.TIMESTAMP, startTime, endTime);
+                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData, startTime, endTime);
                     intent.putExtra("sleepData", parsedData);
                 }
-                //intent.putExtra("start time", startTime);
+                Log.i(TAG, "starting ResultsActivity");
                 startActivity(intent);
-
             }
         });
     }
 
     protected void onResume(){
         super.onResume();
-        Log.i(TAG, "RecActivity onResume");
+        Log.d(TAG, "RecActivity onResume");
         onResumeProcess();	//onResumeProcess from BlunoLibrary
     }
 
@@ -162,18 +168,19 @@ public class RecActivity  extends BlunoLibrary {
     //Function which deals with changed connection states
     @Override
     public void onConnectionStateChange(connectionStateEnum theConnectionState) {
+        Log.d(TAG, "onConnectionStateChange called for state " + theConnectionState);
         switch (theConnectionState) {
             case isConnected:
-                buttonScan.setText("Disconnect");
+                buttonScan.setText(R.string.disconnect);
                 Toast.makeText(RecActivity.this, "Device connected!", Toast.LENGTH_SHORT).show();
-                statusText.setText("Restable now recording...");
+                statusText.setText(R.string.restable_now_recording);
                 connected = true;
                 break;
             case isConnecting:
                 Toast.makeText(RecActivity.this, "Connecting...", Toast.LENGTH_SHORT).show();
                 break;
             case isToScan:
-                buttonScan.setText("Connect");
+                buttonScan.setText(R.string.connect);
                 break;
             case isScanning:
                 Toast.makeText(RecActivity.this, "Scanning for devices...", Toast.LENGTH_SHORT).show();
@@ -189,6 +196,7 @@ public class RecActivity  extends BlunoLibrary {
     //Function which handles received serial data
     @Override
     public void onSerialReceived(String theString) {
+        Log.i(TAG, theString + "from sensor");
         //Append the text into the EditText and print it to to the Scrollview (for debugging purposes)
         serialReceivedText.append(theString);
         ((ScrollView)serialReceivedText.getParent()).fullScroll(View.FOCUS_DOWN);

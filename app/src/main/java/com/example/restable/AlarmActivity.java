@@ -135,7 +135,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
         intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
         intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-        Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.CANADA,
+        Log.i(TAG, "Setting alarm for " + hour + ":" + String.format(Locale.getDefault(),
                 "%02d", minute));
         startActivity(intent); // Set alarm
     }

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -35,9 +36,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ResultsActivity extends AppCompatActivity {
 
@@ -78,6 +82,7 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+        Log.d(TAG, "onCreate called");
 
         done_button = (Button) findViewById(R.id.done_button);
         save_button = (Button) findViewById(R.id.save_button);
@@ -93,8 +98,8 @@ public class ResultsActivity extends AppCompatActivity {
         tempData = sleepData.getTempData();
         soundData = sleepData.getSoundData();
         motionData = sleepData.getMotionData();
-        startTime = sleepData.getStartTime();
-        stopTime = sleepData.getEndTime();
+        startTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(sleepData.getStartTime()), ZoneId.systemDefault());
+        stopTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(sleepData.getEndTime()), ZoneId.systemDefault());
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
@@ -143,16 +148,17 @@ public class ResultsActivity extends AppCompatActivity {
 
         duration = Duration.between(startTime, stopTime);
 
-        start_Time.setText("Start Time " + startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
-        stop_Time.setText("Stop Time " + stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
-        average_Temp.setText("Average Temperature (°C): " + calculateAverage(tempData));
-        average_Humid.setText("Average Humidity (RH %): " + calculateAverage(humidityData));
-        time_Slept.setText("Time Slept: " + duration.toHours() + "Hours " + duration.toMinutes() + "Minutes");
+        start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+        stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+        average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
+        average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
+        time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %dHours %dMinutes", duration.toHours(), duration.toMinutes()));
 
         //Setup doneButton
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "done_button onClick called");
                 Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
                 startActivity(main_intent);
             }
@@ -162,6 +168,8 @@ public class ResultsActivity extends AppCompatActivity {
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                Log.d(TAG, "save_button onClick called");
+                Log.i(TAG, "saving to firebase database");
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
@@ -172,7 +180,7 @@ public class ResultsActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 // Write was successful!
-
+                                Log.i(TAG, "Write to firebase database successful");
                                 //Store the ArrayLists in the Intent
                                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                                 startActivity(intent);
@@ -182,6 +190,7 @@ public class ResultsActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 // Write failed
+                                Log.e(TAG, "Write to firebase database failed");
                                 Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
                             }
                         });
@@ -213,13 +222,12 @@ public class ResultsActivity extends AppCompatActivity {
     private String calculateAverage(ArrayList <Float> marks) {
         Float sum = (float) 0;
         if(!marks.isEmpty()) {
-            Float average;
+            float average;
             for (Float mark : marks) {
                 sum += mark;
             }
             average = sum / marks.size();
-            String strDouble = String.format("%.2f", average);
-             return strDouble;
+             return String.format(Locale.getDefault(), "%.2f", average);
         }
         return "0";
     }
