@@ -1,40 +1,31 @@
 package com.example.restable;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.Utils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -42,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class ResultsActivity extends AppCompatActivity {
@@ -67,6 +59,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     private LocalDateTime stopTime;
     private LocalDateTime startTime;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     protected TextView start_Time;
     protected TextView stop_Time;
@@ -220,13 +213,25 @@ public class ResultsActivity extends AppCompatActivity {
 
     protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
         ArrayList<Entry> yValues = new ArrayList<>();
+        final HashMap<Integer, String> labels = new HashMap<>();
+        String formattedStartDateTime = startTime.format(formatter);
+        String formattedStopDateTime = stopTime.format(formatter);
         for (int x = 0; x < data.size(); x++)
         {
-            if(x ==0)
+            if(x == 0)
             {
+                labels.put(x,formattedStartDateTime);
                 yValues.add(new Entry(x, data.get(x)));
             }
-            yValues.add(new Entry(x, data.get(x)));
+
+            else if(x == data.size()-1)
+            {
+                labels.put(x,formattedStopDateTime);
+                yValues.add(new Entry(x, data.get(x)));
+            }
+            else
+                labels.put(x,Integer.toString(x));
+                yValues.add(new Entry(x, data.get(x)));
         }
 
         LineDataSet set = new LineDataSet(yValues, name + " Data Set");
@@ -239,7 +244,23 @@ public class ResultsActivity extends AppCompatActivity {
 
         LineData linedata = new LineData(dataSets);
 
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new DefaultAxisValueFormatter(2){
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+
+                return labels.get((int)value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
+        
         chart.setData(linedata);
+        chart.invalidate();
     }
 
     private String calculateAverage(ArrayList <Float> marks) {
