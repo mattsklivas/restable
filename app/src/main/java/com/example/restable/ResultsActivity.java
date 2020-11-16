@@ -76,19 +76,6 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0) {
-            setContentView(R.layout.activity_no_result);
-
-            otherReturnButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "other_done_button onClick called");
-                    Intent intent = new Intent(ResultsActivity.this, RecActivity.class);
-                    startActivity(intent);
-                }
-            });
-        } else {
-            setContentView(R.layout.activity_results);
             Log.d(TAG, "onCreate called");
 
             done_button = findViewById(R.id.done_button);
@@ -162,6 +149,20 @@ public class ResultsActivity extends AppCompatActivity {
             average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
             average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
+
+            if (humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0) {
+                setContentView(R.layout.activity_no_result);
+
+                otherReturnButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "other_done_button onClick called");
+                        Intent intent = new Intent(ResultsActivity.this, RecActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                setContentView(R.layout.activity_results);
 
 
             //Setup doneButton
