@@ -165,6 +165,7 @@ public class ResultsActivity extends AppCompatActivity {
             otherReturnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d(TAG, "other_done_button onClick called");
                     Intent intent = new Intent(ResultsActivity.this, RecActivity.class);
                     startActivity(intent);
                 }
