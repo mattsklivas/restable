@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -75,6 +76,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     protected Button done_button;
     protected Button save_button;
+    protected Button otherReturnButton;
 
     private Duration duration;
 
@@ -86,6 +88,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         done_button = findViewById(R.id.done_button);
         save_button = findViewById(R.id.save_button);
+        otherReturnButton = findViewById(R.id.return_button);
 
         start_Time = findViewById(R.id.start_time);
         stop_Time = findViewById(R.id.stop_time);
@@ -155,6 +158,19 @@ public class ResultsActivity extends AppCompatActivity {
         average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
         time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
 
+        if(humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0)
+        {
+            setContentView(R.layout.activity_no_result);
+
+            otherReturnButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ResultsActivity.this, RecActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
         //Setup doneButton
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +223,7 @@ public class ResultsActivity extends AppCompatActivity {
         {
             if(x ==0)
             {
-                yValues.add(new Entry(startTime.format(x, data.get(x)));
+                yValues.add(new Entry(x, data.get(x)));
             }
             yValues.add(new Entry(x, data.get(x)));
         }
@@ -240,6 +256,10 @@ public class ResultsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Do Nothing
+        Context context = getApplicationContext();
+        CharSequence text = "Returning isn't permitted";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
