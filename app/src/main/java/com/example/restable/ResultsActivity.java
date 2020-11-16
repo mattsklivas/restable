@@ -105,40 +105,6 @@ public class ResultsActivity extends AppCompatActivity {
         System.out.println("soundData:" + soundData);
         System.out.println("motionData:" + motionData);
 
-        humiditychart = findViewById(R.id.line_chart_humidity);
-        humiditychart.setDragEnabled(true);
-        humiditychart.setScaleEnabled(true);
-        humiditychart.getDescription().setEnabled(false);
-        humiditychart.getXAxis().setDrawGridLines(false);
-        humiditychart.getAxisRight().setEnabled(false);
-        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        tempchart = findViewById(R.id.line_chart_temp);
-        tempchart.setDragEnabled(true);
-        tempchart.setScaleEnabled(true);
-        tempchart.getDescription().setEnabled(false);
-        tempchart.getXAxis().setDrawGridLines(false);
-        tempchart.getAxisRight().setEnabled(false);
-        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        soundchart = findViewById(R.id.line_chart_sound);
-        soundchart.setDragEnabled(true);
-        soundchart.setScaleEnabled(true);
-        soundchart.getDescription().setEnabled(false);
-        soundchart.getXAxis().setDrawGridLines(false);
-        soundchart.getAxisRight().setEnabled(false);
-        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        motionchart = findViewById(R.id.line_chart_motion);
-        motionchart.setDragEnabled(true);
-        motionchart.setScaleEnabled(true);
-        motionchart.getDescription().setEnabled(false);
-        motionchart.getXAxis().setDrawGridLines(false);
-        motionchart.getAxisRight().setEnabled(false);
-        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        duration = Duration.between(startTime, stopTime);
-
         start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
         stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
         average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
@@ -158,6 +124,7 @@ public class ResultsActivity extends AppCompatActivity {
             });
         } else {
             setContentView(R.layout.activity_results);
+            configureGraphs();
             setData(tempData, tempchart, temperature, startTime, stopTime);
             setData(humidityData, humiditychart, humidity, startTime, stopTime);
             setData(soundData, soundchart, sound, startTime, stopTime);
@@ -209,6 +176,42 @@ public class ResultsActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    protected void configureGraphs() {
+        humiditychart = findViewById(R.id.line_chart_humidity);
+        humiditychart.setDragEnabled(true);
+        humiditychart.setScaleEnabled(true);
+        humiditychart.getDescription().setEnabled(false);
+        humiditychart.getXAxis().setDrawGridLines(false);
+        humiditychart.getAxisRight().setEnabled(false);
+        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        tempchart = findViewById(R.id.line_chart_temp);
+        tempchart.setDragEnabled(true);
+        tempchart.setScaleEnabled(true);
+        tempchart.getDescription().setEnabled(false);
+        tempchart.getXAxis().setDrawGridLines(false);
+        tempchart.getAxisRight().setEnabled(false);
+        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        soundchart = findViewById(R.id.line_chart_sound);
+        soundchart.setDragEnabled(true);
+        soundchart.setScaleEnabled(true);
+        soundchart.getDescription().setEnabled(false);
+        soundchart.getXAxis().setDrawGridLines(false);
+        soundchart.getAxisRight().setEnabled(false);
+        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        motionchart = findViewById(R.id.line_chart_motion);
+        motionchart.setDragEnabled(true);
+        motionchart.setScaleEnabled(true);
+        motionchart.getDescription().setEnabled(false);
+        motionchart.getXAxis().setDrawGridLines(false);
+        motionchart.getAxisRight().setEnabled(false);
+        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        duration = Duration.between(startTime, stopTime);
     }
 
     protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
