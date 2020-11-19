@@ -76,84 +76,15 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
-        Log.d(TAG, "onCreate called");
-
-        done_button = findViewById(R.id.done_button);
-        save_button = findViewById(R.id.save_button);
-        otherReturnButton = findViewById(R.id.return_button);
-
-        start_Time = findViewById(R.id.start_time);
-        stop_Time = findViewById(R.id.stop_time);
-        average_Temp = findViewById(R.id.average_temp);
-        average_Humid = findViewById(R.id.average_humidity);
-        time_Slept = findViewById(R.id.time_slept);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
-        assert sleepData != null;
-        humidityData = sleepData.getHumidityData();
-        tempData = sleepData.getTempData();
-        soundData = sleepData.getSoundData();
-        motionData = sleepData.getMotionData();
-        startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
-        stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
-
-        System.out.println("Dummy data if user hasn't connected to the hardware:");
-        System.out.println("tempData:" + tempData);
-        System.out.println("humidityData:" + humidityData);
-        System.out.println("soundData:" + soundData);
-        System.out.println("motionData:" + motionData);
-
-        humiditychart = findViewById(R.id.line_chart_humidity);
-        humiditychart.setDragEnabled(true);
-        humiditychart.setScaleEnabled(true);
-        humiditychart.getDescription().setEnabled(false);
-        humiditychart.getXAxis().setDrawGridLines(false);
-        humiditychart.getAxisRight().setEnabled(false);
-        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        tempchart = findViewById(R.id.line_chart_temp);
-        tempchart.setDragEnabled(true);
-        tempchart.setScaleEnabled(true);
-        tempchart.getDescription().setEnabled(false);
-        tempchart.getXAxis().setDrawGridLines(false);
-        tempchart.getAxisRight().setEnabled(false);
-        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        soundchart = findViewById(R.id.line_chart_sound);
-        soundchart.setDragEnabled(true);
-        soundchart.setScaleEnabled(true);
-        soundchart.getDescription().setEnabled(false);
-        soundchart.getXAxis().setDrawGridLines(false);
-        soundchart.getAxisRight().setEnabled(false);
-        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        motionchart = findViewById(R.id.line_chart_motion);
-        motionchart.setDragEnabled(true);
-        motionchart.setScaleEnabled(true);
-        motionchart.getDescription().setEnabled(false);
-        motionchart.getXAxis().setDrawGridLines(false);
-        motionchart.getAxisRight().setEnabled(false);
-        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        setData(tempData,tempchart,temperature,startTime,stopTime);
-        setData(humidityData,humiditychart,humidity,startTime,stopTime);
-        setData(soundData,soundchart,sound,startTime,stopTime);
-        setData(motionData,motionchart,motion,startTime,stopTime);
-
-        duration = Duration.between(startTime, stopTime);
-
-        start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
-        stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
-        average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
-        average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
-        time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
-
-        if(humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0)
+        if(sleepData == null)
         {
             setContentView(R.layout.activity_no_result);
+            Log.d(TAG, "onCreate called");
+
+            otherReturnButton = findViewById(R.id.return_button);
 
             otherReturnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,50 +96,126 @@ public class ResultsActivity extends AppCompatActivity {
             });
         }
 
-        //Setup doneButton
-        done_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "done_button onClick called");
-                Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
-                Log.i(TAG, "Starting MainActivity");
-                startActivity(main_intent);
-            }
-        });
+        else{
 
-        //Setup saveButton
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "save_button onClick called");
-                Log.i(TAG, "saving to firebase database");
+            humidityData = sleepData.getHumidityData();
+            tempData = sleepData.getTempData();
+            soundData = sleepData.getSoundData();
+            motionData = sleepData.getMotionData();
+            startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
+            stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                assert user != null;
-                String owner = user.getUid();
-                DatabaseReference dbRefPush = databaseReference.child(owner).push();
-                dbRefPush.setValue(sleepData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Write was successful!
-                                Log.i(TAG, "Write to firebase database successful");
-                                //Store the ArrayLists in the Intent
-                                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                                Log.i(TAG, "Starting MainActivity");
-                                startActivity(intent);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Write failed
-                                Log.e(TAG, "Write to firebase database failed");
-                                Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
-                            }
-                        });
-            }
-        });
+            setContentView(R.layout.activity_results);
+            Log.d(TAG, "onCreate called");
+
+            done_button = findViewById(R.id.done_button);
+            save_button = findViewById(R.id.save_button);
+
+            start_Time = findViewById(R.id.start_time);
+            stop_Time = findViewById(R.id.stop_time);
+            average_Temp = findViewById(R.id.average_temp);
+            average_Humid = findViewById(R.id.average_humidity);
+            time_Slept = findViewById(R.id.time_slept);
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
+
+            System.out.println("Dummy data if user hasn't connected to the hardware:");
+            System.out.println("tempData:" + tempData);
+            System.out.println("humidityData:" + humidityData);
+            System.out.println("soundData:" + soundData);
+            System.out.println("motionData:" + motionData);
+
+            humiditychart = findViewById(R.id.line_chart_humidity);
+            humiditychart.setDragEnabled(true);
+            humiditychart.setScaleEnabled(true);
+            humiditychart.getDescription().setEnabled(false);
+            humiditychart.getXAxis().setDrawGridLines(false);
+            humiditychart.getAxisRight().setEnabled(false);
+            humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            tempchart = findViewById(R.id.line_chart_temp);
+            tempchart.setDragEnabled(true);
+            tempchart.setScaleEnabled(true);
+            tempchart.getDescription().setEnabled(false);
+            tempchart.getXAxis().setDrawGridLines(false);
+            tempchart.getAxisRight().setEnabled(false);
+            tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            soundchart = findViewById(R.id.line_chart_sound);
+            soundchart.setDragEnabled(true);
+            soundchart.setScaleEnabled(true);
+            soundchart.getDescription().setEnabled(false);
+            soundchart.getXAxis().setDrawGridLines(false);
+            soundchart.getAxisRight().setEnabled(false);
+            soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            motionchart = findViewById(R.id.line_chart_motion);
+            motionchart.setDragEnabled(true);
+            motionchart.setScaleEnabled(true);
+            motionchart.getDescription().setEnabled(false);
+            motionchart.getXAxis().setDrawGridLines(false);
+            motionchart.getAxisRight().setEnabled(false);
+            motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            setData(tempData,tempchart,temperature,startTime,stopTime);
+            setData(humidityData,humiditychart,humidity,startTime,stopTime);
+            setData(soundData,soundchart,sound,startTime,stopTime);
+            setData(motionData,motionchart,motion,startTime,stopTime);
+
+            duration = Duration.between(startTime, stopTime);
+
+            start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+            average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
+            average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
+            time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
+
+            //Setup doneButton
+            done_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "done_button onClick called");
+                    Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
+                    Log.i(TAG, "Starting MainActivity");
+                    startActivity(main_intent);
+                }
+            });
+
+            //Setup saveButton
+            save_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Log.d(TAG, "save_button onClick called");
+                    Log.i(TAG, "saving to firebase database");
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
+                    String owner = user.getUid();
+                    DatabaseReference dbRefPush = databaseReference.child(owner).push();
+                    dbRefPush.setValue(sleepData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Write was successful!
+                                    Log.i(TAG, "Write to firebase database successful");
+                                    //Store the ArrayLists in the Intent
+                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                    Log.i(TAG, "Starting MainActivity");
+                                    startActivity(intent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Write failed
+                                    Log.e(TAG, "Write to firebase database failed");
+                                    Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            });
+        }
+
     }
 
     protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
