@@ -39,7 +39,7 @@ import java.util.Locale;
 public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultsActivity";
-    
+
     private LineChart humiditychart;
     private LineChart tempchart;
     private LineChart soundchart;
@@ -76,6 +76,7 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_results);
         Log.d(TAG, "onCreate called");
 
         done_button = findViewById(R.id.done_button);
@@ -105,13 +106,53 @@ public class ResultsActivity extends AppCompatActivity {
         System.out.println("soundData:" + soundData);
         System.out.println("motionData:" + motionData);
 
+        humiditychart = findViewById(R.id.line_chart_humidity);
+        humiditychart.setDragEnabled(true);
+        humiditychart.setScaleEnabled(true);
+        humiditychart.getDescription().setEnabled(false);
+        humiditychart.getXAxis().setDrawGridLines(false);
+        humiditychart.getAxisRight().setEnabled(false);
+        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        tempchart = findViewById(R.id.line_chart_temp);
+        tempchart.setDragEnabled(true);
+        tempchart.setScaleEnabled(true);
+        tempchart.getDescription().setEnabled(false);
+        tempchart.getXAxis().setDrawGridLines(false);
+        tempchart.getAxisRight().setEnabled(false);
+        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        soundchart = findViewById(R.id.line_chart_sound);
+        soundchart.setDragEnabled(true);
+        soundchart.setScaleEnabled(true);
+        soundchart.getDescription().setEnabled(false);
+        soundchart.getXAxis().setDrawGridLines(false);
+        soundchart.getAxisRight().setEnabled(false);
+        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        motionchart = findViewById(R.id.line_chart_motion);
+        motionchart.setDragEnabled(true);
+        motionchart.setScaleEnabled(true);
+        motionchart.getDescription().setEnabled(false);
+        motionchart.getXAxis().setDrawGridLines(false);
+        motionchart.getAxisRight().setEnabled(false);
+        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        setData(tempData,tempchart,temperature,startTime,stopTime);
+        setData(humidityData,humiditychart,humidity,startTime,stopTime);
+        setData(soundData,soundchart,sound,startTime,stopTime);
+        setData(motionData,motionchart,motion,startTime,stopTime);
+
+        duration = Duration.between(startTime, stopTime);
+
         start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
         stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
         average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
         average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
         time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
 
-        if (humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0) {
+        if(humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0)
+        {
             setContentView(R.layout.activity_no_result);
 
             otherReturnButton.setOnClickListener(new View.OnClickListener() {
@@ -122,15 +163,7 @@ public class ResultsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        } else {
-            setContentView(R.layout.activity_results);
-            configureGraphs();
-            setData(tempData, tempchart, temperature, startTime, stopTime);
-            setData(humidityData, humiditychart, humidity, startTime, stopTime);
-            setData(soundData, soundchart, sound, startTime, stopTime);
-            setData(motionData, motionchart, motion, startTime, stopTime);
         }
-
 
         //Setup doneButton
         done_button.setOnClickListener(new View.OnClickListener() {
@@ -178,42 +211,6 @@ public class ResultsActivity extends AppCompatActivity {
         });
     }
 
-    protected void configureGraphs() {
-        humiditychart = findViewById(R.id.line_chart_humidity);
-        humiditychart.setDragEnabled(true);
-        humiditychart.setScaleEnabled(true);
-        humiditychart.getDescription().setEnabled(false);
-        humiditychart.getXAxis().setDrawGridLines(false);
-        humiditychart.getAxisRight().setEnabled(false);
-        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        tempchart = findViewById(R.id.line_chart_temp);
-        tempchart.setDragEnabled(true);
-        tempchart.setScaleEnabled(true);
-        tempchart.getDescription().setEnabled(false);
-        tempchart.getXAxis().setDrawGridLines(false);
-        tempchart.getAxisRight().setEnabled(false);
-        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        soundchart = findViewById(R.id.line_chart_sound);
-        soundchart.setDragEnabled(true);
-        soundchart.setScaleEnabled(true);
-        soundchart.getDescription().setEnabled(false);
-        soundchart.getXAxis().setDrawGridLines(false);
-        soundchart.getAxisRight().setEnabled(false);
-        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        motionchart = findViewById(R.id.line_chart_motion);
-        motionchart.setDragEnabled(true);
-        motionchart.setScaleEnabled(true);
-        motionchart.getDescription().setEnabled(false);
-        motionchart.getXAxis().setDrawGridLines(false);
-        motionchart.getAxisRight().setEnabled(false);
-        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        duration = Duration.between(startTime, stopTime);
-    }
-
     protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
         ArrayList<Entry> yValues = new ArrayList<>();
         final HashMap<Integer, String> labels = new HashMap<>();
@@ -234,7 +231,7 @@ public class ResultsActivity extends AppCompatActivity {
             }
             else
                 labels.put(x,Integer.toString(x));
-                yValues.add(new Entry(x, data.get(x)));
+            yValues.add(new Entry(x, data.get(x)));
         }
 
         LineDataSet set = new LineDataSet(yValues, name + " Data Set");
@@ -274,7 +271,7 @@ public class ResultsActivity extends AppCompatActivity {
                 sum += mark;
             }
             average = sum / marks.size();
-             return String.format(Locale.getDefault(), "%.2f", average);
+            return String.format(Locale.getDefault(), "%.2f", average);
         }
         return "0";
     }
