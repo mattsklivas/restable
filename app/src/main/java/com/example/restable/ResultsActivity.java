@@ -163,6 +163,7 @@ public class ResultsActivity extends AppCompatActivity {
                 Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
                 Log.i(TAG, "Starting MainActivity");
                 startActivity(main_intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -187,6 +188,7 @@ public class ResultsActivity extends AppCompatActivity {
                                 Intent intent = new Intent(v.getContext(), MainActivity.class);
                                 Log.i(TAG, "Starting MainActivity");
                                 startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 Log.i(TAG, "Starting LoginActivity");
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -139,6 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         Log.i(TAG, "Starting MainActivity");
                                         startActivity(intent);
+                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                     }
                                     else {
                                         Toast.makeText(RegisterActivity.this, "Registration failed. Try again!", Toast.LENGTH_LONG).show();

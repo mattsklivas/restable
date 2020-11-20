@@ -72,6 +72,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         Intent intent = new Intent(this, RecActivity.class);
         Log.i(TAG, "Starting RecActivity");
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     // Display ListView of suggested sleep times

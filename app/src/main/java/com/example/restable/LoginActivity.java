@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 Log.i(TAG, "Starting RegisterActivity");
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -112,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     Log.i(TAG, "Starting MainActivity");
                     startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Login failed. Try again!", Toast.LENGTH_LONG).show();

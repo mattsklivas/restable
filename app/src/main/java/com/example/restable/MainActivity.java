@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AlarmActivity.class);
         Log.i(TAG, "Starting AlarmActivity");
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     //Go to LogsActivity
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LogsActivity.class);
         Log.i(TAG, "Starting LogsActivity");
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

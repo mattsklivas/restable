@@ -1,8 +1,10 @@
 package com.example.restable;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +51,11 @@ public class RecActivity  extends BlunoLibrary {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
         Log.d(TAG, "onCreate called");
+
+        //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        //PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "app:wakeLockTag");
+
+        //wl.acquire();
 
         //onCreateProcess from BlunoLibrary
         onCreateProcess();
@@ -132,6 +139,7 @@ public class RecActivity  extends BlunoLibrary {
                 }
                 Log.i(TAG, "starting ResultsActivity");
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }
@@ -163,6 +171,7 @@ public class RecActivity  extends BlunoLibrary {
     protected void onDestroy() {
         super.onDestroy();
         onDestroyProcess();	//onDestroyProcess from BlunoLibrary
+        //wl.release();
     }
 
     //Function which deals with changed connection states
