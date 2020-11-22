@@ -21,8 +21,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.graph.ImmutableValueGraph;
@@ -30,10 +30,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.type.DateTime;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -60,9 +62,9 @@ public class ResultsActivity extends AppCompatActivity {
     private ArrayList<Float> soundData;
     private ArrayList<Float> motionData;
 
-    private LocalDateTime stopTime;
-    private LocalDateTime startTime;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    protected LocalDateTime stopTime;
+    protected LocalDateTime startTime;
+    protected DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a");
 
     protected TextView start_Time;
     protected TextView stop_Time;
@@ -130,22 +132,21 @@ public class ResultsActivity extends AppCompatActivity {
 
             humiditychart = findViewById(R.id.line_chart_humidity);
             humiditychart.setDrawBorders(true);
-            humiditychart.setBorderColor(Color.BLUE);
-            humiditychart.setDragEnabled(true);
-            humiditychart.setScaleEnabled(true);
+            humiditychart.setBorderColor(Color.BLUE);;
             humiditychart.getDescription().setEnabled(false);
             humiditychart.getXAxis().setDrawGridLines(false);
+            humiditychart.setDragEnabled(false);
+            humiditychart.setScaleEnabled(false);
             humiditychart.getAxisRight().setEnabled(false);
             humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
             humiditychart.getLegend().setEnabled(false);
 
-
             tempchart = findViewById(R.id.line_chart_temp);
             tempchart.setDrawBorders(true);
             tempchart.setBorderColor(Color.BLUE);
-            tempchart.setDragEnabled(true);
-            tempchart.setScaleEnabled(true);
             tempchart.getDescription().setEnabled(false);
+            tempchart.setDragEnabled(false);
+            tempchart.setScaleEnabled(false);
             tempchart.getXAxis().setDrawGridLines(false);
             tempchart.getAxisRight().setEnabled(false);
             tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -154,8 +155,8 @@ public class ResultsActivity extends AppCompatActivity {
             soundchart = findViewById(R.id.line_chart_sound);
             soundchart.setDrawBorders(true);
             soundchart.setBorderColor(Color.BLUE);
-            soundchart.setDragEnabled(true);
-            soundchart.setScaleEnabled(true);
+            soundchart.setDragEnabled(false);
+            soundchart.setScaleEnabled(false);
             soundchart.getDescription().setEnabled(false);
             soundchart.getXAxis().setDrawGridLines(false);
             soundchart.getAxisRight().setEnabled(false);
@@ -165,8 +166,8 @@ public class ResultsActivity extends AppCompatActivity {
             motionchart = findViewById(R.id.line_chart_motion);
             motionchart.setDrawBorders(true);
             motionchart.setBorderColor(Color.BLUE);
-            motionchart.setDragEnabled(true);
-            motionchart.setScaleEnabled(true);
+            motionchart.setDragEnabled(false);
+            motionchart.setScaleEnabled(false);
             motionchart.getDescription().setEnabled(false);
             motionchart.getXAxis().setDrawGridLines(false);
             motionchart.getAxisRight().setEnabled(false);
@@ -180,8 +181,11 @@ public class ResultsActivity extends AppCompatActivity {
 
             duration = Duration.between(startTime, stopTime);
 
-            start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
-            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+            System.out.print("TimeArrayList:"+PeriodicDateTimeProducer(startTime,stopTime,humidityData.size()));
+            
+
+            start_Time.setText(String.format("Start Time %s", startTime.format(DATE_TIME_FORMATTER)));
+            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DATE_TIME_FORMATTER)));
             average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
             average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
@@ -237,15 +241,10 @@ public class ResultsActivity extends AppCompatActivity {
     protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
         ArrayList<Entry> dataVals = new ArrayList<>();
 
-        String formattedStartDateTime = startTime.format(formatter); //"yyyy-MM-dd HH:mm:ss"
-        String formattedStopDateTime = stopTime.format(formatter); //"yyyy-MM-dd HH:mm:ss"
-
-        //dataVals.add(new Entry(0, formattedStartDateTime));
         for (int x = 1; x < data.size()-1; x++)
         {
                 dataVals.add(new Entry(x, data.get(x)));
         }
-        //dataVals.add(new Entry(dataVals.size()-1, formattedStopDateTime));
 
 
 
@@ -261,6 +260,7 @@ public class ResultsActivity extends AppCompatActivity {
         XAxis xAxis = chart.getXAxis();
         xAxis.setLabelCount(3,true);
         xAxis.setValueFormatter(new MyXAxisValueformatter());
+        //xAxis.setValueFormatter(new MyXAxisValueformatter(formattedStartDateTime));  // start,end,initial,final value
 
         LineData linedata = new LineData(dataSets);
 
@@ -290,11 +290,33 @@ public class ResultsActivity extends AppCompatActivity {
         toast.show();
     }
 
-   private class MyXAxisValueformatter extends ValueFormatter {
+    private ArrayList<String> PeriodicDateTimeProducer(LocalDateTime start, LocalDateTime end, int num_cuts) {
+        ArrayList<String> results = new ArrayList<String>(num_cuts);
+        long duration = Duration.between(start, end).getSeconds();
+        long delta = duration/(num_cuts-1);
+
+        for (int x = 0; x < num_cuts; x++)
+        {
+           // System.out.println("IM HERE FUCKER" + start.plusSeconds(x*delta).format(DATE_TIME_FORMATTER));
+
+            results.add(start.plusSeconds(x*delta).format(DATE_TIME_FORMATTER));
+        }
+
+        return results;
+
+    }
+
+   private class MyXAxisValueformatter implements IAxisValueFormatter {
+
+//        private String string;
+//
+//        MyXAxisValueformatter(String string){
+//            super();
+//        }
 
         @Override
-        public String getFormattedValue( float value){
-            return "";
+       public String getFormattedValue(float value, AxisBase axis){
+            return "Day " + value;
         }
     }
 
