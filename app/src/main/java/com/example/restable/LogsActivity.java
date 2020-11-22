@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +55,11 @@ public class LogsActivity extends AppCompatActivity {
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
         animDrawable.start();
+
+        // Add custom toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_log);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Text saying no sleep sessions saved
         noSessions = findViewById(R.id.noSessionsTextView);
