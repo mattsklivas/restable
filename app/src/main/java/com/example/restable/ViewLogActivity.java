@@ -2,7 +2,9 @@ package com.example.restable;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -57,6 +59,9 @@ public class ViewLogActivity extends AppCompatActivity {
 
     private Duration duration;
 
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +69,12 @@ public class ViewLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_log);
         Log.d(TAG, "onCreate called");
 
-        /* Insert app bar and enable back button to MainActivity */
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
+        // Add animated background gradient
+        rootLayout = (ConstraintLayout) findViewById(R.id.view_log_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
 
         start_Time = findViewById(R.id.start_time_log);
         stop_Time = findViewById(R.id.stop_time_log);

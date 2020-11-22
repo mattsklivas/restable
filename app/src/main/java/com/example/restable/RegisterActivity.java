@@ -2,8 +2,10 @@ package com.example.restable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -34,12 +36,21 @@ public class RegisterActivity extends AppCompatActivity {
     protected EditText passwordConfirmEditText;
     protected EditText emailEditText;
     protected ProgressBar progressBar;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.d(TAG, "onCreate called");
+
+        // Add animated background gradient
+        rootLayout = (ConstraintLayout) findViewById(R.id.register_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();

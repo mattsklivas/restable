@@ -2,11 +2,13 @@ package com.example.restable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,11 +80,22 @@ public class ResultsActivity extends AppCompatActivity {
 
     private Duration duration;
 
+    //protected ConstraintLayout rootLayout;
+    //protected AnimationDrawable animDrawable;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
         Log.d(TAG, "onCreate called");
+
+        // Add animated background gradient
+//        rootLayout = (ConsrtaintLayout) findViewById(R.id.results_layout);
+//        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+//        animDrawable.setEnterFadeDuration(10);
+//        animDrawable.setExitFadeDuration(5000);
+//        animDrawable.start();
 
         done_button = findViewById(R.id.done_button);
         save_button = findViewById(R.id.save_button);

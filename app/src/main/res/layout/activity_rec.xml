@@ -2,14 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_animation"
+    android:id="@+id/rec_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textStatus"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="322dp"
+        android:layout_marginTop="300dp"
         android:layout_marginBottom="42dp"
         android:text="Please connect to device"
         android:textAlignment="center"
@@ -21,6 +25,9 @@
 
     <Button
         android:id="@+id/buttonStop"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginBottom="195dp"
@@ -49,6 +56,8 @@
 
         <TextView
             android:id="@+id/serialReceivedText"
+            android:fontFamily="@font/surt_light"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textStatus"
@@ -61,6 +70,9 @@
 
     <Button
         android:id="@+id/buttonScan"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"

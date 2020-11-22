@@ -2,8 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_animation"
+    android:id="@+id/alarm_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="30dp"
+    android:paddingBottom="45dp">
 
     <ListView
         android:id="@+id/alarmListView"
@@ -17,6 +21,8 @@
 
     <TextView
         android:id="@+id/textView"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -29,8 +35,11 @@
 
     <TextView
         android:id="@+id/textView2"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="13dp"
         android:text="@string/tap_a_time_to_set_an_alarm"
         android:textAlignment="center"
@@ -43,7 +52,10 @@
 
     <Button
         android:id="@+id/buttonCustomAlarm"
-        android:layout_width="177dp"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
+        android:layout_width="200dp"
         android:layout_height="53dp"
         android:layout_marginBottom="7dp"
         android:text="@string/custom_alarm"
@@ -53,7 +65,10 @@
 
     <Button
         android:id="@+id/buttonRec"
-        android:layout_width="177dp"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
+        android:layout_width="200dp"
         android:layout_height="58dp"
         android:layout_marginBottom="20dp"
         android:text="@string/start_without_alarm"

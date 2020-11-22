@@ -2,12 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_animation"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textAppTitle"
+        android:fontFamily="@font/surt_bold"
+        android:textColor="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="252dp"
@@ -15,7 +20,6 @@
         android:text="Restable"
         android:textAlignment="center"
         android:textSize="36sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textSlogan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -24,6 +28,8 @@
 
     <TextView
         android:id="@+id/textSlogan"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
@@ -37,7 +43,10 @@
 
     <Button
         android:id="@+id/buttonSleep"
-        android:layout_width="150dp"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
+        android:layout_width="180dp"
         android:layout_height="60dp"
         android:layout_marginBottom="15dp"
         android:text="Go to sleep"
@@ -48,7 +57,10 @@
 
     <Button
         android:id="@+id/buttonLogs"
-        android:layout_width="150dp"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
+        android:layout_width="180dp"
         android:layout_height="60dp"
         android:layout_marginBottom="160dp"
         android:text="View sleep logs"
@@ -56,5 +68,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSleep" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/transparent"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent" >
+        </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

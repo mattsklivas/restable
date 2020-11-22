@@ -3,6 +3,7 @@ package com.example.restable;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -44,6 +46,8 @@ public class RecActivity  extends BlunoLibrary {
     private Boolean connected = false;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,13 @@ public class RecActivity  extends BlunoLibrary {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
         Log.d(TAG, "onCreate called");
+
+        // Add animated background gradient
+        rootLayout = (ConstraintLayout) findViewById(R.id.rec_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
 
         //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "app:wakeLockTag");
