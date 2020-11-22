@@ -2,6 +2,7 @@ package com.example.restable;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +19,13 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.graph.ImmutableValueGraph;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +37,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class ResultsActivity extends AppCompatActivity {
@@ -126,36 +129,49 @@ public class ResultsActivity extends AppCompatActivity {
             System.out.println("motionData:" + motionData);
 
             humiditychart = findViewById(R.id.line_chart_humidity);
+            humiditychart.setDrawBorders(true);
+            humiditychart.setBorderColor(Color.BLUE);
             humiditychart.setDragEnabled(true);
             humiditychart.setScaleEnabled(true);
             humiditychart.getDescription().setEnabled(false);
             humiditychart.getXAxis().setDrawGridLines(false);
             humiditychart.getAxisRight().setEnabled(false);
             humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            humiditychart.getLegend().setEnabled(false);
+
 
             tempchart = findViewById(R.id.line_chart_temp);
+            tempchart.setDrawBorders(true);
+            tempchart.setBorderColor(Color.BLUE);
             tempchart.setDragEnabled(true);
             tempchart.setScaleEnabled(true);
             tempchart.getDescription().setEnabled(false);
             tempchart.getXAxis().setDrawGridLines(false);
             tempchart.getAxisRight().setEnabled(false);
             tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            tempchart.getLegend().setEnabled(false);
 
             soundchart = findViewById(R.id.line_chart_sound);
+            soundchart.setDrawBorders(true);
+            soundchart.setBorderColor(Color.BLUE);
             soundchart.setDragEnabled(true);
             soundchart.setScaleEnabled(true);
             soundchart.getDescription().setEnabled(false);
             soundchart.getXAxis().setDrawGridLines(false);
             soundchart.getAxisRight().setEnabled(false);
             soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            soundchart.getLegend().setEnabled(false);
 
             motionchart = findViewById(R.id.line_chart_motion);
+            motionchart.setDrawBorders(true);
+            motionchart.setBorderColor(Color.BLUE);
             motionchart.setDragEnabled(true);
             motionchart.setScaleEnabled(true);
             motionchart.getDescription().setEnabled(false);
             motionchart.getXAxis().setDrawGridLines(false);
             motionchart.getAxisRight().setEnabled(false);
             motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            motionchart.getLegend().setEnabled(false);
 
             setData(tempData,tempchart,temperature,startTime,stopTime);
             setData(humidityData,humiditychart,humidity,startTime,stopTime);
@@ -219,52 +235,34 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
-        ArrayList<Entry> yValues = new ArrayList<>();
-        final HashMap<Integer, String> labels = new HashMap<>();
-        String formattedStartDateTime = startTime.format(formatter);
-        String formattedStopDateTime = stopTime.format(formatter);
-        for (int x = 0; x < data.size(); x++)
+        ArrayList<Entry> dataVals = new ArrayList<>();
+
+        String formattedStartDateTime = startTime.format(formatter); //"yyyy-MM-dd HH:mm:ss"
+        String formattedStopDateTime = stopTime.format(formatter); //"yyyy-MM-dd HH:mm:ss"
+
+        //dataVals.add(new Entry(0, formattedStartDateTime));
+        for (int x = 1; x < data.size()-1; x++)
         {
-            if(x == 0)
-            {
-                labels.put(x,formattedStartDateTime);
-                yValues.add(new Entry(x, data.get(x)));
-            }
-
-            else if(x == data.size()-1)
-            {
-                labels.put(x,formattedStopDateTime);
-                yValues.add(new Entry(x, data.get(x)));
-            }
-            else
-                labels.put(x,Integer.toString(x));
-            yValues.add(new Entry(x, data.get(x)));
+                dataVals.add(new Entry(x, data.get(x)));
         }
+        //dataVals.add(new Entry(dataVals.size()-1, formattedStopDateTime));
 
-        LineDataSet set = new LineDataSet(yValues, name + " Data Set");
-        set.setDrawValues(false);
 
-        set.setFillAlpha(110);
+
+        LineDataSet lineDataSet = new LineDataSet(dataVals, name + " Data Set");
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setLineWidth(2);
+        lineDataSet.setColor(Color.GRAY);
+        lineDataSet.setDrawCircles(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set);
-
-        LineData linedata = new LineData(dataSets);
+        dataSets.add(lineDataSet);
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new DefaultAxisValueFormatter(2){
+        xAxis.setLabelCount(3,true);
+        xAxis.setValueFormatter(new MyXAxisValueformatter());
 
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-
-                return labels.get((int)value);
-            }
-
-            @Override
-            public int getDecimalDigits() {
-                return 0;
-            }
-        });
+        LineData linedata = new LineData(dataSets);
 
         chart.setData(linedata);
         chart.invalidate();
@@ -291,4 +289,13 @@ public class ResultsActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+
+   private class MyXAxisValueformatter extends ValueFormatter {
+
+        @Override
+        public String getFormattedValue( float value){
+            return "";
+        }
+    }
+
 }
