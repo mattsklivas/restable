@@ -80,7 +80,7 @@
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/hoursTextViewLogs"
         android:gravity="end"
-        android:text="@string/of_sleep"
+        android:text="@string/hours_of_sleep"
         android:textSize="18sp" />
 
 
