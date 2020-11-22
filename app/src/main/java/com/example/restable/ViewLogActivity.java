@@ -1,14 +1,21 @@
 package com.example.restable;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,6 +23,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -59,8 +67,8 @@ public class ViewLogActivity extends AppCompatActivity {
 
     private Duration duration;
 
-    //protected ConstraintLayout rootLayout;
-    //protected AnimationDrawable animDrawable;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
 
     @Override
@@ -70,11 +78,16 @@ public class ViewLogActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-        //rootLayout = (ConstraintLayout) findViewById(R.id.view_log_layout);
-        //animDrawable = (AnimationDrawable) rootLayout.getBackground();
-        //animDrawable.setEnterFadeDuration(10);
-        //animDrawable.setExitFadeDuration(5000);
-        //animDrawable.start();
+        rootLayout = (ConstraintLayout) findViewById(R.id.view_log_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
+
+        // Add custom toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_log);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         start_Time = findViewById(R.id.start_time_log);
         stop_Time = findViewById(R.id.stop_time_log);
@@ -176,5 +189,25 @@ public class ViewLogActivity extends AppCompatActivity {
             return String.format(Locale.getDefault(), "%.2f", average);
         }
         return "0";
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_log_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.delete_log) {
+            Log.i(TAG, "Deleting log");
+            //FirebaseAuth.getInstance().signOut();
+            Toast.makeText(ViewLogActivity.this, "Log deleted", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ViewLogActivity.this, MainActivity.class);
+            Log.i(TAG, "Starting MainActivity");
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
