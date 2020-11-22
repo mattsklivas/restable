@@ -2,6 +2,7 @@ package com.example.restable;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import java.time.LocalDateTime;
@@ -30,16 +32,20 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
     protected ListView listView;
     private List<AlarmTime> alarmTimes;
     private AlarmListViewAdapter adapter;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
-        /* Insert app bar and enable back button to MainActivity */
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
+        rootLayout = (ConstraintLayout) findViewById(R.id.alarm_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
+
 
         //Setup activity views
         recButton = findViewById(R.id.buttonRec);
@@ -72,6 +78,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         Intent intent = new Intent(this, RecActivity.class);
         Log.i(TAG, "Starting RecActivity");
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     // Display ListView of suggested sleep times

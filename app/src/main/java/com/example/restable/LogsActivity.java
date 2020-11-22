@@ -1,6 +1,7 @@
 package com.example.restable;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,6 +39,8 @@ public class LogsActivity extends AppCompatActivity {
     protected LogsListViewAdapter adapter;
     protected ProgressBar progressBar;
     protected TextView noSessions;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,13 +48,15 @@ public class LogsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_logs);
         Log.d(TAG, "onCreate called");
 
+        // Add animated background gradient
+        rootLayout = (ConstraintLayout) findViewById(R.id.logs_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
+
         // Text saying no sleep sessions saved
         noSessions = findViewById(R.id.noSessionsTextView);
-
-        /* Insert app bar and enable back button to MainActivity */
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
 
         // Progress bar
         progressBar = findViewById(R.id.progressBarLogs);

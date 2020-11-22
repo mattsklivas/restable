@@ -3,11 +3,13 @@ package com.example.restable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     //Instance variables
     protected Button alarmButton;
     protected Button logsButton;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate called");
 
+        // Add custom toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Add animated background gradient
+        rootLayout = (ConstraintLayout) findViewById(R.id.main_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
+
         //Setup activity views
         alarmButton = findViewById(R.id.buttonSleep);
         logsButton = findViewById(R.id.buttonLogs);
-
-        // Show actionBar
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
 
         //Go to AlarmActivity
         alarmButton.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AlarmActivity.class);
         Log.i(TAG, "Starting AlarmActivity");
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     //Go to LogsActivity
@@ -82,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LogsActivity.class);
         Log.i(TAG, "Starting LogsActivity");
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

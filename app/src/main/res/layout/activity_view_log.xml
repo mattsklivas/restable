@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_animation"
+    android:id="@+id/view_log_layout"
     tools:context=".ViewLogActivity">
 
     <RelativeLayout
@@ -13,7 +15,6 @@
             android:id="@+id/x_axis_title_humidity_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/line_chart_humidity_log"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="14dp"
@@ -25,7 +26,6 @@
             android:id="@+id/y_axis_title_humidity_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="21dp"
@@ -39,7 +39,6 @@
             android:id="@+id/x_axis_title_temp_chart_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/line_chart_motion_log"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"

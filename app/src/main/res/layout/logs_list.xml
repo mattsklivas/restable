@@ -8,6 +8,8 @@
 
     <TextView
         android:id="@+id/startDateTextViewLogs"
+        android:fontFamily="@font/surt_bold"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -15,11 +17,12 @@
         android:layout_marginStart="8dp"
         android:paddingTop="2dp"
         android:text="@string/month_day"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/hoursTextViewLogs"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/startDateTextViewLogs"
@@ -30,6 +33,8 @@
 
     <TextView
         android:id="@+id/endTimeTextViewLogs"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/startDateTextViewLogs"
@@ -42,17 +47,20 @@
 
     <TextView
         android:id="@+id/textView3"
+        android:fontFamily="@font/surt_bold"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/endTimeTextViewLogs"
         android:layout_marginEnd="5dp"
         android:layout_toStartOf="@id/endTimeTextViewLogs"
         android:text="@string/to"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/startTimeTextViewLogs"
+        android:fontFamily="@font/surt_bold"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/endTimeTextViewLogs"
@@ -60,11 +68,12 @@
         android:layout_toStartOf="@id/textView3"
         android:text="@string/start"
         android:textSize="14sp"
-        android:textStyle="bold"
         tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/hoursOfSleepTextViewLogs"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/hoursTextViewLogs"
