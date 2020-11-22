@@ -40,7 +40,7 @@ public class AlarmActivity  extends AppCompatActivity implements TimePickerDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
-        rootLayout = (ConstraintLayout) findViewById(R.id.alarm_layout);
+        rootLayout = findViewById(R.id.alarm_layout);
         animDrawable = (AnimationDrawable) rootLayout.getBackground();
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
