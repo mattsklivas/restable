@@ -23,7 +23,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -55,6 +58,7 @@ public class ViewLogActivity extends AppCompatActivity {
     private ArrayList<Float> tempData;
     private ArrayList<Float> soundData;
     private ArrayList<Float> motionData;
+    private String key;
 
     private LocalDateTime stopTime;
     private LocalDateTime startTime;
@@ -78,14 +82,14 @@ public class ViewLogActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-        rootLayout = (ConstraintLayout) findViewById(R.id.view_log_layout);
+        rootLayout = findViewById(R.id.view_log_layout);
         animDrawable = (AnimationDrawable) rootLayout.getBackground();
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
         animDrawable.start();
 
         // Add custom toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_log);
+        Toolbar toolbar = findViewById(R.id.toolbar_view_log);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,6 +101,7 @@ public class ViewLogActivity extends AppCompatActivity {
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
         assert sleepData != null;
+        key = getIntent().getStringExtra("key");
         humidityData = sleepData.getHumidityData();
         tempData = sleepData.getTempData();
         soundData = sleepData.getSoundData();
@@ -201,11 +206,36 @@ public class ViewLogActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_log) {
             Log.i(TAG, "Deleting log");
-            //FirebaseAuth.getInstance().signOut();
-            Toast.makeText(ViewLogActivity.this, "Log deleted", Toast.LENGTH_LONG).show();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            assert user != null;
+            String owner = user.getUid();
+            DatabaseReference dbRefPush = databaseReference.child(owner).child(key);
+            dbRefPush.removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Write was successful!
+                            Log.i(TAG, "Log successfully deleted from Firebase for key " + key);
+                            //Store the ArrayLists in the Intent
+                            Intent intent = new Intent(ViewLogActivity.this, MainActivity.class);
+                            Log.i(TAG, "Starting MainActivity");
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Write failed
+                            Log.e(TAG, "Delete of key " + key + " from Firebase failed");
+                            Toast.makeText(ViewLogActivity.this, "Database delete failed", Toast.LENGTH_LONG).show();
+                        }
+                    });
             Intent intent = new Intent(ViewLogActivity.this, MainActivity.class);
             Log.i(TAG, "Starting MainActivity");
             startActivity(intent);
+            Toast.makeText(ViewLogActivity.this, "Log deleted", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

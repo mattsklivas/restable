@@ -36,6 +36,7 @@ public class LogsActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private ArrayList<SleepData> sleepSessions;
+    private ArrayList<String> sleepLogKeys;
     protected ListView listView;
     protected LogsListViewAdapter adapter;
     protected ProgressBar progressBar;
@@ -50,14 +51,14 @@ public class LogsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-        rootLayout = (ConstraintLayout) findViewById(R.id.logs_layout);
+        rootLayout = findViewById(R.id.logs_layout);
         animDrawable = (AnimationDrawable) rootLayout.getBackground();
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
         animDrawable.start();
 
         // Add custom toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_log);
+        Toolbar toolbar = findViewById(R.id.toolbar_log);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -69,6 +70,7 @@ public class LogsActivity extends AppCompatActivity {
 
         // Get sleep sessions from db to be displayed in list view
         sleepSessions = new ArrayList<>();
+        sleepLogKeys = new ArrayList<>();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
         userID = currentUser.getUid();
@@ -78,6 +80,7 @@ public class LogsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {
                     sleepSessions.add(d.getValue(SleepData.class));
+                    sleepLogKeys.add(d.getKey());
                     Log.i(TAG, "Loaded " + d.getKey() + " from database");
                 }
                 if (sleepSessions.size() == 0)
@@ -114,8 +117,10 @@ public class LogsActivity extends AppCompatActivity {
 
                 // Get time information
                 SleepData sleepData = sleepSessions.get(position);
+                String key = sleepLogKeys.get(position);
                 Intent intent = new Intent(LogsActivity.this, ViewLogActivity.class);
                 intent.putExtra("sleepData", sleepData);
+                intent.putExtra("key", key);
                 Log.i(TAG, "Starting ViewLogActivity");
                 startActivity(intent);
             }
