@@ -59,8 +59,8 @@ public class ViewLogActivity extends AppCompatActivity {
 
     private Duration duration;
 
-    protected ConstraintLayout rootLayout;
-    protected AnimationDrawable animDrawable;
+    //protected ConstraintLayout rootLayout;
+    //protected AnimationDrawable animDrawable;
 
 
     @Override
@@ -70,11 +70,11 @@ public class ViewLogActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-        rootLayout = (ConstraintLayout) findViewById(R.id.view_log_layout);
-        animDrawable = (AnimationDrawable) rootLayout.getBackground();
-        animDrawable.setEnterFadeDuration(10);
-        animDrawable.setExitFadeDuration(5000);
-        animDrawable.start();
+        //rootLayout = (ConstraintLayout) findViewById(R.id.view_log_layout);
+        //animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        //animDrawable.setEnterFadeDuration(10);
+        //animDrawable.setExitFadeDuration(5000);
+        //animDrawable.start();
 
         start_Time = findViewById(R.id.start_time_log);
         stop_Time = findViewById(R.id.stop_time_log);
