@@ -104,6 +104,31 @@ public class RecActivity  extends BlunoLibrary {
                     SleepData parsedData = new SleepData(receivedData, startTime, endTime);
                     intent.putExtra("sleepData", parsedData);
                 }
+                else {
+                    Log.d(TAG, "dummy data being stored");
+                    //Dummy sensor data from hardware
+                    double[] humidity = {53.5, 53.6, 53.6, 53.5, 53.6, 53.6, 53.5, 53.6, 53.5, 53.6, 53.5, 53.5, 53.5, 53.6, 53.6, 53.5, 53.5, 53.5, 53.5, 53.5, 53.6, 53.5, 53.6, 53.7, 53.6, 53.6, 53.7};
+                    double[] temp = {23.6, 23.7, 23.7, 23.6, 23.7, 23.7, 23.6, 23.7, 23.6, 23.7, 23.6, 23.6, 23.6, 23.7, 23.7, 23.6, 23.6, 23.6, 23.6, 23.6, 23.7, 23.6, 23.7, 23.7, 23.6, 23.6, 23.7};
+                    double[] sound = {0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+                    double[] motion = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0};
+
+                    //Initialize ArrayLists
+                    ArrayList<Float> humidityData = new ArrayList<>();
+                    ArrayList<Float> tempData = new ArrayList<>();
+                    ArrayList<Float> soundData = new ArrayList<>();
+                    ArrayList<Float> motionData = new ArrayList<>();
+
+                    //Store dummy sensor data in their respective ArrayLists
+                    for (int i = 0; i < humidity.length; i++){
+                        humidityData.add((float) humidity[i]);
+                        tempData.add((float) temp[i]);
+                        soundData.add((float) sound[i]);
+                        motionData.add((float) motion[i]);
+                    }
+
+                    SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData, startTime, endTime);
+                    intent.putExtra("sleepData", parsedData);
+                }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 Log.i(TAG, "starting ResultsActivity");
                 startActivity(intent);

@@ -62,9 +62,14 @@ public class ResultsActivity extends AppCompatActivity {
     private ArrayList<Float> soundData;
     private ArrayList<Float> motionData;
 
+    private ArrayList<String > timearrayhumidity;
+    private ArrayList<String > timearraytemperature;
+    private ArrayList<String > timearraysound;
+    private ArrayList<String > timearraymotion;
+
     protected LocalDateTime stopTime;
     protected LocalDateTime startTime;
-    protected DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a");
+    protected DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm:ss a");
 
     protected TextView start_Time;
     protected TextView stop_Time;
@@ -174,15 +179,17 @@ public class ResultsActivity extends AppCompatActivity {
             motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
             motionchart.getLegend().setEnabled(false);
 
-            setData(tempData,tempchart,temperature,startTime,stopTime);
-            setData(humidityData,humiditychart,humidity,startTime,stopTime);
-            setData(soundData,soundchart,sound,startTime,stopTime);
-            setData(motionData,motionchart,motion,startTime,stopTime);
+            timearrayhumidity = PeriodicDateTimeProducer(startTime,stopTime,humidityData.size());
+            timearraytemperature = PeriodicDateTimeProducer(startTime,stopTime,tempData.size());
+            timearraysound = PeriodicDateTimeProducer(startTime,stopTime,soundData.size());
+            timearraymotion = PeriodicDateTimeProducer(startTime,stopTime,motionData.size());
+
+            setData(humidityData,humiditychart,humidity,timearrayhumidity);
+            setData(tempData,tempchart,temperature,timearraytemperature);
+            setData(soundData,soundchart,sound,timearraysound);
+            setData(motionData,motionchart,motion,timearraymotion);
 
             duration = Duration.between(startTime, stopTime);
-
-            System.out.print("TimeArrayList:"+PeriodicDateTimeProducer(startTime,stopTime,humidityData.size()));
-            
 
             start_Time.setText(String.format("Start Time %s", startTime.format(DATE_TIME_FORMATTER)));
             stop_Time.setText(String.format("Stop Time %s", stopTime.format(DATE_TIME_FORMATTER)));
@@ -238,7 +245,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     }
 
-    protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
+    protected void setData(ArrayList<Float> data, LineChart chart, String name,ArrayList<String> TimeArray){
         ArrayList<Entry> dataVals = new ArrayList<>();
 
         for (int x = 1; x < data.size()-1; x++)
@@ -258,8 +265,9 @@ public class ResultsActivity extends AppCompatActivity {
         dataSets.add(lineDataSet);
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setLabelCount(3,true);
-        xAxis.setValueFormatter(new MyXAxisValueformatter());
+        xAxis.setLabelCount(5,true);
+        xAxis.setTextSize(5);
+        xAxis.setValueFormatter(new MyXAxisValueformatter(TimeArray));
         //xAxis.setValueFormatter(new MyXAxisValueformatter(formattedStartDateTime));  // start,end,initial,final value
 
         LineData linedata = new LineData(dataSets);
@@ -297,7 +305,6 @@ public class ResultsActivity extends AppCompatActivity {
 
         for (int x = 0; x < num_cuts; x++)
         {
-           // System.out.println("IM HERE FUCKER" + start.plusSeconds(x*delta).format(DATE_TIME_FORMATTER));
 
             results.add(start.plusSeconds(x*delta).format(DATE_TIME_FORMATTER));
         }
@@ -308,16 +315,17 @@ public class ResultsActivity extends AppCompatActivity {
 
    private class MyXAxisValueformatter implements IAxisValueFormatter {
 
-//        private String string;
-//
-//        MyXAxisValueformatter(String string){
-//            super();
-//        }
+        private ArrayList<String> timearray;
 
-        @Override
+        MyXAxisValueformatter(ArrayList<String> timearray){
+            super();
+            this.timearray = timearray;
+        }
+
+
+       @Override
        public String getFormattedValue(float value, AxisBase axis){
-            return "Day " + value;
+            return timearray.get((int)value);
         }
     }
-
 }
