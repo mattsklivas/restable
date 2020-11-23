@@ -3,12 +3,24 @@ package com.example.restable;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +30,12 @@ import android.content.Intent;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.PopupWindowCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,13 +63,35 @@ public class RecActivity  extends BlunoLibrary {
     private LocalDateTime endTime;
     protected ConstraintLayout rootLayout;
     protected AnimationDrawable animDrawable;
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
+
+        // Make activity fullscreen and set the content view
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_rec);
         Log.d(TAG, "onCreate called");
+
+        // Hide system UI when visibility change is detected
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener
+                (new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                            fullScreenImmersive();
+                        }
+                    }
+                });
+
+        // Add custom toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Add animated background gradient
         rootLayout = (ConstraintLayout) findViewById(R.id.rec_layout);
@@ -62,11 +99,6 @@ public class RecActivity  extends BlunoLibrary {
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
         animDrawable.start();
-
-        //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        //PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "app:wakeLockTag");
-
-        //wl.acquire();
 
         //onCreateProcess from BlunoLibrary
         onCreateProcess();
@@ -182,7 +214,6 @@ public class RecActivity  extends BlunoLibrary {
     protected void onDestroy() {
         super.onDestroy();
         onDestroyProcess();	//onDestroyProcess from BlunoLibrary
-        //wl.release();
     }
 
     //Function which deals with changed connection states
@@ -223,6 +254,97 @@ public class RecActivity  extends BlunoLibrary {
 
         //Store the received data in receivedData for ResultsActivity
         receivedData.append(theString);
+    }
+
+    //Create the options menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_rec, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //Turn off the screen display while recording sleep activity data when clicked
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Make RecActivity background black
+        View view = findViewById(R.id.rec_layout);
+        view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.black_bg, null));
+
+        //Setup the PopupWindow
+        LinearLayout popupView = (LinearLayout) LayoutInflater.from(getApplicationContext())
+                .inflate(R.layout.rec_screen_overlay, null);
+        popupView.setGravity(Gravity.CENTER);
+        popupView.setBackgroundColor(Color.BLACK);
+        int windowWidth = ViewGroup.LayoutParams.MATCH_PARENT;;
+        int windowHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+        mPopupWindow = new PopupWindow(popupView, windowWidth, windowHeight);
+        mPopupWindow.setFocusable(false);
+
+        //Display the PopupWindow
+        showPopup(findViewById(R.id.rec_layout));
+
+        //Handler for clicking the PopupWindow
+        //Close PopupWindow and restore background gradient
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mPopupWindow.dismiss();
+                //Reset RecActivity gradient background
+                View view = findViewById(R.id.rec_layout);
+                view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.gradient_animation, null));
+                return true;
+            }
+        });
+
+        //Display toast message notifying the user that the screen has been turned off
+        Toast.makeText(RecActivity.this, "Screen turned off. Tap again to view app.", Toast.LENGTH_LONG).show();
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Enable fullscreen immersive mode if window focus has changed
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            fullScreenImmersive();
+        }
+    }
+
+    //Display the PopupWindow
+    public void showPopup(View anchor) {
+        mPopupWindow.setFocusable(false);
+        mPopupWindow.update();
+
+        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor,
+                -mPopupWindow.getWidth() / 2 + anchor.getWidth() / 2,
+                -mPopupWindow.getHeight() - anchor.getHeight(), Gravity.CENTER);
+
+        fullScreenImmersive();
+        mPopupWindow.update();
+    }
+
+    // Method used to hide the system UI using a View object
+    private void fullScreenImmersive(View view) {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    // Method used to hide the system UI
+    private void fullScreenImmersive() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
 }
