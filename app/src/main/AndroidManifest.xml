@@ -18,23 +18,31 @@
         tools:ignore="AllowBackup">
         <activity android:name=".ViewLogActivity"
             android:label="View Sleep Session"
-            android:parentActivityName=".LogsActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ResultsActivity" />
+            android:parentActivityName=".LogsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ResultsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RecActivity"
-            android:label="Recording" />
+            android:label="Recording"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LogsActivity"
             android:label="Saved Sleep Sessions"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AlarmActivity"
             android:label="Set an Alarm"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
