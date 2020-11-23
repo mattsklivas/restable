@@ -32,6 +32,7 @@
     <string name="stop_time">Wake up time:</string>
     <string name="time_slept">Time Slept:</string>
     <string name="noteButton">Save Notes</string>
+    <string name="editNoteText">Add sleep comments</string>
 
 
     <string name="suggested_wake_up_times">Suggested Wake-Up Times</string>
