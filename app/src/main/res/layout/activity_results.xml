@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient_animation"
     android:id="@+id/results_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient_animation"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -119,7 +119,9 @@
             android:layout_below="@+id/time_slept"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="2dp"></com.github.mikephil.charting.charts.LineChart>
+            android:layout_marginEnd="2dp">
+
+        </com.github.mikephil.charting.charts.LineChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart_temp"
@@ -128,7 +130,7 @@
             android:layout_below="@+id/x_axis_title_sound_chart"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="7dp"></com.github.mikephil.charting.charts.LineChart>
+            android:layout_marginEnd="7dp" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart_sound"
@@ -150,8 +152,6 @@
 
         <TextView
             android:id="@+id/average_temp"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
             android:layout_width="195dp"
             android:layout_height="65dp"
             android:layout_below="@+id/average_humidity"
@@ -160,13 +160,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="206dp"
+            android:fontFamily="@font/surt_light"
             android:text="@string/average_temp"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/average_humidity"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
             android:layout_width="194dp"
             android:layout_height="56dp"
             android:layout_below="@+id/x_axis_title_motion_chart"
@@ -175,13 +175,13 @@
             android:layout_marginStart="9dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="208dp"
+            android:fontFamily="@font/surt_light"
             android:text="@string/average_humidity"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/start_time"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="41dp"
             android:layout_below="@+id/average_temp"
@@ -190,13 +190,13 @@
             android:layout_marginStart="11dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="210dp"
+            android:fontFamily="@font/surt_light"
             android:text="@string/start_time"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/stop_time"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
             android:layout_width="213dp"
             android:layout_height="35dp"
             android:layout_below="@+id/start_time"
@@ -205,48 +205,126 @@
             android:layout_marginStart="7dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="191dp"
+            android:fontFamily="@font/surt_light"
             android:text="@string/stop_time"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/time_slept"
             android:layout_width="371dp"
             android:layout_height="56dp"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="-8dp"
-            android:text="@string/time_slept" />
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="-12dp"
+            android:layout_marginEnd="-25dp"
+            android:fontFamily="@font/surt_light"
+            android:text="@string/time_slept"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/save_button"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
-            android:background="@drawable/custom_button"
             android:layout_width="160dp"
             android:layout_height="80dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="232dp"
             android:layout_marginTop="1034dp"
-            android:text="@string/save_button" />
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/surt_light"
+            android:text="@string/save_button"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/done_button"
             android:layout_width="162dp"
             android:layout_height="69dp"
-            android:fontFamily="@font/surt_light"
-            android:textColor="@color/white"
-            android:background="@drawable/custom_button"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="940dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/done_button" />
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/surt_light"
+            android:text="@string/done_button"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/scoreSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scoreTemp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="247dp"
+            android:text="@string/score_sound"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/scoreTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stop_time"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="258dp"
+            android:textColor="@color/white"
+            android:text="@string/total_score" />
+
+        <TextView
+            android:id="@+id/scoreHum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scoreTotal"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="230dp"
+            android:text="@string/score_humidity"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/scoreTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scoreHum"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="259dp"
+            android:text="@string/score_temp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="238dp"
+            android:layout_height="41dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="1811dp"
+            android:layout_marginEnd="101dp" />
+
+        <TextView
+            android:id="@+id/scoreMot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scoreSound"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="51dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="246dp"
+            android:text="@string/score_motion"
+            android:textColor="@color/white" />
 
 
     </RelativeLayout>
