@@ -18,7 +18,7 @@
     <string name="save_button">Save</string>
     <string name="done_button">Done</string>
     <string name="x_axis_title_humidity_chart">Time</string>
-    <string name="y_axis_title_humidity_chart">RH %</string>
+    <string name="y_axis_title_humidity_chart">RH%</string>
     <string name="x_axis_title_temp_chart">Time</string>
     <string name="y_axis_title_temp_chart">°C</string>
     <string name="x_axis_title_sound_chart">Time</string>
@@ -50,6 +50,8 @@
     <string name="disconnect">Disconnect</string>
     <string name="restable_now_recording">Restable now recording…</string>
     <string name="connect">Connect</string>
+    <string name="text_text_nothing_here">No sleep activity data recorded. Nothing to display here...</string>
+    <string name="button_text_nothing_here">Return</string>
     <string name="forgot_your_password"><u>Forgot Your Password?</u></string>
     <string name="login">Login</string>
     <string name="password">Password</string>
