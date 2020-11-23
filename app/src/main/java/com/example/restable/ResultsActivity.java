@@ -3,6 +3,7 @@ package com.example.restable;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,28 +29,32 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.graph.ImmutableValueGraph;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.type.DateTime;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultsActivity";
-    
+
     private LineChart humiditychart;
     private LineChart tempchart;
     private LineChart soundchart;
@@ -67,9 +72,14 @@ public class ResultsActivity extends AppCompatActivity {
     private ArrayList<Float> soundData;
     private ArrayList<Float> motionData;
 
-    private LocalDateTime stopTime;
-    private LocalDateTime startTime;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private ArrayList<String > timearrayhumidity;
+    private ArrayList<String > timearraytemperature;
+    private ArrayList<String > timearraysound;
+    private ArrayList<String > timearraymotion;
+
+    protected LocalDateTime stopTime;
+    protected LocalDateTime startTime;
+    protected DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm:ss a");
 
     protected TextView start_Time;
     protected TextView stop_Time;
@@ -90,6 +100,7 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
@@ -110,30 +121,13 @@ public class ResultsActivity extends AppCompatActivity {
         time_Slept = findViewById(R.id.time_slept);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
-        assert sleepData != null;
-        humidityData = sleepData.getHumidityData();
-        tempData = sleepData.getTempData();
-        soundData = sleepData.getSoundData();
-        motionData = sleepData.getMotionData();
-        startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
-        stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
-
-        System.out.println("Dummy data if user hasn't connected to the hardware:");
-        System.out.println("tempData:" + tempData);
-        System.out.println("humidityData:" + humidityData);
-        System.out.println("soundData:" + soundData);
-        System.out.println("motionData:" + motionData);
-
-        start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
-        stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
-        average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
-        average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
-        time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
-
-        if (humidityData.size() == 0 && motionData.size() == 0 && soundData.size() == 0 && tempData.size() == 0) {
+        if(sleepData == null)
+        {
             setContentView(R.layout.activity_no_result);
+            Log.d(TAG, "onCreate called");
+
+            otherReturnButton = findViewById(R.id.return_button);
 
             otherReturnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,15 +137,144 @@ public class ResultsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        } else {
-            setContentView(R.layout.activity_results);
-            configureGraphs();
-            setData(tempData, tempchart, temperature, startTime, stopTime);
-            setData(humidityData, humiditychart, humidity, startTime, stopTime);
-            setData(soundData, soundchart, sound, startTime, stopTime);
-            setData(motionData, motionchart, motion, startTime, stopTime);
         }
 
+        else{
+
+            humidityData = sleepData.getHumidityData();
+            tempData = sleepData.getTempData();
+            soundData = sleepData.getSoundData();
+            motionData = sleepData.getMotionData();
+            startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
+            stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
+
+            setContentView(R.layout.activity_results);
+            Log.d(TAG, "onCreate called");
+
+            done_button = findViewById(R.id.done_button);
+            save_button = findViewById(R.id.save_button);
+
+            start_Time = findViewById(R.id.start_time);
+            stop_Time = findViewById(R.id.stop_time);
+            average_Temp = findViewById(R.id.average_temp);
+            average_Humid = findViewById(R.id.average_humidity);
+            time_Slept = findViewById(R.id.time_slept);
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
+
+            System.out.println("Dummy data if user hasn't connected to the hardware:");
+            System.out.println("tempData:" + tempData);
+            System.out.println("humidityData:" + humidityData);
+            System.out.println("soundData:" + soundData);
+            System.out.println("motionData:" + motionData);
+
+            humiditychart = findViewById(R.id.line_chart_humidity);
+            humiditychart.setDrawBorders(true);
+            humiditychart.setBorderColor(Color.BLUE);;
+            humiditychart.getDescription().setEnabled(false);
+            humiditychart.getXAxis().setDrawGridLines(false);
+            humiditychart.setDragEnabled(false);
+            humiditychart.setScaleEnabled(false);
+            humiditychart.getAxisRight().setEnabled(false);
+            humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            humiditychart.getLegend().setEnabled(false);
+
+            tempchart = findViewById(R.id.line_chart_temp);
+            tempchart.setDrawBorders(true);
+            tempchart.setBorderColor(Color.BLUE);
+            tempchart.getDescription().setEnabled(false);
+            tempchart.setDragEnabled(false);
+            tempchart.setScaleEnabled(false);
+            tempchart.getXAxis().setDrawGridLines(false);
+            tempchart.getAxisRight().setEnabled(false);
+            tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            tempchart.getLegend().setEnabled(false);
+
+            soundchart = findViewById(R.id.line_chart_sound);
+            soundchart.setDrawBorders(true);
+            soundchart.setBorderColor(Color.BLUE);
+            soundchart.setDragEnabled(false);
+            soundchart.setScaleEnabled(false);
+            soundchart.getDescription().setEnabled(false);
+            soundchart.getXAxis().setDrawGridLines(false);
+            soundchart.getAxisRight().setEnabled(false);
+            soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            soundchart.getLegend().setEnabled(false);
+
+            motionchart = findViewById(R.id.line_chart_motion);
+            motionchart.setDrawBorders(true);
+            motionchart.setBorderColor(Color.BLUE);
+            motionchart.setDragEnabled(false);
+            motionchart.setScaleEnabled(false);
+            motionchart.getDescription().setEnabled(false);
+            motionchart.getXAxis().setDrawGridLines(false);
+            motionchart.getAxisRight().setEnabled(false);
+            motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            motionchart.getLegend().setEnabled(false);
+
+            timearrayhumidity = PeriodicDateTimeProducer(startTime,stopTime,humidityData.size());
+            timearraytemperature = PeriodicDateTimeProducer(startTime,stopTime,tempData.size());
+            timearraysound = PeriodicDateTimeProducer(startTime,stopTime,soundData.size());
+            timearraymotion = PeriodicDateTimeProducer(startTime,stopTime,motionData.size());
+
+            setData(humidityData,humiditychart,humidity,timearrayhumidity);
+            setData(tempData,tempchart,temperature,timearraytemperature);
+            setData(soundData,soundchart,sound,timearraysound);
+            setData(motionData,motionchart,motion,timearraymotion);
+
+            duration = Duration.between(startTime, stopTime);
+
+            start_Time.setText(String.format("Start Time %s", startTime.format(DATE_TIME_FORMATTER)));
+            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DATE_TIME_FORMATTER)));
+            average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
+            average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
+            time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
+
+            //Setup doneButton
+            done_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "done_button onClick called");
+                    Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
+                    Log.i(TAG, "Starting MainActivity");
+                    startActivity(main_intent);
+                }
+            });
+
+            //Setup saveButton
+            save_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Log.d(TAG, "save_button onClick called");
+                    Log.i(TAG, "saving to firebase database");
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
+                    String owner = user.getUid();
+                    DatabaseReference dbRefPush = databaseReference.child(owner).push();
+                    dbRefPush.setValue(sleepData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Write was successful!
+                                    Log.i(TAG, "Write to firebase database successful");
+                                    //Store the ArrayLists in the Intent
+                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                    Log.i(TAG, "Starting MainActivity");
+                                    startActivity(intent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Write failed
+                                    Log.e(TAG, "Write to firebase database failed");
+                                    Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            });
+        }
 
         //Setup doneButton
         done_button.setOnClickListener(new View.OnClickListener() {
@@ -201,89 +324,35 @@ public class ResultsActivity extends AppCompatActivity {
         });
     }
 
-    protected void configureGraphs() {
-        humiditychart = findViewById(R.id.line_chart_humidity);
-        humiditychart.setDragEnabled(true);
-        humiditychart.setScaleEnabled(true);
-        humiditychart.getDescription().setEnabled(false);
-        humiditychart.getXAxis().setDrawGridLines(false);
-        humiditychart.getAxisRight().setEnabled(false);
-        humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        tempchart = findViewById(R.id.line_chart_temp);
-        tempchart.setDragEnabled(true);
-        tempchart.setScaleEnabled(true);
-        tempchart.getDescription().setEnabled(false);
-        tempchart.getXAxis().setDrawGridLines(false);
-        tempchart.getAxisRight().setEnabled(false);
-        tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        soundchart = findViewById(R.id.line_chart_sound);
-        soundchart.setDragEnabled(true);
-        soundchart.setScaleEnabled(true);
-        soundchart.getDescription().setEnabled(false);
-        soundchart.getXAxis().setDrawGridLines(false);
-        soundchart.getAxisRight().setEnabled(false);
-        soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        motionchart = findViewById(R.id.line_chart_motion);
-        motionchart.setDragEnabled(true);
-        motionchart.setScaleEnabled(true);
-        motionchart.getDescription().setEnabled(false);
-        motionchart.getXAxis().setDrawGridLines(false);
-        motionchart.getAxisRight().setEnabled(false);
-        motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        duration = Duration.between(startTime, stopTime);
     }
 
-    protected void setData(ArrayList<Float> data, LineChart chart, String name, LocalDateTime startTime, LocalDateTime stopTime){
-        ArrayList<Entry> yValues = new ArrayList<>();
-        final HashMap<Integer, String> labels = new HashMap<>();
-        String formattedStartDateTime = startTime.format(formatter);
-        String formattedStopDateTime = stopTime.format(formatter);
-        for (int x = 0; x < data.size(); x++)
-        {
-            if(x == 0)
-            {
-                labels.put(x,formattedStartDateTime);
-                yValues.add(new Entry(x, data.get(x)));
-            }
+    protected void setData(ArrayList<Float> data, LineChart chart, String name,ArrayList<String> TimeArray){
+        ArrayList<Entry> dataVals = new ArrayList<>();
 
-            else if(x == data.size()-1)
-            {
-                labels.put(x,formattedStopDateTime);
-                yValues.add(new Entry(x, data.get(x)));
-            }
-            else
-                labels.put(x,Integer.toString(x));
-                yValues.add(new Entry(x, data.get(x)));
+        for (int x = 1; x < data.size()-1; x++)
+        {
+                dataVals.add(new Entry(x, data.get(x)));
         }
 
-        LineDataSet set = new LineDataSet(yValues, name + " Data Set");
-        set.setDrawValues(false);
 
-        set.setFillAlpha(110);
+
+        LineDataSet lineDataSet = new LineDataSet(dataVals, name + " Data Set");
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setLineWidth(2);
+        lineDataSet.setColor(Color.GRAY);
+        lineDataSet.setDrawCircles(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set);
-
-        LineData linedata = new LineData(dataSets);
+        dataSets.add(lineDataSet);
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new DefaultAxisValueFormatter(2){
+        xAxis.setLabelCount(5,true);
+        xAxis.setTextSize(5);
+        xAxis.setValueFormatter(new MyXAxisValueformatter(TimeArray));
+        //xAxis.setValueFormatter(new MyXAxisValueformatter(formattedStartDateTime));  // start,end,initial,final value
 
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-
-                return labels.get((int)value);
-            }
-
-            @Override
-            public int getDecimalDigits() {
-                return 0;
-            }
-        });
+        LineData linedata = new LineData(dataSets);
 
         chart.setData(linedata);
         chart.invalidate();
@@ -297,7 +366,7 @@ public class ResultsActivity extends AppCompatActivity {
                 sum += mark;
             }
             average = sum / marks.size();
-             return String.format(Locale.getDefault(), "%.2f", average);
+            return String.format(Locale.getDefault(), "%.2f", average);
         }
         return "0";
     }
@@ -309,5 +378,36 @@ public class ResultsActivity extends AppCompatActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+    }
+
+    private ArrayList<String> PeriodicDateTimeProducer(LocalDateTime start, LocalDateTime end, int num_cuts) {
+        ArrayList<String> results = new ArrayList<String>(num_cuts);
+        long duration = Duration.between(start, end).getSeconds();
+        long delta = duration/(num_cuts-1);
+
+        for (int x = 0; x < num_cuts; x++)
+        {
+
+            results.add(start.plusSeconds(x*delta).format(DATE_TIME_FORMATTER));
+        }
+
+        return results;
+
+    }
+
+   private class MyXAxisValueformatter implements IAxisValueFormatter {
+
+        private ArrayList<String> timearray;
+
+        MyXAxisValueformatter(ArrayList<String> timearray){
+            super();
+            this.timearray = timearray;
+        }
+
+
+       @Override
+       public String getFormattedValue(float value, AxisBase axis){
+            return timearray.get((int)value);
+        }
     }
 }

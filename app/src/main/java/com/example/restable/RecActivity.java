@@ -154,7 +154,6 @@ public class RecActivity  extends BlunoLibrary {
                     SleepData parsedData = new SleepData(receivedData, startTime, endTime);
                     intent.putExtra("sleepData", parsedData);
                 }
-                //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 else {
                     Log.d(TAG, "dummy data being stored");
                     //Dummy sensor data from hardware
@@ -180,6 +179,7 @@ public class RecActivity  extends BlunoLibrary {
                     SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData, startTime, endTime);
                     intent.putExtra("sleepData", parsedData);
                 }
+                //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 Log.i(TAG, "starting ResultsActivity");
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
