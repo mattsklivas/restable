@@ -17,7 +17,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity android:name=".ViewLogActivity"
-            android:theme="@style/Theme.AppCompat.DayNight"
             android:label="View Sleep Session"
             android:parentActivityName=".LogsActivity" />
         <activity android:name=".RegisterActivity" />
@@ -29,16 +28,13 @@
         <activity
             android:name=".LogsActivity"
             android:label="Saved Sleep Sessions"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AlarmActivity"
             android:label="Set an Alarm"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight" />
+            android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

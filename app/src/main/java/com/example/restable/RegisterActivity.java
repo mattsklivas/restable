@@ -2,8 +2,10 @@ package com.example.restable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -34,12 +36,21 @@ public class RegisterActivity extends AppCompatActivity {
     protected EditText passwordConfirmEditText;
     protected EditText emailEditText;
     protected ProgressBar progressBar;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.d(TAG, "onCreate called");
+
+        // Add animated background gradient
+        rootLayout = (ConstraintLayout) findViewById(R.id.register_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
@@ -58,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 Log.i(TAG, "Starting LoginActivity");
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -139,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         Log.i(TAG, "Starting MainActivity");
                                         startActivity(intent);
+                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                     }
                                     else {
                                         Toast.makeText(RegisterActivity.this, "Registration failed. Try again!", Toast.LENGTH_LONG).show();
