@@ -72,6 +72,9 @@ public class ResultsActivity extends AppCompatActivity {
     protected TextView average_Temp;
     protected TextView average_Humid;
     protected TextView time_Slept;
+    protected EditText editNoteText;
+    protected Button noteButton;
+    String getTextValue;
 
     protected Button done_button;
     protected Button save_button;
@@ -86,6 +89,8 @@ public class ResultsActivity extends AppCompatActivity {
 
         done_button = findViewById(R.id.done_button);
         save_button = findViewById(R.id.save_button);
+        editNoteText = findViewById(R.id.editNoteText);
+        noteButton = findViewById(R.id.notebutton);
 
         start_Time = findViewById(R.id.start_time);
         stop_Time = findViewById(R.id.stop_time);
