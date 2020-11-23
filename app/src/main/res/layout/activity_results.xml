@@ -162,16 +162,36 @@
             android:layout_marginEnd="206dp"
             android:text="@string/average_temp"
             android:textSize="12sp" />
+        
+        <EditText
+            android:id="@+id/editNoteText"
+            android:layout_width="349dp"
+            android:layout_height="160dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="62dp"
+            android:layout_marginTop="937dp"
+            android:autofillHints=""
+            android:background="@drawable/custom_button"
+            android:fontFamily="@font/surt_light"
+            android:inputType="text|textMultiLine|textCapSentences"
+            android:text="@string/editText"
+            android:textColor="@color/white"
+            android:singleLine="true"
+            android:gravity="left"
+            />
 
         <TextView
             android:id="@+id/average_humidity"
+            android:fontFamily="@font/surt_light"
+            android:textColor="@color/white"
             android:layout_width="194dp"
             android:layout_height="56dp"
             android:layout_below="@+id/x_axis_title_motion_chart"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="9dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="190dp"
             android:layout_marginEnd="208dp"
             android:text="@string/average_humidity"
             android:textSize="12sp" />
