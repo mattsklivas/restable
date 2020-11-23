@@ -175,7 +175,7 @@
             android:background="@drawable/custom_button"
             android:fontFamily="@font/surt_light"
             android:inputType="text|textMultiLine|textCapSentences"
-            android:text="@string/editText"
+            android:text="@string/editNoteText"
             android:textColor="@color/white"
             android:singleLine="true"
             android:gravity="left"
