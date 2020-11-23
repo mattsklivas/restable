@@ -417,16 +417,24 @@ public class ResultsActivity extends AppCompatActivity {
         float avgSound= calculateAveragefloat(soundData);
         float avgMotion=calculateAveragefloat(motionData);
         float spikeSound=0;
-        float spikeOverTotalpoint;
+        float spikeMotion=0;
+        float spikeOverTotalSoundPoint;
+        float spikeOverTotalMotionPoint;
 
 
         for (int i=0;i<soundData.size();i++){
             if(soundData.get(i)>65){spikeSound++;}
         }
 
-    spikeOverTotalpoint = spikeSound / soundData.size();//calculate the number of t
+        spikeOverTotalSoundPoint = spikeSound / soundData.size();//calculate the number of t
 
-        System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage "+spikeOverTotalpoint );
+        for (int i=0;i<motionData.size();i++){
+            if(motionData.get(i)>50){spikeMotion++;}
+        }
+
+        spikeOverTotalMotionPoint = spikeMotion / motionData.size();//calculate the number of t
+
+        System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage sound"+spikeOverTotalSoundPoint +" spike percentage mmotion "+spikeOverTotalMotionPoint);
 
 /*The ideal humidity for sleep is between 30 and 50 percent.1 Anything higher (which is common during the summer in many parts of the country)
 can make it difficult to sleep for two reasons: comfort and congestion. High humidity prevents moisture from evaporating
@@ -453,14 +461,14 @@ https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:
         else if ( 12<=avg_temp && avg_temp<=24){scrTmp=(float)1.0;}
         else{scrTmp=(float)0;}
 
-        if (0.0<=spikeOverTotalpoint&& 0.05<=spikeOverTotalpoint){scrSound=(float)2.5;}
-        else if (0.05<=spikeOverTotalpoint&& 0.15<=spikeOverTotalpoint){scrSound=(float)2.0;}
-        else if (0.15<=spikeOverTotalpoint&& 0.40<=spikeOverTotalpoint){scrSound=(float)1.0;}
+        if (0.0<=spikeOverTotalSoundPoint&& 0.05<=spikeOverTotalSoundPoint){scrSound=(float)2.5;}
+        else if (0.05<=spikeOverTotalSoundPoint&& 0.15<=spikeOverTotalSoundPoint){scrSound=(float)2.0;}
+        else if (0.15<=spikeOverTotalSoundPoint&& 0.40<=spikeOverTotalSoundPoint){scrSound=(float)1.0;}
         else {scrSound=(float)0;}
 
-        if (0<=avgMotion&& 100<=avgMotion) {scrMotion=(float)2.5;}
-    else if (-1<=avgMotion&& 120<=avgMotion){scrMotion=(float)2.0;}
-    else if (-5<=avgMotion&& 1000<=avgMotion){scrMotion=(float)1.0;}
+        if (0.0<=spikeOverTotalMotionPoint&& 0.01<=spikeOverTotalMotionPoint) {scrMotion=(float)2.5;}
+    else if (0.0<=spikeOverTotalMotionPoint&& 0.03<=spikeOverTotalMotionPoint){scrMotion=(float)2.0;}
+    else if (0.03<=spikeOverTotalMotionPoint&& 0.20<=spikeOverTotalMotionPoint){scrMotion=(float)1.0;}
     else {scrMotion=(float)0;}
 
 
