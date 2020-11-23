@@ -241,8 +241,10 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="232dp"
-            android:layout_marginTop="1034dp"
-            android:text="@string/save_button" />
+            android:layout_marginTop="1214dp"
+            android:fontFamily="@font/surt_light"
+            android:text="@string/save_button"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/done_button"
