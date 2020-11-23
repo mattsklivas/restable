@@ -324,9 +324,6 @@ public class ResultsActivity extends AppCompatActivity {
         });
     }
 
-
-    }
-
     protected void setData(ArrayList<Float> data, LineChart chart, String name,ArrayList<String> TimeArray){
         ArrayList<Entry> dataVals = new ArrayList<>();
 
