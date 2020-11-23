@@ -8,17 +8,20 @@
 
     <TextView
         android:id="@+id/wakeTimeTextView"
+        android:fontFamily="@font/surt_bold"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/alarmClockImageView"
         android:text="@string/time"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:layout_marginStart="10dp"
-        android:paddingTop="2dp"
-        android:textStyle="bold" />
+        android:paddingTop="2dp" />
 
     <TextView
         android:id="@+id/hoursTextView"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/wakeTimeTextView"
@@ -30,6 +33,8 @@
 
     <TextView
         android:id="@+id/ratingTextView"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
@@ -41,10 +46,12 @@
 
     <TextView
         android:id="@+id/hoursOfSleepTextView"
+        android:fontFamily="@font/surt_light"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="@string/hours_of_sleep"
+        android:text="@string/h_of_sleep"
         android:layout_toEndOf="@id/hoursTextView"
         android:layout_marginStart="5dp"
         android:layout_alignBaseline="@id/hoursTextView"

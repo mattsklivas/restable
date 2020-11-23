@@ -1,8 +1,18 @@
 package com.example.restable;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -83,9 +93,32 @@ public class ResultsActivity extends AppCompatActivity {
 
     private Duration duration;
 
+    //protected ConstraintLayout rootLayout;
+    //protected AnimationDrawable animDrawable;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG, "onCreate called");
+
+        // Add animated background gradient
+//        rootLayout = (ConsrtaintLayout) findViewById(R.id.results_layout);
+//        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+//        animDrawable.setEnterFadeDuration(10);
+//        animDrawable.setExitFadeDuration(5000);
+//        animDrawable.start();
+
+        done_button = findViewById(R.id.done_button);
+        save_button = findViewById(R.id.save_button);
+        otherReturnButton = findViewById(R.id.return_button);
+
+        start_Time = findViewById(R.id.start_time);
+        stop_Time = findViewById(R.id.stop_time);
+        average_Temp = findViewById(R.id.average_temp);
+        average_Humid = findViewById(R.id.average_humidity);
+        time_Slept = findViewById(R.id.time_slept);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
 
@@ -242,6 +275,55 @@ public class ResultsActivity extends AppCompatActivity {
                 }
             });
         }
+
+        //Setup doneButton
+        done_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "done_button onClick called");
+                Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
+                Log.i(TAG, "Starting MainActivity");
+                startActivity(main_intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
+
+        //Setup saveButton
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Log.d(TAG, "save_button onClick called");
+                Log.i(TAG, "saving to firebase database");
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                assert user != null;
+                String owner = user.getUid();
+                DatabaseReference dbRefPush = databaseReference.child(owner).push();
+                dbRefPush.setValue(sleepData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Write was successful!
+                                Log.i(TAG, "Write to firebase database successful");
+                                //Store the ArrayLists in the Intent
+                                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                Log.i(TAG, "Starting MainActivity");
+                                startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Write failed
+                                Log.e(TAG, "Write to firebase database failed");
+                                Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+        });
+    }
+
 
     }
 

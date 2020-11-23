@@ -1,6 +1,7 @@
 package com.example.restable;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,10 +36,13 @@ public class LogsActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private ArrayList<SleepData> sleepSessions;
+    private ArrayList<String> sleepLogKeys;
     protected ListView listView;
     protected LogsListViewAdapter adapter;
     protected ProgressBar progressBar;
     protected TextView noSessions;
+    protected ConstraintLayout rootLayout;
+    protected AnimationDrawable animDrawable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,19 +50,27 @@ public class LogsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_logs);
         Log.d(TAG, "onCreate called");
 
+        // Add animated background gradient
+        rootLayout = findViewById(R.id.logs_layout);
+        animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
+
+        // Add custom toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar_log);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Text saying no sleep sessions saved
         noSessions = findViewById(R.id.noSessionsTextView);
-
-        /* Insert app bar and enable back button to MainActivity */
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
 
         // Progress bar
         progressBar = findViewById(R.id.progressBarLogs);
 
         // Get sleep sessions from db to be displayed in list view
         sleepSessions = new ArrayList<>();
+        sleepLogKeys = new ArrayList<>();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
         userID = currentUser.getUid();
@@ -66,6 +80,7 @@ public class LogsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {
                     sleepSessions.add(d.getValue(SleepData.class));
+                    sleepLogKeys.add(d.getKey());
                     Log.i(TAG, "Loaded " + d.getKey() + " from database");
                 }
                 if (sleepSessions.size() == 0)
@@ -102,8 +117,10 @@ public class LogsActivity extends AppCompatActivity {
 
                 // Get time information
                 SleepData sleepData = sleepSessions.get(position);
+                String key = sleepLogKeys.get(position);
                 Intent intent = new Intent(LogsActivity.this, ViewLogActivity.class);
                 intent.putExtra("sleepData", sleepData);
+                intent.putExtra("key", key);
                 Log.i(TAG, "Starting ViewLogActivity");
                 startActivity(intent);
             }
