@@ -59,4 +59,9 @@
     <string name="welcome_to_restable">Welcome to Restable</string>
     <string name="register"><u>Register</u></string>
     <string name="for_an_account">for an account</string>
+    <string name="score_motion">Score motion</string>
+    <string name="score_temp">Score Temp</string>
+    <string name="score_humidity">Score humidity</string>
+    <string name="total_score">Total Score</string>
+    <string name="score_sound">Score sound</string>
 </resources>
