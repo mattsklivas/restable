@@ -161,6 +161,18 @@ public class ResultsActivity extends AppCompatActivity {
         time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
 
         //Setup doneButton
+        
+        editNoteText = findViewById(R.id.editNoteText);
+
+        noteButton = findViewById(R.id.notebutton);
+        
+
+        //noteButton.setOnClickListener(new View.OnClickListener(){
+          //  public void onClick (View v){
+            //    getTextValue = editNoteText.getText().toString();
+           
+            //}
+        //});
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
