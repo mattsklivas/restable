@@ -6,22 +6,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -30,22 +21,17 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.common.graph.ImmutableValueGraph;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.type.DateTime;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -87,7 +73,11 @@ public class ResultsActivity extends AppCompatActivity {
     protected TextView average_Humid;
     protected TextView time_Slept;
 
-    protected TextView scoreTot,scoreH,scoreT,scoreM,scoreS;
+    protected TextView scoreTot;
+    protected TextView scoreH;
+    protected TextView scoreT;
+    protected TextView scoreM;
+    protected TextView scoreS;
 
     protected Button done_button;
     protected Button save_button;
@@ -122,11 +112,7 @@ public class ResultsActivity extends AppCompatActivity {
         average_Humid = findViewById(R.id.average_humidity);
         time_Slept = findViewById(R.id.time_slept);
 
-        scoreTot =(TextView)findViewById(R.id.scoreTotal);
-        scoreH =(TextView)findViewById(R.id.scoreHum);
-        scoreT =(TextView)findViewById(R.id.scoreTemp);
-        scoreM =(TextView)findViewById(R.id.scoreMot);
-        scoreS=(TextView)findViewById(R.id.scoreSound);
+
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
 
@@ -170,13 +156,18 @@ public class ResultsActivity extends AppCompatActivity {
             average_Humid = findViewById(R.id.average_humidity);
             time_Slept = findViewById(R.id.time_slept);
 
+            scoreTot =(TextView) findViewById(R.id.scoreTotal);
+            scoreH =(TextView) findViewById(R.id.scoreHum);
+            scoreT =(TextView) findViewById(R.id.scoreTemp);
+            scoreM =(TextView) findViewById(R.id.scoreMot);
+            scoreS=(TextView) findViewById(R.id.scoreSound);
             databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
-            System.out.println("Dummy data if user hasn't connected to the hardware:");
-            System.out.println("tempData:" + tempData);
-            System.out.println("humidityData:" + humidityData);
-            System.out.println("soundData:" + soundData);
-            System.out.println("motionData:" + motionData);
+//            System.out.println("Dummy data if user hasn't connected to the hardware:");
+//            System.out.println("tempData:" + tempData);
+//            System.out.println("humidityData:" + humidityData);
+//            System.out.println("soundData:" + soundData);
+//            System.out.println("motionData:" + motionData);
 
             humiditychart = findViewById(R.id.line_chart_humidity);
             humiditychart.setDrawBorders(true);
@@ -239,7 +230,21 @@ public class ResultsActivity extends AppCompatActivity {
             average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
             average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
-            score(humidityData, tempData,soundData,motionData);
+
+            score();
+
+//            scoreTot.setText(score("total"));
+//            scoreH.setText(score("humidity"));
+//            scoreT.setText(score("temperature"));
+//            scoreS.setText(score("sound"));
+//            scoreM.setText(score("motion"));
+
+
+
+
+
+            //score(humidityData, tempData,soundData,motionData,scoreTot,scoreH,scoreT,scoreM,scoreS);
+
 
             //Setup doneButton
             done_button.setOnClickListener(new View.OnClickListener() {
@@ -402,7 +407,10 @@ public class ResultsActivity extends AppCompatActivity {
         return results;
 
     }
-    private void score(ArrayList <Float>humidityData,ArrayList <Float>tempData,ArrayList <Float>soundData,ArrayList <Float>motionData){
+    //scoreTot,scoreH,scoreT,scoreM,scoreS
+    //private void score(ArrayList <Float>humidityData,ArrayList <Float>tempData,ArrayList <Float>soundData,ArrayList <Float>motionData,TextView scoreTot,TextView scoreH,TextView scoreT,TextView scoreM,TextView scoreS){
+   // private  String score(String string){
+    private void score(){
         float score, scrHum,scrTmp,scrSound,scrMotion;
         float avg_hum=calculateAveragefloat(humidityData);
         float avg_temp=calculateAveragefloat(tempData);
@@ -451,8 +459,8 @@ https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:
         else {scrSound=(float)0;}
 
         if (0<=avgMotion&& 100<=avgMotion) {scrMotion=(float)2.5;}
-    else if (0<=avgMotion&& 100<=avgMotion){scrMotion=(float)2.0;}
-    else if (0<=avgMotion&& 100<=avgMotion){scrMotion=(float)1.0;}
+    else if (-1<=avgMotion&& 120<=avgMotion){scrMotion=(float)2.0;}
+    else if (-5<=avgMotion&& 1000<=avgMotion){scrMotion=(float)1.0;}
     else {scrMotion=(float)0;}
 
 
@@ -461,11 +469,18 @@ https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:
         // string fromat is not necessary
         System.out.println("Total score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
 
-//        scoreTot.setText( "Total score: "+ score);
-//        scoreH.setText("Humidity score: "+ scrHum);
-//        scoreT.setText("Temperature score: "+scrTmp);
-//        scoreS.setText("Sound score: "+ scrSound);
-//        scoreM.setText("Motion score: "+scrMotion);
+//        if(string=="total"){return "Total score: "+ score;}
+//        else if (string=="humidity"){return "Humidity score: "+ scrHum;}
+//        else if (string=="temperature"){return"Temperature score: "+scrTmp;}
+//        else if (string=="sound"){return "Sound score: "+ scrSound;}
+//        else if (string=="motion"){return "Motion score: "+scrMotion;}
+//        return "ERROR";
+
+        scoreTot.setText("Total score: "+ score);
+        scoreH.setText("Humidity score: "+ scrHum);
+        scoreT.setText("Temperature score: "+scrTmp);
+        scoreS.setText("Sound score: "+ scrSound);
+        scoreM.setText("Motion score: "+scrMotion);
 
     }
 
