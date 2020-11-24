@@ -76,6 +76,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedpref = new SharedPref(this);
         if(sharedpref.loadNightModeState()) {
             setTheme(R.style.NightTheme);
         }
@@ -87,7 +88,7 @@ public class ResultsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-//        rootLayout = (ConsrtaintLayout) findViewById(R.id.results_layout);
+//        rootLayout = (ConstraintLayout) findViewById(R.id.results_layout);
 //        animDrawable = (AnimationDrawable) rootLayout.getBackground();
 //        animDrawable.setEnterFadeDuration(10);
 //        animDrawable.setExitFadeDuration(5000);

@@ -19,7 +19,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
             android:id="@+id/x_axis_title_humidity_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:layout_below="@+id/line_chart_humidity"
             android:layout_alignParentEnd="true"
             android:text="@string/x_axis_title_humidity_chart"
@@ -41,7 +41,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/y_axis_title_humidity_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@+id/time_slept" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/x_axis_title_temp_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/line_chart_temp" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/y_axis_title_temp_chart"
             android:layout_width="14dp"
             android:layout_height="0dp"
@@ -90,7 +90,7 @@
             app:layout_constraintTop_toBottomOf="@+id/y_axis_title_humidity_chart" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/x_axis_title_sound_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/line_chart_sound" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/y_axis_title_sound_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@+id/y_axis_title_temp_chart" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/x_axis_title_motion_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             app:layout_constraintTop_toBottomOf="@+id/line_chart_motion" />
 
         <TextView
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:id="@+id/y_axis_title_motion_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
             android:layout_marginTop="40dp"
             android:fontFamily="@font/surt_light"
             android:text="@string/average_temp"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.102"
@@ -221,9 +221,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="68dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/average_humidity"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.102"
@@ -238,9 +237,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/start_time"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.145"
@@ -256,9 +254,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/stop_time"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.831"
@@ -274,7 +271,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="40dp"
             android:text="@string/total_score"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.068"
             app:layout_constraintStart_toStartOf="parent"
@@ -289,7 +286,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:text="@string/score_humidity"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.068"
             app:layout_constraintStart_toStartOf="parent"
@@ -304,7 +301,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:text="@string/score_temp"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.068"
             app:layout_constraintStart_toStartOf="parent"
@@ -319,7 +316,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:text="@string/score_sound"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.068"
             app:layout_constraintStart_toStartOf="parent"
@@ -335,7 +332,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:text="@string/score_motion"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -350,9 +347,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="40dp"
             android:background="@drawable/custom_button"
-            android:fontFamily="@font/surt_light"
             android:text="@string/save_button"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.926"
             app:layout_constraintStart_toStartOf="parent"
@@ -366,9 +362,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="48dp"
             android:background="@drawable/custom_button"
-            android:fontFamily="@font/surt_light"
             android:text="@string/done_button"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.924"
             app:layout_constraintStart_toStartOf="parent"
