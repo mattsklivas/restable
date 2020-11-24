@@ -39,8 +39,18 @@ public class RegisterActivity extends AppCompatActivity {
     protected ConstraintLayout rootLayout;
     protected AnimationDrawable animDrawable;
 
+    //SharedPreference for setting theme
+    SharedPref sharedpref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedpref = new SharedPref(this);
+        if(sharedpref.loadNightModeState()) {
+            setTheme(R.style.NightTheme);
+        }
+        else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.d(TAG, "onCreate called");

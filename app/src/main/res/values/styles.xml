@@ -5,10 +5,31 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorGradientStart">@color/colorGradientStart</item>
+        <item name="colorGradientCenter">@color/colorGradientCenter</item>
+        <item name="colorGradientEnd">@color/colorGradientEnd</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/surt_light</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:textColorSecondary">@color/whiteMain</item>
+        <item name="colorMain">@color/whiteMain</item>
+    </style>
+
+    <style name="NightTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorGradientStart">@color/colorDarkGradientStart</item>
+        <item name="colorGradientCenter">@color/colorDarkGradientCenter</item>
+        <item name="colorGradientEnd">@color/colorDarkGradientEnd</item>
+        <item name="android:fontFamily">@font/surt_light</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorSecondary">@color/whiteMain</item>
+        <item name="colorMain">@color/altMain</item>
     </style>
 
 </resources>

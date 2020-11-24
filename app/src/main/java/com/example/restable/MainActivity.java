@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
@@ -31,11 +33,22 @@ public class MainActivity extends AppCompatActivity {
     //Instance variables
     protected Button alarmButton;
     protected Button logsButton;
+    protected Switch nightSwitch;
     protected ConstraintLayout rootLayout;
     protected AnimationDrawable animDrawable;
 
+    //SharedPreference for setting theme
+    SharedPref sharedpref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedpref = new SharedPref(this);
+        if(sharedpref.loadNightModeState()) {
+            setTheme(R.style.NightTheme);
+        }
+        else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate called");
@@ -70,6 +83,26 @@ public class MainActivity extends AppCompatActivity {
                 goToLogsActivity();
             }
         });
+
+        //Setup NightMode switch
+        nightSwitch = (Switch) findViewById(R.id.switchTheme);
+        if (sharedpref.loadNightModeState()==true) {
+            nightSwitch.setChecked(true);
+        }
+
+        nightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sharedpref.setNightModeState(true);
+                    refreshActivity();
+                } else {
+                    sharedpref.setNightModeState(false);
+                    refreshActivity();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -116,5 +149,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void refreshActivity() {
+        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        finish();
     }
 }
