@@ -155,59 +155,17 @@ public class ResultsActivity extends AppCompatActivity {
             scoreS=(TextView) findViewById(R.id.scoreSound);
             databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
-            humiditychart = findViewById(R.id.line_chart_humidity);
-            humiditychart.setDrawBorders(true);
-            humiditychart.setBorderColor(Color.BLUE);;
-            humiditychart.getDescription().setEnabled(false);
-            humiditychart.getXAxis().setDrawGridLines(false);
-            humiditychart.setDragEnabled(false);
-            humiditychart.setScaleEnabled(false);
-            humiditychart.getAxisRight().setEnabled(false);
-            humiditychart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-            humiditychart.getLegend().setEnabled(false);
+            humidityChart = findViewById(R.id.line_chart_humidity);
+            tempChart = findViewById(R.id.line_chart_temp);
+            soundChart = findViewById(R.id.line_chart_sound);
+            motionChart = findViewById(R.id.line_chart_motion);
 
-            tempchart = findViewById(R.id.line_chart_temp);
-            tempchart.setDrawBorders(true);
-            tempchart.setBorderColor(Color.BLUE);
-            tempchart.getDescription().setEnabled(false);
-            tempchart.setDragEnabled(false);
-            tempchart.setScaleEnabled(false);
-            tempchart.getXAxis().setDrawGridLines(false);
-            tempchart.getAxisRight().setEnabled(false);
-            tempchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-            tempchart.getLegend().setEnabled(false);
+            timeArray = PeriodicDateTimeProducer(startTime,stopTime,humidityData.size());
 
-            soundchart = findViewById(R.id.line_chart_sound);
-            soundchart.setDrawBorders(true);
-            soundchart.setBorderColor(Color.BLUE);
-            soundchart.setDragEnabled(false);
-            soundchart.setScaleEnabled(false);
-            soundchart.getDescription().setEnabled(false);
-            soundchart.getXAxis().setDrawGridLines(false);
-            soundchart.getAxisRight().setEnabled(false);
-            soundchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-            soundchart.getLegend().setEnabled(false);
-
-            motionchart = findViewById(R.id.line_chart_motion);
-            motionchart.setDrawBorders(true);
-            motionchart.setBorderColor(Color.BLUE);
-            motionchart.setDragEnabled(false);
-            motionchart.setScaleEnabled(false);
-            motionchart.getDescription().setEnabled(false);
-            motionchart.getXAxis().setDrawGridLines(false);
-            motionchart.getAxisRight().setEnabled(false);
-            motionchart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-            motionchart.getLegend().setEnabled(false);
-
-            timearrayhumidity = PeriodicDateTimeProducer(startTime,stopTime,humidityData.size());
-            timearraytemperature = PeriodicDateTimeProducer(startTime,stopTime,tempData.size());
-            timearraysound = PeriodicDateTimeProducer(startTime,stopTime,soundData.size());
-            timearraymotion = PeriodicDateTimeProducer(startTime,stopTime,motionData.size());
-
-            setData(humidityData,humiditychart,humidity,timearrayhumidity);
-            setData(tempData,tempchart,temperature,timearraytemperature);
-            setData(soundData,soundchart,sound,timearraysound);
-            setData(motionData,motionchart,motion,timearraymotion);
+            setData(humidityData,humidityChart,humidity,timeArray);
+            setData(tempData,tempChart,temperature,timeArray);
+            setData(soundData,soundChart,sound,timeArray);
+            setData(motionData,motionChart,motion,timeArray);
 
             humidityChart = findViewById(R.id.line_chart_humidity);
             tempChart = findViewById(R.id.line_chart_temp);
