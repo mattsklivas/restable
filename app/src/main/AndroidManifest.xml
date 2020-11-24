@@ -29,6 +29,7 @@
         <activity
             android:name=".RecActivity"
             android:label="Recording"
+            android:parentActivityName=".AlarmActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".LogsActivity"

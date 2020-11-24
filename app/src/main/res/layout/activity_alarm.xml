@@ -21,8 +21,7 @@
 
     <TextView
         android:id="@+id/textView"
-        android:fontFamily="@font/surt_light"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -35,8 +34,7 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:fontFamily="@font/surt_light"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -52,8 +50,7 @@
 
     <Button
         android:id="@+id/buttonCustomAlarm"
-        android:fontFamily="@font/surt_light"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorMain"
         android:background="@drawable/custom_button"
         android:layout_width="200dp"
         android:layout_height="53dp"
@@ -65,8 +62,7 @@
 
     <Button
         android:id="@+id/buttonRec"
-        android:fontFamily="@font/surt_light"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorMain"
         android:background="@drawable/custom_button"
         android:layout_width="200dp"
         android:layout_height="58dp"
