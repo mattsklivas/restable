@@ -1,6 +1,5 @@
 package com.example.restable;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,50 +39,34 @@ import java.util.Locale;
 public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultsActivity";
-
-    private LineChart humiditychart;
-    private LineChart tempchart;
-    private LineChart soundchart;
-    private LineChart motionchart;
-
-    private String humidity = "Humidity";
-    private String temperature = "Temperature";
-    private String sound = "Sound";
-    private String motion = "Motion";
-    private DatabaseReference databaseReference;
-    private SleepData sleepData;
-
-    private ArrayList<Float> humidityData;
-    private ArrayList<Float> tempData;
-    private ArrayList<Float> soundData;
-    private ArrayList<Float> motionData;
-
-    private ArrayList<String > timearrayhumidity;
-    private ArrayList<String > timearraytemperature;
-    private ArrayList<String > timearraysound;
-    private ArrayList<String > timearraymotion;
-
-    protected LocalDateTime stopTime;
-    protected LocalDateTime startTime;
     protected DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm:ss a");
 
-    protected TextView start_Time;
-    protected TextView stop_Time;
-    protected TextView average_Temp;
-    protected TextView average_Humid;
-    protected TextView time_Slept;
+    //Defining the four Line Chart.
+    protected LineChart humidityChart, tempChart , soundChart, motionChart;
 
-    protected TextView scoreTot;
-    protected TextView scoreH;
-    protected TextView scoreT;
-    protected TextView scoreM;
-    protected TextView scoreS;
+    //Defining the four strings thats needed for the labeling of the charts.
+    protected String humidity = "Humidity", temperature = "Temperature", sound = "Sound", motion = "Motion";
 
-    protected Button done_button;
-    protected Button save_button;
-    protected Button otherReturnButton;
+    protected DatabaseReference databaseReference;
+    protected SleepData sleepData;
 
-    private Duration duration;
+    //Defining the ArrayList which we will be storing the importing data.
+    protected ArrayList<Float> humidityData, tempData, soundData, motionData;
+
+    //Defining the ArrayList which we will be storing the formatted time for each charts.
+    protected ArrayList<String > timeArray;
+
+    //Defining The start and stop time LocalDateTime Oojects.
+    protected LocalDateTime stopTime, startTime;
+
+    //Defining TextView of activity_results.xml
+    protected TextView start_Time, stop_Time , average_Temp, average_Humid, time_Slept, scoreTot, scoreH , scoreT, scoreM, scoreS;
+
+    //Defining Button of activity_results.xml
+    protected Button done_button, save_button, otherReturnButton;
+
+    //Defining Duration to find out how long a person has slept.
+    protected Duration duration;
 
     //protected ConstraintLayout rootLayout;
     //protected AnimationDrawable animDrawable;
@@ -110,25 +93,27 @@ public class ResultsActivity extends AppCompatActivity {
 //        animDrawable.setExitFadeDuration(5000);
 //        animDrawable.start();
 
+        //Linking the Buttons to the activity_results.xml ids
         done_button = findViewById(R.id.done_button);
         save_button = findViewById(R.id.save_button);
         otherReturnButton = findViewById(R.id.return_button);
 
+        //Linking the Textview to the activity_results.xml ids
         start_Time = findViewById(R.id.start_time);
         stop_Time = findViewById(R.id.stop_time);
         average_Temp = findViewById(R.id.average_temp);
         average_Humid = findViewById(R.id.average_humidity);
         time_Slept = findViewById(R.id.time_slept);
 
-
-
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
 
+        //If there is no data found from sleep data, This will send the user to the no result activity xml page.
         if(sleepData == null)
         {
             setContentView(R.layout.activity_no_result);
-            Log.d(TAG, "onCreate called");
+            Log.d(TAG, "Activity No Result called");
 
+            //Other Return Button defined  in this page for the user to go back to Rec Activity.
             otherReturnButton = findViewById(R.id.return_button);
 
             otherReturnButton.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +126,11 @@ public class ResultsActivity extends AppCompatActivity {
             });
         }
 
+        //otherwise proceeds on filling up all the charts and ArrayList with the necessary data
         else{
+
+            setContentView(R.layout.activity_results);
+            Log.d(TAG, "onCreate called");
 
             humidityData = sleepData.getHumidityData();
             tempData = sleepData.getTempData();
@@ -149,11 +138,6 @@ public class ResultsActivity extends AppCompatActivity {
             motionData = sleepData.getMotionData();
             startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
             stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
-
-
-
-            setContentView(R.layout.activity_results);
-            Log.d(TAG, "onCreate called");
 
             done_button = findViewById(R.id.done_button);
             save_button = findViewById(R.id.save_button);
@@ -225,6 +209,23 @@ public class ResultsActivity extends AppCompatActivity {
             setData(soundData,soundchart,sound,timearraysound);
             setData(motionData,motionchart,motion,timearraymotion);
 
+            humidityChart = findViewById(R.id.line_chart_humidity);
+            tempChart = findViewById(R.id.line_chart_temp);
+            soundChart = findViewById(R.id.line_chart_sound);
+            motionChart = findViewById(R.id.line_chart_motion);
+
+            configureGraph(humidityChart);
+            configureGraph(tempChart);
+            configureGraph(soundChart);
+            configureGraph(motionChart);
+
+            timeArray = PeriodicDateTimeProducer(startTime,stopTime,humidityData.size());
+
+            setData(humidityData,humidityChart,humidity,timeArray);
+            setData(tempData,tempChart,temperature,timeArray);
+            setData(soundData,soundChart,sound,timeArray);
+            setData(motionData,motionChart,motion,timeArray);
+
             duration = Duration.between(startTime, stopTime);
 
             start_Time.setText(String.format("Start Time %s", startTime.format(DATE_TIME_FORMATTER)));
@@ -235,63 +236,6 @@ public class ResultsActivity extends AppCompatActivity {
 
             score();
 
-//            scoreTot.setText(score("total"));
-//            scoreH.setText(score("humidity"));
-//            scoreT.setText(score("temperature"));
-//            scoreS.setText(score("sound"));
-//            scoreM.setText(score("motion"));
-
-
-
-
-
-            //score(humidityData, tempData,soundData,motionData,scoreTot,scoreH,scoreT,scoreM,scoreS);
-
-
-            //Setup doneButton
-            done_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "done_button onClick called");
-                    Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
-                    Log.i(TAG, "Starting MainActivity");
-                    startActivity(main_intent);
-                }
-            });
-
-            //Setup saveButton
-            save_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    Log.d(TAG, "save_button onClick called");
-                    Log.i(TAG, "saving to firebase database");
-
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    assert user != null;
-                    String owner = user.getUid();
-                    DatabaseReference dbRefPush = databaseReference.child(owner).push();
-                    dbRefPush.setValue(sleepData)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Write was successful!
-                                    Log.i(TAG, "Write to firebase database successful");
-                                    //Store the ArrayLists in the Intent
-                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
-                                    Log.i(TAG, "Starting MainActivity");
-                                    startActivity(intent);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Write failed
-                                    Log.e(TAG, "Write to firebase database failed");
-                                    Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                }
-            });
         }
 
         //Setup doneButton
@@ -340,8 +284,25 @@ public class ResultsActivity extends AppCompatActivity {
                         });
             }
         });
+
     }
 
+    //Configuration of each Chart on the activity.
+    protected  void configureGraph(LineChart chart){
+
+        chart.setDrawBorders(true);
+        chart.setBorderColor(Color.BLUE);
+        chart.setDragEnabled(false);
+        chart.setScaleEnabled(false);
+        chart.getDescription().setEnabled(false);
+        chart.getXAxis().setDrawGridLines(false);
+        chart.getAxisRight().setEnabled(false);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.getLegend().setEnabled(false);
+
+    }
+
+    //Configuration of Data going into the chart using LineData Set.
     protected void setData(ArrayList<Float> data, LineChart chart, String name,ArrayList<String> TimeArray){
         ArrayList<Entry> dataVals = new ArrayList<>();
 
@@ -349,8 +310,6 @@ public class ResultsActivity extends AppCompatActivity {
         {
                 dataVals.add(new Entry(x, data.get(x)));
         }
-
-
 
         LineDataSet lineDataSet = new LineDataSet(dataVals, name + " Data Set");
         lineDataSet.setDrawValues(false);
@@ -365,7 +324,6 @@ public class ResultsActivity extends AppCompatActivity {
         xAxis.setLabelCount(5,true);
         xAxis.setTextSize(5);
         xAxis.setValueFormatter(new MyXAxisValueformatter(TimeArray));
-        //xAxis.setValueFormatter(new MyXAxisValueformatter(formattedStartDateTime));  // start,end,initial,final value
 
         LineData linedata = new LineData(dataSets);
 
@@ -373,7 +331,8 @@ public class ResultsActivity extends AppCompatActivity {
         chart.invalidate();
     }
 
-    private String calculateAverage(ArrayList <Float> marks) {
+    //Calculates the Average of data
+    protected String calculateAverage(ArrayList <Float> marks) {
         Float sum = (float) 0;
         if(!marks.isEmpty()) {
             float average;
@@ -386,6 +345,7 @@ public class ResultsActivity extends AppCompatActivity {
         return "0";
     }
 
+    //Prevents user to go back from Result Activity.
     @Override
     public void onBackPressed() {
         Context context = getApplicationContext();
@@ -395,7 +355,9 @@ public class ResultsActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private ArrayList<String> PeriodicDateTimeProducer(LocalDateTime start, LocalDateTime end, int num_cuts) {
+    //Creates ArrayList<Strings of the timestamp
+    protected ArrayList<String> PeriodicDateTimeProducer(LocalDateTime start, LocalDateTime end, int num_cuts) {
+
         ArrayList<String> results = new ArrayList<String>(num_cuts);
         long duration = Duration.between(start, end).getSeconds();
         long delta = duration/(num_cuts-1);
@@ -409,82 +371,76 @@ public class ResultsActivity extends AppCompatActivity {
         return results;
 
     }
-    //scoreTot,scoreH,scoreT,scoreM,scoreS
-    //private void score(ArrayList <Float>humidityData,ArrayList <Float>tempData,ArrayList <Float>soundData,ArrayList <Float>motionData,TextView scoreTot,TextView scoreH,TextView scoreT,TextView scoreM,TextView scoreS){
-   // private  String score(String string){
-    private void score(){
+
+    protected void score(){
+
         float score, scrHum,scrTmp,scrSound,scrMotion;
-        float avg_hum=calculateAveragefloat(humidityData);
-        float avg_temp=calculateAveragefloat(tempData);
-        float avgSound= calculateAveragefloat(soundData);
-        float avgMotion=calculateAveragefloat(motionData);
-        float spikeSound=0;
-        float spikeMotion=0;
+        float avg_hum = calculateAveragefloat(humidityData);
+        float avg_temp = calculateAveragefloat(tempData);
+        float avgSound = calculateAveragefloat(soundData);
+        float avgMotion = calculateAveragefloat(motionData);
+        float spikeSound = 0;
+        float spikeMotion = 0;
         float spikeOverTotalSoundPoint;
         float spikeOverTotalMotionPoint;
 
 
         for (int i=0;i<soundData.size();i++){
-            if(soundData.get(i)>65){spikeSound++;}
+
+            if(soundData.get(i)>65) spikeSound++;
+
         }
 
         spikeOverTotalSoundPoint = spikeSound / soundData.size();//calculate the number of t
 
-        for (int i=0;i<motionData.size();i++){
-            if(motionData.get(i)>50){spikeMotion++;}
-        }
+        for (int i=0;i<motionData.size();i++) if(motionData.get(i)>50) spikeMotion++;
 
         spikeOverTotalMotionPoint = spikeMotion / motionData.size();//calculate the number of t
 
         System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage sound"+spikeOverTotalSoundPoint +" spike percentage mmotion "+spikeOverTotalMotionPoint);
 
-/*The ideal humidity for sleep is between 30 and 50 percent.1 Anything higher (which is common during the summer in many parts of the country)
-can make it difficult to sleep for two reasons: comfort and congestion. High humidity prevents moisture from evaporating
-off your body, which can make you hot and sweaty. This might mean hours of tossing, turning, and flipping the pillow to find the coolest spots on the bed, which is never a good way to sleep.2
-https://www.breatheright.com/causes-of-congestion/how-humidity-affects-sleep.html#:~:text=The%20ideal%20humidity%20for%20sleep,make%20you%20hot%20and%20sweaty.
- */
-/*The best relative humidity for sleeping and other indoor activities has been debated.
-According to the Environmental Protection Agency, the best indoor relative humidity falls between 30% and 50%,
-and it should never exceed 60%. Other studies suggest 40% to 60% is a better range. Regardless,
- 60% seems to be the agreed-upon threshold for indoor humidity.
- https://www.sleepfoundation.org/bedroom-environment/humidity-and-sleep
- */
-        if (40<=avg_hum && avg_hum<=50){scrHum=(float)2.5;}
-        else if ( 30<=avg_hum && avg_hum<=60){scrHum=(float)2.0;;}
-        else if ( 25<=avg_hum && avg_hum<=62){scrHum=(float)1.0;}
-        else{scrHum=(float)0;}
-/*The best bedroom temperature for sleep is approximately 65 degrees Fahrenheit (18.3 degrees Celsius).
-This may vary by a few degrees from person to person, but most doctors recommend keeping the thermostat set between 60 to 67 degrees
-Fahrenheit (15.6 to 19.4 degrees Celsius) for the most comfortable sleep.
-https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:~:text=The%20best%20bedroom%20temperature%20for,for%20the%20most%20comfortable%20sleep.
- */
-        if (17<=avg_temp && avg_temp<=18.5){scrTmp=(float)2.5;}
-        else if ( 15<=avg_temp && avg_temp <=19.5){scrTmp=(float)2.0;}
-        else if ( 12<=avg_temp && avg_temp<=24){scrTmp=(float)1.0;}
-        else{scrTmp=(float)0;}
+        /*The ideal humidity for sleep is between 30 and 50 percent.1 Anything higher (which is common during the summer in many parts of the country)
+        can make it difficult to sleep for two reasons: comfort and congestion. High humidity prevents moisture from evaporating
+        off your body, which can make you hot and sweaty. This might mean hours of tossing, turning, and flipping the pillow to find the coolest spots on the bed, which is never a good way to sleep.2
+        https://www.breatheright.com/causes-of-congestion/how-humidity-affects-sleep.html#:~:text=The%20ideal%20humidity%20for%20sleep,make%20you%20hot%20and%20sweaty.
+         */
 
-        if (0.0<=spikeOverTotalSoundPoint&& 0.05<=spikeOverTotalSoundPoint){scrSound=(float)2.5;}
-        else if (0.05<=spikeOverTotalSoundPoint&& 0.15<=spikeOverTotalSoundPoint){scrSound=(float)2.0;}
-        else if (0.15<=spikeOverTotalSoundPoint&& 0.40<=spikeOverTotalSoundPoint){scrSound=(float)1.0;}
+        /*The best relative humidity for sleeping and other indoor activities has been debated.
+        According to the Environmental Protection Agency, the best indoor relative humidity falls between 30% and 50%,
+        and it should never exceed 60%. Other studies suggest 40% to 60% is a better range. Regardless,
+         60% seems to be the agreed-upon threshold for indoor humidity.
+         https://www.sleepfoundation.org/bedroom-environment/humidity-and-sleep
+         */
+
+        /*The best bedroom temperature for sleep is approximately 65 degrees Fahrenheit (18.3 degrees Celsius).
+        This may vary by a few degrees from person to person, but most doctors recommend keeping the thermostat set between 60 to 67 degrees
+        Fahrenheit (15.6 to 19.4 degrees Celsius) for the most comfortable sleep.
+        https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:~:text=The%20best%20bedroom%20temperature%20for,for%20the%20most%20comfortable%20sleep.
+         */
+
+        if (40<=avg_hum && avg_hum<=50)     scrHum=(float)2.5;
+        else if ( 30<=avg_hum && avg_hum<=60)   scrHum=(float)2.0;
+        else if ( 25<=avg_hum && avg_hum<=62)   scrHum=(float)1.0;
+        else scrHum=(float)0;
+
+        if (17<=avg_temp && avg_temp<=18.5)     scrTmp=(float)2.5;
+        else if ( 15<=avg_temp && avg_temp <=19.5)      scrTmp=(float)2.0;
+        else if ( 12<=avg_temp && avg_temp<=24)     scrTmp=(float)1.0;
+        else scrTmp=(float)0;
+
+        if (0.0<=spikeOverTotalSoundPoint&& 0.05<=spikeOverTotalSoundPoint)     scrSound=(float)2.5;
+        else if (0.05<=spikeOverTotalSoundPoint&& 0.15<=spikeOverTotalSoundPoint)   scrSound=(float)2.0;
+        else if (0.15<=spikeOverTotalSoundPoint&& 0.40<=spikeOverTotalSoundPoint)   scrSound=(float)1.0;
         else {scrSound=(float)0;}
 
         if (0.0<=spikeOverTotalMotionPoint&& 0.01<=spikeOverTotalMotionPoint) {scrMotion=(float)2.5;}
-    else if (0.0<=spikeOverTotalMotionPoint&& 0.03<=spikeOverTotalMotionPoint){scrMotion=(float)2.0;}
-    else if (0.03<=spikeOverTotalMotionPoint&& 0.20<=spikeOverTotalMotionPoint){scrMotion=(float)1.0;}
-    else {scrMotion=(float)0;}
+        else if (0.0<=spikeOverTotalMotionPoint&& 0.03<=spikeOverTotalMotionPoint){scrMotion=(float)2.0;}
+        else if (0.03<=spikeOverTotalMotionPoint&& 0.20<=spikeOverTotalMotionPoint){scrMotion=(float)1.0;}
+        else scrMotion=(float)0;
 
 
         score=scrHum+scrTmp+scrSound+scrMotion;
-        //create textview and set text. also add to database
-        // string fromat is not necessary
         System.out.println("Total score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
-
-//        if(string=="total"){return "Total score: "+ score;}
-//        else if (string=="humidity"){return "Humidity score: "+ scrHum;}
-//        else if (string=="temperature"){return"Temperature score: "+scrTmp;}
-//        else if (string=="sound"){return "Sound score: "+ scrSound;}
-//        else if (string=="motion"){return "Motion score: "+scrMotion;}
-//        return "ERROR";
 
         scoreTot.setText("Total score: "+ score);
         scoreH.setText("Humidity score: "+ scrHum);
@@ -494,7 +450,8 @@ https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:
 
     }
 
-    private float calculateAveragefloat(ArrayList <Float> marks) {
+    //Calculates the average of a data set.
+    protected float calculateAveragefloat(ArrayList <Float> marks) {
         Float sum = (float) 0;
         if(!marks.isEmpty()) {
             float average;
@@ -506,7 +463,9 @@ https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep#:
         }
         return 0;
     }
-   private class MyXAxisValueformatter implements IAxisValueFormatter {
+
+    //Changes the X Axis format from data number to time format.
+   protected class MyXAxisValueformatter implements IAxisValueFormatter {
 
         private ArrayList<String> timearray;
 
