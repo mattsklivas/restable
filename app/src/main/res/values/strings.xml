@@ -22,9 +22,9 @@
     <string name="x_axis_title_temp_chart">Time</string>
     <string name="y_axis_title_temp_chart">°C</string>
     <string name="x_axis_title_sound_chart">Time</string>
-    <string name="y_axis_title_sound_chart">DB</string>
+    <string name="y_axis_title_sound_chart">dB</string>
     <string name="x_axis_title_motion_chart">Time</string>
-    <string name="y_axis_title_motion_chart">Distance</string>
+    <string name="y_axis_title_motion_chart">cm</string>
     <string name="average_temp">Average Temperature(°C):</string>
     <string name="average_humidity">Average Humidity(RH %):</string>
     <string name="start_time">Start time:</string>

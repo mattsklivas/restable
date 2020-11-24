@@ -60,7 +60,8 @@ public class ResultsActivity extends AppCompatActivity {
     protected LocalDateTime stopTime, startTime;
 
     //Defining TextView of activity_results.xml
-    protected TextView start_Time, stop_Time , average_Temp, average_Humid, time_Slept, scoreTot, scoreH , scoreT, scoreM, scoreS;
+    protected TextView start_Time, stop_Time , average_Temp, average_Humid, time_Slept, scoreTot, scoreH , scoreT, scoreM, scoreS,
+                        recTitle, humidTitle, tempTitle, soundTitle, motionTitle;
 
     //Defining Button of activity_results.xml
     protected Button done_button, save_button, otherReturnButton;
@@ -148,6 +149,11 @@ public class ResultsActivity extends AppCompatActivity {
             average_Temp = findViewById(R.id.average_temp);
             average_Humid = findViewById(R.id.average_humidity);
             time_Slept = findViewById(R.id.time_slept);
+            recTitle = findViewById(R.id.recTitle);
+            humidTitle = findViewById(R.id.humidTitle);
+            tempTitle = findViewById(R.id.tempTitle);
+            motionTitle = findViewById(R.id.motionTitle);
+            soundTitle = findViewById(R.id.soundTitle);
 
             scoreTot =(TextView) findViewById(R.id.scoreTotal);
             scoreH =(TextView) findViewById(R.id.scoreHum);
