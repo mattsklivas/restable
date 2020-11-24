@@ -24,6 +24,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 
 import android.content.Intent;
@@ -65,8 +66,18 @@ public class RecActivity  extends BlunoLibrary {
     protected AnimationDrawable animDrawable;
     private PopupWindow mPopupWindow;
 
+    //SharedPreference for setting theme
+    SharedPref sharedpref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedpref = new SharedPref(this);
+        if(sharedpref.loadNightModeState()) {
+            setTheme(R.style.NightTheme);
+        }
+        else {
+            setTheme(R.style.AppTheme);
+        }
         startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
 
@@ -76,18 +87,6 @@ public class RecActivity  extends BlunoLibrary {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_rec);
         Log.d(TAG, "onCreate called");
-
-        // Hide system UI when visibility change is detected
-        View decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener
-                (new View.OnSystemUiVisibilityChangeListener() {
-                    @Override
-                    public void onSystemUiVisibilityChange(int visibility) {
-                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                            fullScreenImmersive();
-                        }
-                    }
-                });
 
         // Add custom toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -293,7 +292,7 @@ public class RecActivity  extends BlunoLibrary {
                 mPopupWindow.dismiss();
                 //Reset RecActivity gradient background
                 View view = findViewById(R.id.rec_layout);
-                view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.gradient_animation, null));
+                view.setBackground(ContextCompat.getDrawable(RecActivity.this, R.drawable.gradient_animation));
                 return true;
             }
         });

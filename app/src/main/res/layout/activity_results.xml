@@ -18,8 +18,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="168dp"
-            android:text="@string/x_axis_title_humidity_chart" />
-
+            android:text="@string/x_axis_title_humidity_chart"
+            android:textColor="?attr/colorMain"/>
 
         <TextView
             android:id="@+id/y_axis_title_humidity_chart"
@@ -32,26 +32,26 @@
             android:layout_marginEnd="8dp"
             android:layout_toStartOf="@+id/line_chart_humidity"
             android:rotation="-90"
-            android:text="@string/y_axis_title_humidity_chart" />
+            android:text="@string/y_axis_title_humidity_chart"
+            android:textColor="?attr/colorMain"/>
 
         <TextView
             android:id="@+id/x_axis_title_temp_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/line_chart_motion"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="202dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="171dp"
-            android:text="@string/x_axis_title_temp_chart" />
+            android:text="@string/x_axis_title_temp_chart"
+            android:textColor="?attr/colorMain"/>
 
         <TextView
             android:id="@+id/y_axis_title_temp_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/y_axis_title_humidity_chart"
             android:layout_alignParentStart="true"
             android:layout_marginStart="22dp"
@@ -59,20 +59,21 @@
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/line_chart_motion"
             android:rotation="-90"
-            android:text="@string/y_axis_title_temp_chart" />
+            android:text="@string/y_axis_title_temp_chart"
+            android:textColor="?attr/colorMain"/>
 
         <TextView
             android:id="@+id/x_axis_title_sound_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/line_chart_sound"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="205dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="174dp"
-            android:text="@string/x_axis_title_sound_chart" />
+            android:text="@string/x_axis_title_sound_chart"
+            android:textColor="?attr/colorMain" />
 
         <TextView
             android:id="@+id/y_axis_title_sound_chart"
@@ -85,7 +86,8 @@
             android:layout_marginEnd="7dp"
             android:layout_toStartOf="@+id/line_chart_sound"
             android:rotation="-90"
-            android:text="@string/y_axis_title_sound_chart" />
+            android:text="@string/y_axis_title_sound_chart"
+            android:textColor="?attr/colorMain"/>
 
         <TextView
             android:id="@+id/x_axis_title_motion_chart"
@@ -97,7 +99,8 @@
             android:layout_marginStart="198dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="176dp"
-            android:text="@string/x_axis_title_motion_chart" />
+            android:text="@string/x_axis_title_motion_chart"
+            android:textColor="?attr/colorMain"/>
 
         <TextView
             android:id="@+id/y_axis_title_motion_chart"
@@ -110,7 +113,8 @@
             android:layout_marginEnd="4dp"
             android:layout_toStartOf="@+id/line_chart_temp"
             android:rotation="-90"
-            android:text="@string/y_axis_title_motion_chart" />
+            android:text="@string/y_axis_title_motion_chart"
+            android:textColor="?attr/colorMain"/>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart_humidity"
@@ -160,9 +164,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="206dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/average_temp"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp" />
 
         <TextView
@@ -175,9 +178,8 @@
             android:layout_marginStart="9dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="208dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/average_humidity"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp" />
 
         <TextView
@@ -190,9 +192,8 @@
             android:layout_marginStart="11dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="210dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/start_time"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp" />
 
         <TextView
@@ -205,9 +206,8 @@
             android:layout_marginStart="7dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="191dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/stop_time"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:textSize="12sp" />
 
         <TextView
@@ -220,9 +220,8 @@
             android:layout_marginStart="65dp"
             android:layout_marginTop="-12dp"
             android:layout_marginEnd="-25dp"
-            android:fontFamily="@font/surt_light"
             android:text="@string/time_slept"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
         <Button
             android:id="@+id/save_button"
@@ -233,9 +232,8 @@
             android:layout_marginStart="232dp"
             android:layout_marginTop="1034dp"
             android:background="@drawable/custom_button"
-            android:fontFamily="@font/surt_light"
             android:text="@string/save_button"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
         <Button
             android:id="@+id/done_button"
@@ -246,9 +244,8 @@
             android:layout_marginTop="940dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/custom_button"
-            android:fontFamily="@font/surt_light"
             android:text="@string/done_button"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
         <TextView
             android:id="@+id/scoreSound"
@@ -261,7 +258,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="247dp"
             android:text="@string/score_sound"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
         <TextView
             android:id="@+id/scoreTotal"
@@ -273,7 +270,7 @@
             android:layout_marginStart="51dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="258dp"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorMain"
             android:text="@string/total_score" />
 
         <TextView
@@ -287,7 +284,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="230dp"
             android:text="@string/score_humidity"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
         <TextView
             android:id="@+id/scoreTemp"
@@ -300,7 +297,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="259dp"
             android:text="@string/score_temp"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
         <TextView
             android:id="@+id/textView10"
@@ -311,7 +308,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="43dp"
             android:layout_marginTop="1811dp"
-            android:layout_marginEnd="101dp" />
+            android:layout_marginEnd="101dp"
+            android:textColor="?attr/colorMain" />
 
         <TextView
             android:id="@+id/scoreMot"
@@ -324,7 +322,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="246dp"
             android:text="@string/score_motion"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorMain" />
 
 
     </RelativeLayout>

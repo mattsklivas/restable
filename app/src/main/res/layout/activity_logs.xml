@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/noSessionsTextView"
         android:fontFamily="@font/surt_light"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

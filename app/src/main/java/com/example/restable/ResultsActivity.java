@@ -88,9 +88,17 @@ public class ResultsActivity extends AppCompatActivity {
     //protected ConstraintLayout rootLayout;
     //protected AnimationDrawable animDrawable;
 
+    //SharedPreference for setting theme
+    SharedPref sharedpref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(sharedpref.loadNightModeState()) {
+            setTheme(R.style.NightTheme);
+        }
+        else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "onCreate called");
@@ -162,12 +170,6 @@ public class ResultsActivity extends AppCompatActivity {
             scoreM =(TextView) findViewById(R.id.scoreMot);
             scoreS=(TextView) findViewById(R.id.scoreSound);
             databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
-
-//            System.out.println("Dummy data if user hasn't connected to the hardware:");
-//            System.out.println("tempData:" + tempData);
-//            System.out.println("humidityData:" + humidityData);
-//            System.out.println("soundData:" + soundData);
-//            System.out.println("motionData:" + motionData);
 
             humiditychart = findViewById(R.id.line_chart_humidity);
             humiditychart.setDrawBorders(true);
