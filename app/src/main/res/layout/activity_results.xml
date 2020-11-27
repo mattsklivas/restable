@@ -111,6 +111,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/line_chart_sound" />
 
+        <EditText
+            android:id="@+id/notesText"
+            android:layout_width="320dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="40dp"
+            android:gravity="left"
+            android:text="Add Notes"
+            android:textColor="?attr/colorMain"
+            android:textColorHint="?attr/colorMain"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageOptCond" />
+
         <TextView
             android:id="@+id/x_axis_title_humidity_chart"
             android:layout_width="wrap_content"
@@ -283,6 +298,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line_chart_sound" />
 
+
         <TextView
             android:id="@+id/average_temp"
             android:layout_width="wrap_content"
@@ -290,13 +306,12 @@
             android:layout_below="@+id/average_humidity"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
-            android:fontFamily="@font/surt_light"
+            android:layout_marginTop="32dp"
             android:text="@string/average_temp"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintHorizontal_bias="0.078"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/x_axis_title_motion_chart" />
 
@@ -307,15 +322,16 @@
             android:layout_below="@+id/x_axis_title_motion_chart"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="68dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="106dp"
             android:text="@string/average_humidity"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/x_axis_title_motion_chart" />
-
+            app:layout_constraintTop_toBottomOf="@+id/average_temp" />
 
         <TextView
             android:id="@+id/start_time"
@@ -324,32 +340,16 @@
             android:layout_below="@+id/average_temp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="103dp"
             android:text="@string/start_time"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/average_humidity" />
-
-        <TextView
-            android:id="@+id/stop_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/start_time"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="27dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/stop_time"
-            android:textColor="?attr/colorMain"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/scoreTotal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.081"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/start_time" />
 
         <TextView
             android:id="@+id/scoreTotal"
@@ -358,75 +358,34 @@
             android:layout_below="@+id/stop_time"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="97dp"
             android:text="@string/total_score"
             android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stop_time" />
+
+        <TextView
+            android:id="@+id/stop_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/start_time"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="81dp"
+            android:text="@string/stop_time"
+            android:textColor="?attr/colorMain"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start_time" />
-
-        <TextView
-            android:id="@+id/scoreHum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scoreTotal"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/score_humidity"
-            android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scoreTotal" />
-
-        <TextView
-            android:id="@+id/scoreTemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scoreHum"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/score_temp"
-            android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scoreHum" />
-
-        <TextView
-            android:id="@+id/scoreSound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scoreTemp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/score_sound"
-            android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scoreTemp" />
-
-        <TextView
-            android:id="@+id/scoreMot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scoreSound"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:paddingBottom="20dp"
-            android:text="@string/score_motion"
-            android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scoreSound" />
 
         <Button
             android:id="@+id/save_button"
@@ -434,14 +393,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="72dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="1212dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/custom_button"
             android:text="@string/save_button"
             android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.926"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stop_time" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/done_button"
@@ -449,14 +408,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="1212dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/custom_button"
             android:text="@string/done_button"
             android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.926"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageOptCond"
+            android:layout_width="210dp"
+            android:layout_height="182dp"
+            android:layout_marginTop="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/save_button" />
+            app:layout_constraintTop_toBottomOf="@+id/line_chart_motion"
+            app:srcCompat="@drawable/opt_cond" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

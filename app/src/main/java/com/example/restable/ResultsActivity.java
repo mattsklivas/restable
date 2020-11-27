@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,9 @@ public class ResultsActivity extends AppCompatActivity {
     //Defining TextView of activity_results.xml
     protected TextView start_Time, stop_Time , average_Temp, average_Humid, time_Slept, scoreTot, scoreH , scoreT, scoreM, scoreS,
                         recTitle, humidTitle, tempTitle, soundTitle, motionTitle;
+
+    //Defining ImageView for optimal temperature/humidity conditions
+    protected ImageView condImage;
 
     //Defining Button of activity_results.xml
     protected Button done_button, save_button, otherReturnButton;
@@ -155,11 +159,21 @@ public class ResultsActivity extends AppCompatActivity {
             motionTitle = findViewById(R.id.motionTitle);
             soundTitle = findViewById(R.id.soundTitle);
 
+            //Setup the optimal temp/humidity conditions icon
+            condImage = findViewById(R.id.imageOptCond);
+            condImage.setAlpha(0.9f);
+            if(sharedpref.loadNightModeState()) {
+                condImage.setImageResource(R.drawable.opt_cond_alt);
+            }
+            else {
+                condImage.setImageResource(R.drawable.opt_cond);
+            }
+
             scoreTot =(TextView) findViewById(R.id.scoreTotal);
-            scoreH =(TextView) findViewById(R.id.scoreHum);
-            scoreT =(TextView) findViewById(R.id.scoreTemp);
-            scoreM =(TextView) findViewById(R.id.scoreMot);
-            scoreS=(TextView) findViewById(R.id.scoreSound);
+            //scoreH =(TextView) findViewById(R.id.scoreHum);
+            //scoreT =(TextView) findViewById(R.id.scoreTemp);
+            //scoreM =(TextView) findViewById(R.id.scoreMot);
+            //scoreS=(TextView) findViewById(R.id.scoreSound);
             databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
             humidityChart = findViewById(R.id.line_chart_humidity);
@@ -193,10 +207,10 @@ public class ResultsActivity extends AppCompatActivity {
 
             duration = Duration.between(startTime, stopTime);
 
-            start_Time.setText(String.format("Start Time %s", startTime.format(DATE_TIME_FORMATTER)));
-            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DATE_TIME_FORMATTER)));
-            average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
-            average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
+            start_Time.setText(String.format("Start Time \n%s", startTime.format(DATE_TIME_FORMATTER)));
+            stop_Time.setText(String.format("Stop Time \n%s", stopTime.format(DATE_TIME_FORMATTER)));
+            average_Temp.setText(String.format("Average\nTemperature: %1$s%2$s", calculateAverage(tempData),"°C"));
+            average_Humid.setText(String.format("Average\nHumidity: %1$s%2$s", calculateAverage(humidityData), "%"));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
 
             score();
@@ -408,10 +422,10 @@ public class ResultsActivity extends AppCompatActivity {
         System.out.println("Total score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
 
         scoreTot.setText("Total score: "+ score);
-        scoreH.setText("Humidity score: "+ scrHum);
-        scoreT.setText("Temperature score: "+scrTmp);
-        scoreS.setText("Sound score: "+ scrSound);
-        scoreM.setText("Motion score: "+scrMotion);
+        //scoreH.setText("Humidity score: "+ scrHum);
+        //scoreT.setText("Temperature score: "+scrTmp);
+        //scoreS.setText("Sound score: "+ scrSound);
+        //scoreM.setText("Motion score: "+scrMotion);
 
     }
 
