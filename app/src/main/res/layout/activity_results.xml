@@ -115,16 +115,44 @@
             android:id="@+id/notesText"
             android:layout_width="320dp"
             android:layout_height="41dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="68dp"
             android:gravity="left"
             android:text="Add Notes"
             android:textColor="?attr/colorMain"
             android:textColorHint="?attr/colorMain"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintHorizontal_bias="0.439"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageOptCond" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1248dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/save_button"
+            android:textColor="?attr/colorMain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/done_button"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="1248dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/done_button"
+            android:textColor="?attr/colorMain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/x_axis_title_humidity_chart"
@@ -323,7 +351,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="106dp"
             android:text="@string/average_humidity"
             android:textColor="?attr/colorMain"
@@ -387,34 +415,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start_time" />
 
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="153dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="1212dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/custom_button"
-            android:text="@string/save_button"
-            android:textColor="?attr/colorMain"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/done_button"
+        <TextView
+            android:id="@+id/dummyText"
             android:layout_width="153dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="1212dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/custom_button"
-            android:text="@string/done_button"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="1336dp"
             android:textColor="?attr/colorMain"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

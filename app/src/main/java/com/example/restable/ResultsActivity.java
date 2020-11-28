@@ -419,9 +419,9 @@ public class ResultsActivity extends AppCompatActivity {
 
 
         score=scrHum+scrTmp+scrSound+scrMotion;
-        System.out.println("Total score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
+        System.out.println("Total Score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
 
-        scoreTot.setText("Total score: "+ score);
+        scoreTot.setText(String.format("Total Score: %1$s%2$s", score, "/10"));
         //scoreH.setText("Humidity score: "+ scrHum);
         //scoreT.setText("Temperature score: "+scrTmp);
         //scoreS.setText("Sound score: "+ scrSound);
