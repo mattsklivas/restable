@@ -186,8 +186,8 @@ public class ResultsActivity extends AppCompatActivity {
 
             duration = Duration.between(startTime, stopTime);
 
-            start_Time.setText(String.format("Start Time %s", startTime.format(DATE_TIME_FORMATTER)));
-            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DATE_TIME_FORMATTER)));
+            start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
             average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
             average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
@@ -355,7 +355,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         spikeOverTotalMotionPoint = spikeMotion / motionData.size();//calculate the number of t
 
-        System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage sound"+spikeOverTotalSoundPoint +" spike percentage mmotion "+spikeOverTotalMotionPoint);
+        System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage sound"+spikeOverTotalSoundPoint +" spike percentage motion "+spikeOverTotalMotionPoint);
 
         /*The ideal humidity for sleep is between 30 and 50 percent.1 Anything higher (which is common during the summer in many parts of the country)
         can make it difficult to sleep for two reasons: comfort and congestion. High humidity prevents moisture from evaporating
