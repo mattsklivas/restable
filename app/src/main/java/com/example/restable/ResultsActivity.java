@@ -1,15 +1,24 @@
 package com.example.restable;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +32,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.color.MaterialColors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -60,7 +70,11 @@ public class ResultsActivity extends AppCompatActivity {
     protected LocalDateTime stopTime, startTime;
 
     //Defining TextView of activity_results.xml
-    protected TextView start_Time, stop_Time , average_Temp, average_Humid, time_Slept, scoreTot, scoreH , scoreT, scoreM, scoreS;
+    protected TextView start_Time, stop_Time , average_Temp, average_Humid, time_Slept, scoreTot, scoreH , scoreT, scoreM, scoreS,
+                        recTitle, humidTitle, tempTitle, soundTitle, motionTitle;
+
+    //Defining ImageView for optimal temperature/humidity conditions
+    protected ImageView condImage;
 
     //Defining Button of activity_results.xml
     protected Button done_button, save_button, otherReturnButton;
@@ -76,6 +90,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedpref = new SharedPref(this);
         if(sharedpref.loadNightModeState()) {
             setTheme(R.style.NightTheme);
         }
@@ -87,18 +102,18 @@ public class ResultsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-//        rootLayout = (ConsrtaintLayout) findViewById(R.id.results_layout);
-//        animDrawable = (AnimationDrawable) rootLayout.getBackground();
-//        animDrawable.setEnterFadeDuration(10);
-//        animDrawable.setExitFadeDuration(5000);
-//        animDrawable.start();
+        //rootLayout = (ScrollView) findViewById(R.id.result_layout);
+        //animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        //animDrawable.setEnterFadeDuration(10);
+        //animDrawable.setExitFadeDuration(5000);
+        //animDrawable.start();
 
         //Linking the Buttons to the activity_results.xml ids
         done_button = findViewById(R.id.done_button);
         save_button = findViewById(R.id.save_button);
         otherReturnButton = findViewById(R.id.return_button);
 
-        //Linking the Textview to the activity_results.xml ids
+        //Linking the TextView to the activity_results.xml ids
         start_Time = findViewById(R.id.start_time);
         stop_Time = findViewById(R.id.stop_time);
         average_Temp = findViewById(R.id.average_temp);
@@ -147,12 +162,27 @@ public class ResultsActivity extends AppCompatActivity {
             average_Temp = findViewById(R.id.average_temp);
             average_Humid = findViewById(R.id.average_humidity);
             time_Slept = findViewById(R.id.time_slept);
+            recTitle = findViewById(R.id.recTitle);
+            humidTitle = findViewById(R.id.humidTitle);
+            tempTitle = findViewById(R.id.tempTitle);
+            motionTitle = findViewById(R.id.motionTitle);
+            soundTitle = findViewById(R.id.soundTitle);
+
+            //Setup the optimal temp/humidity conditions icon
+            condImage = findViewById(R.id.imageOptCond);
+            condImage.setAlpha(0.9f);
+            if(sharedpref.loadNightModeState()) {
+                condImage.setImageResource(R.drawable.opt_cond_alt);
+            }
+            else {
+                condImage.setImageResource(R.drawable.opt_cond);
+            }
 
             scoreTot =(TextView) findViewById(R.id.scoreTotal);
-            scoreH =(TextView) findViewById(R.id.scoreHum);
-            scoreT =(TextView) findViewById(R.id.scoreTemp);
-            scoreM =(TextView) findViewById(R.id.scoreMot);
-            scoreS=(TextView) findViewById(R.id.scoreSound);
+            //scoreH =(TextView) findViewById(R.id.scoreHum);
+            //scoreT =(TextView) findViewById(R.id.scoreTemp);
+            //scoreM =(TextView) findViewById(R.id.scoreMot);
+            //scoreS=(TextView) findViewById(R.id.scoreSound);
             databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
             humidityChart = findViewById(R.id.line_chart_humidity);
@@ -186,10 +216,11 @@ public class ResultsActivity extends AppCompatActivity {
 
             duration = Duration.between(startTime, stopTime);
 
+
             start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
             stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
-            average_Temp.setText(String.format("Average Temperature (°C): %s", calculateAverage(tempData)));
-            average_Humid.setText(String.format("Average Humidity (RH %%): %s", calculateAverage(humidityData)));
+            average_Temp.setText(String.format("Average\nTemperature: %1$s%2$s", calculateAverage(tempData),"°C"));
+            average_Humid.setText(String.format("Average\nHumidity: %1$s%2$s", calculateAverage(humidityData), "%"));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
 
             score();
@@ -248,12 +279,21 @@ public class ResultsActivity extends AppCompatActivity {
     //Configuration of each Chart on the activity.
     protected  void configureGraph(LineChart chart){
 
+        // Get theme color
+        @SuppressLint("RestrictedApi")
+        int themeColor = MaterialColors.getColor(ResultsActivity.this, R.attr.colorMain, Color.BLACK);
+
         chart.setDrawBorders(true);
-        chart.setBorderColor(Color.BLUE);
+        chart.setBorderColor(themeColor);
+        chart.getXAxis().setTextColor(themeColor);
+        //chart.getXAxis().setXOffset(-5.0f);
+        chart.setExtraRightOffset(20.0f);
+        chart.getXAxis().setYOffset(5.0f);
+        chart.getAxisLeft().setTextColor(themeColor);
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.getDescription().setEnabled(false);
-        chart.getXAxis().setDrawGridLines(false);
+        chart.getXAxis().setDrawGridLines(true);
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getLegend().setEnabled(false);
@@ -272,15 +312,20 @@ public class ResultsActivity extends AppCompatActivity {
         LineDataSet lineDataSet = new LineDataSet(dataVals, name + " Data Set");
         lineDataSet.setDrawValues(false);
         lineDataSet.setLineWidth(2);
-        lineDataSet.setColor(Color.GRAY);
+
+        // Get theme color
+        @SuppressLint("RestrictedApi")
+        int themeColor = MaterialColors.getColor(ResultsActivity.this, R.attr.colorMain, Color.BLACK);
+
+        lineDataSet.setColor(themeColor);
         lineDataSet.setDrawCircles(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setLabelCount(5,true);
-        xAxis.setTextSize(5);
+        xAxis.setLabelCount(6,true);
+        xAxis.setTextSize(8);
         xAxis.setValueFormatter(new MyXAxisValueformatter(TimeArray));
 
         LineData linedata = new LineData(dataSets);
@@ -398,13 +443,13 @@ public class ResultsActivity extends AppCompatActivity {
 
 
         score=scrHum+scrTmp+scrSound+scrMotion;
-        System.out.println("Total score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
+        System.out.println("Total Score: "+ score+"Humidity score: "+scrHum+"Temperature score: "+scrTmp+"Sound score: "+scrSound+"Motion score: "+scrMotion);
 
-        scoreTot.setText("Total score: "+ score);
-        scoreH.setText("Humidity score: "+ scrHum);
-        scoreT.setText("Temperature score: "+scrTmp);
-        scoreS.setText("Sound score: "+ scrSound);
-        scoreM.setText("Motion score: "+scrMotion);
+        scoreTot.setText(String.format("Total Score: %1$s%2$s", score, "/10"));
+        //scoreH.setText("Humidity score: "+ scrHum);
+        //scoreT.setText("Temperature score: "+scrTmp);
+        //scoreS.setText("Sound score: "+ scrSound);
+        //scoreM.setText("Motion score: "+scrMotion);
 
     }
 
