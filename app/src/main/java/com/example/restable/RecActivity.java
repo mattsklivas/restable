@@ -221,6 +221,7 @@ public class RecActivity  extends BlunoLibrary {
         Log.d(TAG, "onConnectionStateChange called for state " + theConnectionState);
         switch (theConnectionState) {
             case isConnected:
+                // Enable HW to send serial data
                 serialSend(Integer.toString(1));
                 buttonScan.setText(R.string.disconnect);
                 Toast.makeText(RecActivity.this, "Device connected!", Toast.LENGTH_SHORT).show();
@@ -247,7 +248,6 @@ public class RecActivity  extends BlunoLibrary {
     //Function which handles received serial data
     @Override
     public void onSerialReceived(String theString) {
-        serialSend(Integer.toString(1));
         Log.i(TAG, theString + "from sensor");
         //Append the text into the EditText and print it to to the Scrollview (for debugging purposes)
         serialReceivedText.append(theString);
