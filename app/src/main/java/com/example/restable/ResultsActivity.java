@@ -1,17 +1,25 @@
 package com.example.restable;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +33,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.color.MaterialColors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -97,18 +106,18 @@ public class ResultsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate called");
 
         // Add animated background gradient
-//        rootLayout = (ConstraintLayout) findViewById(R.id.results_layout);
-//        animDrawable = (AnimationDrawable) rootLayout.getBackground();
-//        animDrawable.setEnterFadeDuration(10);
-//        animDrawable.setExitFadeDuration(5000);
-//        animDrawable.start();
+        //rootLayout = (ScrollView) findViewById(R.id.result_layout);
+        //animDrawable = (AnimationDrawable) rootLayout.getBackground();
+        //animDrawable.setEnterFadeDuration(10);
+        //animDrawable.setExitFadeDuration(5000);
+        //animDrawable.start();
 
         //Linking the Buttons to the activity_results.xml ids
         done_button = findViewById(R.id.done_button);
         save_button = findViewById(R.id.save_button);
         otherReturnButton = findViewById(R.id.return_button);
 
-        //Linking the Textview to the activity_results.xml ids
+        //Linking the TextView to the activity_results.xml ids
         start_Time = findViewById(R.id.start_time);
         stop_Time = findViewById(R.id.stop_time);
         average_Temp = findViewById(R.id.average_temp);
@@ -214,8 +223,9 @@ public class ResultsActivity extends AppCompatActivity {
 
             duration = Duration.between(startTime, stopTime);
 
-            start_Time.setText(String.format("Start Time \n%s", startTime.format(DATE_TIME_FORMATTER)));
-            stop_Time.setText(String.format("Stop Time \n%s", stopTime.format(DATE_TIME_FORMATTER)));
+
+            start_Time.setText(String.format("Start Time %s", startTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
+            stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
             average_Temp.setText(String.format("Average\nTemperature: %1$s%2$s", calculateAverage(tempData),"°C"));
             average_Humid.setText(String.format("Average\nHumidity: %1$s%2$s", calculateAverage(humidityData), "%"));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
@@ -280,12 +290,21 @@ public class ResultsActivity extends AppCompatActivity {
     //Configuration of each Chart on the activity.
     protected  void configureGraph(LineChart chart){
 
+        // Get theme color
+        @SuppressLint("RestrictedApi")
+        int themeColor = MaterialColors.getColor(ResultsActivity.this, R.attr.colorMain, Color.BLACK);
+
         chart.setDrawBorders(true);
-        chart.setBorderColor(Color.BLUE);
+        chart.setBorderColor(themeColor);
+        chart.getXAxis().setTextColor(themeColor);
+        //chart.getXAxis().setXOffset(-5.0f);
+        chart.setExtraRightOffset(20.0f);
+        chart.getXAxis().setYOffset(5.0f);
+        chart.getAxisLeft().setTextColor(themeColor);
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.getDescription().setEnabled(false);
-        chart.getXAxis().setDrawGridLines(false);
+        chart.getXAxis().setDrawGridLines(true);
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getLegend().setEnabled(false);
@@ -304,15 +323,20 @@ public class ResultsActivity extends AppCompatActivity {
         LineDataSet lineDataSet = new LineDataSet(dataVals, name + " Data Set");
         lineDataSet.setDrawValues(false);
         lineDataSet.setLineWidth(2);
-        lineDataSet.setColor(Color.GRAY);
+
+        // Get theme color
+        @SuppressLint("RestrictedApi")
+        int themeColor = MaterialColors.getColor(ResultsActivity.this, R.attr.colorMain, Color.BLACK);
+
+        lineDataSet.setColor(themeColor);
         lineDataSet.setDrawCircles(false);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setLabelCount(5,true);
-        xAxis.setTextSize(5);
+        xAxis.setLabelCount(6,true);
+        xAxis.setTextSize(8);
         xAxis.setValueFormatter(new MyXAxisValueformatter(TimeArray));
 
         LineData linedata = new LineData(dataSets);
@@ -387,7 +411,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         spikeOverTotalMotionPoint = spikeMotion / motionData.size();//calculate the number of t
 
-        System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage sound"+spikeOverTotalSoundPoint +" spike percentage mmotion "+spikeOverTotalMotionPoint);
+        System.out.println("Suyash test avghum "+avg_hum+" avg temp "+avg_temp+" avg motion "+avgMotion+" avgSound "+avgSound+" spike percentage sound"+spikeOverTotalSoundPoint +" spike percentage motion "+spikeOverTotalMotionPoint);
 
         /*The ideal humidity for sleep is between 30 and 50 percent.1 Anything higher (which is common during the summer in many parts of the country)
         can make it difficult to sleep for two reasons: comfort and congestion. High humidity prevents moisture from evaporating

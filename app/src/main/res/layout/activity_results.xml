@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/result_layout"
     android:background="@drawable/gradient_animation"
     android:paddingTop="35dp"
     android:paddingBottom="45dp" >
@@ -155,13 +156,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notesText" />
 
+        <!-- disabled but kept for constraint purposes -->
         <TextView
             android:id="@+id/x_axis_title_humidity_chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/line_chart_humidity"
             android:layout_alignParentEnd="true"
-            android:text="@string/x_axis_title_humidity_chart"
+            android:text=""
             android:textColor="?attr/colorMain"
             app:layout_constraintBottom_toTopOf="@+id/line_chart_temp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -187,6 +189,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/time_slept" />
 
+        <!-- disabled but kept for constraint purposes -->
         <TextView
             android:id="@+id/x_axis_title_temp_chart"
             android:layout_width="wrap_content"
@@ -194,7 +197,7 @@
             android:layout_below="@+id/line_chart_motion"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:text="@string/x_axis_title_temp_chart"
+            android:text=""
             android:textColor="?attr/colorMain"
             app:layout_constraintBottom_toTopOf="@+id/line_chart_sound"
             app:layout_constraintEnd_toEndOf="parent"
@@ -220,6 +223,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/y_axis_title_humidity_chart" />
 
+        <!-- disabled but kept for constraint purposes -->
         <TextView
             android:id="@+id/x_axis_title_sound_chart"
             android:layout_width="wrap_content"
@@ -227,7 +231,7 @@
             android:layout_below="@+id/line_chart_sound"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:text="@string/x_axis_title_sound_chart"
+            android:text=""
             android:textColor="?attr/colorMain"
             app:layout_constraintBottom_toTopOf="@+id/line_chart_motion"
             app:layout_constraintEnd_toEndOf="parent"
@@ -253,6 +257,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/y_axis_title_temp_chart" />
 
+        <!-- disabled but kept for constraint purposes -->
         <TextView
             android:id="@+id/x_axis_title_motion_chart"
             android:layout_width="wrap_content"
@@ -261,7 +266,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:gravity="center"
-            android:text="@string/x_axis_title_motion_chart"
+            android:text=""
             android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.572"
