@@ -128,17 +128,17 @@ public class ViewLogActivity extends AppCompatActivity {
         soundTitle = findViewById(R.id.soundTitle_log);
 
         // Linking the EditText to the activity_results.xml id
-        notes = (EditText) findViewById(R.id.notesText_log);
+        notes = findViewById(R.id.notesText_log);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
         assert sleepData != null;
         key = getIntent().getStringExtra("key");
+        scores = (Scores) getIntent().getSerializableExtra("scores");
         humidityData = sleepData.getHumidityData();
         tempData = sleepData.getTempData();
         soundData = sleepData.getSoundData();
         motionData = sleepData.getMotionData();
         notesText = sleepData.getNotes();
-        scores = new Scores(sleepData);
 
         startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
         stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());

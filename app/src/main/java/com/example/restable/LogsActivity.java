@@ -37,6 +37,7 @@ public class LogsActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<SleepData> sleepSessions;
     private ArrayList<String> sleepLogKeys;
+    private ArrayList<Scores> sleepLogScores;
     protected ListView listView;
     protected LogsListViewAdapter adapter;
     protected ProgressBar progressBar;
@@ -81,6 +82,7 @@ public class LogsActivity extends AppCompatActivity {
         // Get sleep sessions from db to be displayed in list view
         sleepSessions = new ArrayList<>();
         sleepLogKeys = new ArrayList<>();
+        sleepLogScores = new ArrayList<>();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
         userID = currentUser.getUid();
@@ -89,8 +91,12 @@ public class LogsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot d : snapshot.getChildren()) {
-                    sleepSessions.add(d.getValue(SleepData.class));
+                    SleepData session = d.getValue(SleepData.class);
+                    assert session != null;
+                    Scores scores = new Scores(session);
+                    sleepSessions.add(session);
                     sleepLogKeys.add(d.getKey());
+                    sleepLogScores.add(scores);
                     Log.i(TAG, "Loaded " + d.getKey() + " from database");
                 }
                 if (sleepSessions.size() == 0)
@@ -125,12 +131,13 @@ public class LogsActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onItemClick for clicking ListView item " + position);
 
-                // Get time information
                 SleepData sleepData = sleepSessions.get(position);
                 String key = sleepLogKeys.get(position);
+                Scores scores = sleepLogScores.get(position);
                 Intent intent = new Intent(LogsActivity.this, ViewLogActivity.class);
                 intent.putExtra("sleepData", sleepData);
                 intent.putExtra("key", key);
+                intent.putExtra("scores", scores);
                 Log.i(TAG, "Starting ViewLogActivity");
                 startActivity(intent);
             }
