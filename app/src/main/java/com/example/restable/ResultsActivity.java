@@ -10,15 +10,26 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.PopupWindowCompat;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +99,9 @@ public class ResultsActivity extends AppCompatActivity {
 
     //SharedPreference for setting theme
     SharedPref sharedpref;
+
+    //Add PopupWindow for Sleep Score
+    protected PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,6 +289,54 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //Create the options menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_score, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //Turn off the screen display while recording sleep activity data when clicked
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //Setup the PopupWindow
+        LinearLayout popupView = (LinearLayout) LayoutInflater.from(getApplicationContext())
+                .inflate(R.layout.pop_up_layout, null);
+        popupView.setGravity(Gravity.CENTER);
+        popupView.setBackgroundColor(Color.WHITE);
+        int windowWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+        ;
+        int windowHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+        mPopupWindow = new PopupWindow(popupView, windowWidth, windowHeight);
+        mPopupWindow.setFocusable(true);
+
+        //Display the PopupWindow
+        showPopup(findViewById(R.id.rec_layout));
+        Button closeButton = findViewById(R.id.closeButton);
+        //Handler for clicking the PopupWindow
+        //Close PopupWindow and restore background gradient
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Display the PopupWindow
+    public void showPopup(View anchor) {
+        mPopupWindow.setFocusable(false);
+        mPopupWindow.update();
+
+        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor,
+                -mPopupWindow.getWidth() / 2 + anchor.getWidth() / 2,
+                -mPopupWindow.getHeight() - anchor.getHeight(), Gravity.CENTER);
+
+        mPopupWindow.update();
     }
 
     //Configuration of each Chart on the activity.
