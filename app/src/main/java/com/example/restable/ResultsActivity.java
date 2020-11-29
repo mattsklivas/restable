@@ -82,9 +82,6 @@ public class ResultsActivity extends AppCompatActivity {
     //Defining Duration to find out how long a person has slept.
     protected Duration duration;
 
-    //protected ConstraintLayout rootLayout;
-    //protected AnimationDrawable animDrawable;
-
     //SharedPreference for setting theme
     SharedPref sharedpref;
 
@@ -100,13 +97,6 @@ public class ResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "onCreate called");
-
-        // Add animated background gradient
-        //rootLayout = (ScrollView) findViewById(R.id.result_layout);
-        //animDrawable = (AnimationDrawable) rootLayout.getBackground();
-        //animDrawable.setEnterFadeDuration(10);
-        //animDrawable.setExitFadeDuration(5000);
-        //animDrawable.start();
 
         //Linking the Buttons to the activity_results.xml ids
         done_button = findViewById(R.id.done_button);
@@ -286,7 +276,6 @@ public class ResultsActivity extends AppCompatActivity {
         chart.setDrawBorders(true);
         chart.setBorderColor(themeColor);
         chart.getXAxis().setTextColor(themeColor);
-        //chart.getXAxis().setXOffset(-5.0f);
         chart.setExtraRightOffset(20.0f);
         chart.getXAxis().setYOffset(5.0f);
         chart.getAxisLeft().setTextColor(themeColor);
