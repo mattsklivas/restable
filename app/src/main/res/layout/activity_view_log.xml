@@ -106,19 +106,20 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/line_chart_motion_log"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/line_chart_sound_log" />
+                app:layout_constraintTop_toTopOf="@+id/line_chart_sound_log"
+                app:layout_constraintVertical_bias="1.0" />
 
             <EditText
                 android:id="@+id/notesText_log"
                 android:layout_width="337dp"
                 android:layout_height="124dp"
                 android:layout_marginTop="20dp"
+                android:autofillHints="Add Notes"
+                android:editable="false"
                 android:gravity="start"
                 android:hint="No Notes Saved"
-                android:editable="false"
-                android:autofillHints="Add Notes"
                 android:textColor="?attr/colorMain"
                 android:textColorHint="?attr/colorMain"
                 android:textSize="16sp"
@@ -402,6 +403,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/line_chart_motion_log"
                 app:srcCompat="@drawable/opt_cond"
                 android:contentDescription="TODO" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Notes:"
+                android:textColor="?attr/colorMain"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/notesText_log"
+                app:layout_constraintStart_toStartOf="@+id/notesText_log" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

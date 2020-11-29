@@ -431,6 +431,17 @@
             app:layout_constraintTop_toBottomOf="@+id/line_chart_motion"
             app:srcCompat="@drawable/opt_cond" />
 
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Notes:"
+            android:textColor="?attr/colorMain"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/notesText"
+            app:layout_constraintStart_toStartOf="@+id/notesText" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
