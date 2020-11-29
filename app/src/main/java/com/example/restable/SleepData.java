@@ -14,7 +14,7 @@ public class SleepData implements Serializable {
     private ArrayList<Float> motionData;
     private long startTime;
     private long endTime;
-
+    private String notes;
 
     public SleepData() {
 
@@ -30,6 +30,19 @@ public class SleepData implements Serializable {
         this.startTime = startTime.atZone(zoneId).toEpochSecond();
         this.endTime = endTime.atZone(zoneId).toEpochSecond();
     }
+
+    public SleepData(ArrayList<Float> humidityData, ArrayList<Float> tempData, ArrayList<Float> soundData, ArrayList<Float> motionData, LocalDateTime startTime, LocalDateTime endTime, String notes) {
+        this.humidityData = humidityData;
+        this.tempData = tempData;
+        this.soundData = soundData;
+        this.motionData = motionData;
+        this.notes = notes;
+
+        ZoneId zoneId = ZoneId.systemDefault();
+        this.startTime = startTime.atZone(zoneId).toEpochSecond();
+        this.endTime = endTime.atZone(zoneId).toEpochSecond();
+    }
+
 
     public SleepData(StringBuilder receivedData, LocalDateTime startTime, LocalDateTime endTime) {
         humidityData = new ArrayList<>();
@@ -86,6 +99,9 @@ public class SleepData implements Serializable {
         return endTime;
     }
 
+    public String getNotes() {
+        return notes;
+    }
 
     public void setHumidityData(ArrayList<Float> humidityData) {
         this.humidityData = humidityData;
@@ -109,5 +125,9 @@ public class SleepData implements Serializable {
 
     public void setEndTime(long endTime) {
         this.endTime = endTime;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

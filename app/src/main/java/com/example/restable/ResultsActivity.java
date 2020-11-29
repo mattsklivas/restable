@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,9 @@ public class ResultsActivity extends AppCompatActivity {
 
     //Defining ImageView for optimal temperature/humidity conditions
     protected ImageView condImage;
+
+    // Defining the EditText for the notes
+    protected EditText notes;
 
     //Defining Button of activity_results.xml
     protected Button done_button, save_button, otherReturnButton;
@@ -137,6 +141,9 @@ public class ResultsActivity extends AppCompatActivity {
 
             setContentView(R.layout.activity_results);
             Log.d(TAG, "onCreate called");
+
+            // Linking the EditText to the activity_results.xml id
+            notes = (EditText) findViewById(R.id.notesText);
 
             humidityData = sleepData.getHumidityData();
             tempData = sleepData.getTempData();
@@ -235,6 +242,10 @@ public class ResultsActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 Log.d(TAG, "save_button onClick called");
                 Log.i(TAG, "saving to firebase database");
+
+                // Extract notes text to be saved and add to SleepData
+                String notesText = notes.getText().toString();
+                sleepData.setNotes(notesText);
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;

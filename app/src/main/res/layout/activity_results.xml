@@ -113,16 +113,17 @@
 
         <EditText
             android:id="@+id/notesText"
-            android:layout_width="320dp"
-            android:layout_height="41dp"
-            android:layout_marginTop="68dp"
+            android:layout_width="337dp"
+            android:layout_height="124dp"
+            android:layout_marginTop="20dp"
             android:gravity="left"
-            android:text="Add Notes"
+            android:hint="Add Notes"
+            android:autofillHints="Add Notes"
             android:textColor="?attr/colorMain"
             android:textColorHint="?attr/colorMain"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.439"
+            app:layout_constraintHorizontal_bias="0.545"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageOptCond" />
 
@@ -132,13 +133,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="1248dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/custom_button"
             android:text="@string/save_button"
             android:textColor="?attr/colorMain"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/notesText" />
 
         <Button
             android:id="@+id/done_button"
@@ -146,13 +147,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="1248dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/custom_button"
             android:text="@string/done_button"
             android:textColor="?attr/colorMain"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/notesText" />
 
         <TextView
             android:id="@+id/x_axis_title_humidity_chart"
@@ -334,50 +335,13 @@
             android:layout_below="@+id/average_humidity"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:text="@string/average_temp"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.078"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/x_axis_title_motion_chart" />
-
-        <TextView
-            android:id="@+id/average_humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/x_axis_title_motion_chart"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="106dp"
-            android:text="@string/average_humidity"
-            android:textColor="?attr/colorMain"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/average_temp" />
-
-        <TextView
-            android:id="@+id/start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/average_temp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="103dp"
-            android:text="@string/start_time"
-            android:textColor="?attr/colorMain"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/average_humidity" />
 
         <TextView
             android:id="@+id/scoreTotal"
@@ -386,16 +350,28 @@
             android:layout_below="@+id/stop_time"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="97dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:text="@string/total_score"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stop_time" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/average_temp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/start_time"
+            android:textColor="?attr/colorMain"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/average_humidity" />
 
         <TextView
             android:id="@+id/stop_time"
@@ -404,16 +380,28 @@
             android:layout_below="@+id/start_time"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="81dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:text="@string/stop_time"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageOptCond"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start_time" />
+
+        <TextView
+            android:id="@+id/average_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/x_axis_title_motion_chart"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/average_humidity"
+            android:textColor="?attr/colorMain"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/average_temp" />
 
         <TextView
             android:id="@+id/dummyText"
@@ -421,8 +409,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="1336dp"
+            android:layout_marginStart="212dp"
+            android:layout_marginTop="1116dp"
             android:textColor="?attr/colorMain"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -431,7 +419,7 @@
             android:id="@+id/imageOptCond"
             android:layout_width="210dp"
             android:layout_height="182dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="44dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
