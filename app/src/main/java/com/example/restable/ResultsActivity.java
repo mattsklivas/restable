@@ -9,6 +9,7 @@ import android.graphics.Color;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -16,6 +17,8 @@ import androidx.core.widget.PopupWindowCompat;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -29,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -236,6 +240,13 @@ public class ResultsActivity extends AppCompatActivity {
 
             score();
 
+            //Add a delay to create the PopupWindow after the Activity has been initialized
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showPopup();
+                }
+            },100);
         }
 
         //Setup doneButton
@@ -291,52 +302,30 @@ public class ResultsActivity extends AppCompatActivity {
 
     }
 
-    //Create the options menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_score, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+    //Display the PopupWindow
+    public void showPopup() {
+        //Inflate the layout of the PopupWindow
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.pop_up_layout, null);
 
-    //Turn off the screen display while recording sleep activity data when clicked
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //Setup the PopupWindow
-        LinearLayout popupView = (LinearLayout) LayoutInflater.from(getApplicationContext())
-                .inflate(R.layout.pop_up_layout, null);
-        popupView.setGravity(Gravity.CENTER);
-        popupView.setBackgroundColor(Color.WHITE);
-        int windowWidth = ViewGroup.LayoutParams.MATCH_PARENT;
-        ;
-        int windowHeight = ViewGroup.LayoutParams.MATCH_PARENT;
-        mPopupWindow = new PopupWindow(popupView, windowWidth, windowHeight);
-        mPopupWindow.setFocusable(true);
+        //Create the PopupWindow
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-        //Display the PopupWindow
-        showPopup(findViewById(R.id.rec_layout));
-        Button closeButton = findViewById(R.id.closeButton);
-        //Handler for clicking the PopupWindow
-        //Close PopupWindow and restore background gradient
+        //Show the PopupWindow
+        popupWindow.showAtLocation(findViewById(R.id.result_layout), Gravity.CENTER, 0, 0);
+
+        //Dismiss the PopupWindow when clicked
+        Button closeButton = popupView.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPopupWindow.dismiss();
+                popupWindow.dismiss();
             }
         });
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //Display the PopupWindow
-    public void showPopup(View anchor) {
-        mPopupWindow.setFocusable(false);
-        mPopupWindow.update();
-
-        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor,
-                -mPopupWindow.getWidth() / 2 + anchor.getWidth() / 2,
-                -mPopupWindow.getHeight() - anchor.getHeight(), Gravity.CENTER);
-
-        mPopupWindow.update();
     }
 
     //Configuration of each Chart on the activity.
