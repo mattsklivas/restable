@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class ViewLogActivity extends AppCompatActivity {
     private ArrayList<Float> soundData;
     private ArrayList<Float> motionData;
     private String key;
+    private String notesText;
 
     private LocalDateTime stopTime;
     private LocalDateTime startTime;
@@ -68,6 +70,8 @@ public class ViewLogActivity extends AppCompatActivity {
     protected TextView average_Temp;
     protected TextView average_Humid;
     protected TextView time_Slept;
+
+    protected EditText notes;
 
     private Duration duration;
 
@@ -107,6 +111,7 @@ public class ViewLogActivity extends AppCompatActivity {
         average_Temp = findViewById(R.id.average_temp_log);
         average_Humid = findViewById(R.id.average_humidity_log);
         time_Slept = findViewById(R.id.time_slept_log);
+        notes = findViewById(R.id.notesText_log);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
         assert sleepData != null;
@@ -115,6 +120,8 @@ public class ViewLogActivity extends AppCompatActivity {
         tempData = sleepData.getTempData();
         soundData = sleepData.getSoundData();
         motionData = sleepData.getMotionData();
+        notesText = sleepData.getNotes();
+
         startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
         stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
 
@@ -162,6 +169,7 @@ public class ViewLogActivity extends AppCompatActivity {
         setData(humidityData,humiditychart,humidity);
         setData(soundData,soundchart,sound);
         setData(motionData,motionchart,motion);
+        notes.setText(notesText);
 
         duration = Duration.between(startTime, stopTime);
 

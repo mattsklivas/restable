@@ -341,7 +341,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="14dp"
             android:text="@string/average_temp"
             android:textColor="?attr/colorMain"
             android:textSize="12sp"
@@ -415,16 +415,16 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="212dp"
-            android:layout_marginTop="1116dp"
+            android:layout_marginTop="1dp"
             android:textColor="?attr/colorMain"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageOptCond" />
 
         <ImageView
             android:id="@+id/imageOptCond"
             android:layout_width="210dp"
             android:layout_height="182dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
