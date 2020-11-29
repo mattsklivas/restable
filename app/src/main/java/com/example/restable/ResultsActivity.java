@@ -449,11 +449,11 @@ public class ResultsActivity extends AppCompatActivity {
             scrSound = (float) 0;
         }
 
-        if (motionVariance < 0.05) {
+        if (motionDeviation < 2) {
             scrMotion = (float) 2.5;
-        } else if (motionVariance < 0.25) {
+        } else if (motionDeviation < 5) {
             scrMotion = (float) 2.0;
-        } else if (motionVariance < 0.5) {
+        } else if (motionDeviation < 10) {
             scrMotion = (float) 1.0;
         } else scrMotion = (float) 0;
 
@@ -472,8 +472,9 @@ public class ResultsActivity extends AppCompatActivity {
     //Calculates the average of a data set.
     protected float calculateAveragefloat(ArrayList<Float> marks) {
         Float sum = (float) 0;
+        float average;
         if (!marks.isEmpty()) {
-            float average;
+
             for (Float mark : marks) {
                 sum += mark;
             }
