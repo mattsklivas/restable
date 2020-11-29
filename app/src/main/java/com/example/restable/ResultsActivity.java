@@ -3,23 +3,17 @@ package com.example.restable;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +52,7 @@ public class ResultsActivity extends AppCompatActivity {
     //Defining the four strings thats needed for the labeling of the charts.
     protected String humidity = "Humidity", temperature = "Temperature", sound = "Sound", motion = "Motion";
 
+    //The Data coming from database , and DatabaseReference being the database itself.
     protected DatabaseReference databaseReference;
     protected SleepData sleepData;
 
@@ -146,6 +141,7 @@ public class ResultsActivity extends AppCompatActivity {
             tempData = sleepData.getTempData();
             soundData = sleepData.getSoundData();
             motionData = sleepData.getMotionData();
+
             startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getStartTime()), ZoneId.systemDefault());
             stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sleepData.getEndTime()), ZoneId.systemDefault());
 
@@ -200,6 +196,7 @@ public class ResultsActivity extends AppCompatActivity {
             configureGraph(tempChart);
             configureGraph(soundChart);
             configureGraph(motionChart);
+
 
             timeArray = PeriodicDateTimeProducer(startTime, stopTime, humidityData.size());
 
@@ -393,6 +390,7 @@ public class ResultsActivity extends AppCompatActivity {
         spikeOverTotalSoundPoint = spikeSound / soundData.size();//calculate the number of t
 
 
+
         for (int i = 0; i < motionData.size(); i++) {
             float tmp;
             tmp = motionData.get(i) - avgMotion;
@@ -402,7 +400,8 @@ public class ResultsActivity extends AppCompatActivity {
         motionVariance = motionVariance / (motionData.size() - 1);
         motionDeviation = (float) Math.sqrt(motionVariance);
 
-       for (int i=0;i<motionData.size();i++) if(motionData.get(i)>50) spikeMotion++;
+      // for (int i=0;i<motionData.size();i++) if(motionData.get(i)>50) spikeMotion++;
+
 
         spikeOverTotalMotionPoint = spikeMotion / motionData.size();//calculate the number of t
 
@@ -437,6 +436,7 @@ public class ResultsActivity extends AppCompatActivity {
         else if (12 <= avg_temp && avg_temp <= 24) scrTmp = (float) 1.0;
         else scrTmp = (float) 0;
 
+
         if (0.0 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.05)
             scrSound = (float) (136.27 * Math.pow(spikeOverTotalSoundPoint, 3) - 9.8512 * Math.pow(10, -61) * Math.pow(spikeOverTotalSoundPoint, 2) - 10.341 * spikeOverTotalSoundPoint + 2.5);
         else if (0.05 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.2)
@@ -445,9 +445,11 @@ public class ResultsActivity extends AppCompatActivity {
             scrSound = (float) (-13.543 * Math.pow(spikeOverTotalSoundPoint, 3) + 20.284 * Math.pow(spikeOverTotalSoundPoint, 2) - 10.917 * spikeOverTotalSoundPoint + 2.4804);
         else if (0.5 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 1)
             scrSound = (float) (0.019841 * Math.pow(spikeOverTotalSoundPoint, 3) - 0.059524 * Math.pow(spikeOverTotalSoundPoint, 2) - 0.74544 * spikeOverTotalSoundPoint + 0.78512);
+
         else {
             scrSound = (float) 0;
         }
+
 
         if (motionDeviation < 2) {
             scrMotion = (float) 2.5;
@@ -472,8 +474,10 @@ public class ResultsActivity extends AppCompatActivity {
     //Calculates the average of a data set.
     protected float calculateAveragefloat(ArrayList<Float> marks) {
         Float sum = (float) 0;
+
         float average;
         if (!marks.isEmpty()) {
+
 
             for (Float mark : marks) {
                 sum += mark;
