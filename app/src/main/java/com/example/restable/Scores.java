@@ -21,6 +21,7 @@ public class Scores implements Serializable {
         float avg_temp = calculateAveragefloat(tempData);
         float avgSound = calculateAveragefloat(soundData);
         float avgMotion = calculateAveragefloat(motionData);
+        float motionVariance = 0, motionDeviation;
         float spikeSound = 0;
         float spikeMotion = 0;
         float spikeOverTotalSoundPoint;
@@ -34,7 +35,17 @@ public class Scores implements Serializable {
 
         spikeOverTotalSoundPoint = spikeSound / soundData.size();//calculate the number of t
 
-        for (int i = 0; i < motionData.size(); i++) if (motionData.get(i) > 50) spikeMotion++;
+
+        for (int i = 0; i < motionData.size(); i++) {
+            float tmp;
+            tmp = motionData.get(i) - avgMotion;
+            motionVariance = (float) (motionVariance + Math.pow(tmp, 2));
+        }
+
+        motionVariance = motionVariance / (motionData.size() - 1);
+        motionDeviation = (float) Math.sqrt(motionVariance);
+
+        for (int i=0;i<motionData.size();i++) if(motionData.get(i)>50) spikeMotion++;
 
         spikeOverTotalMotionPoint = spikeMotion / motionData.size();//calculate the number of t
 
@@ -69,21 +80,23 @@ public class Scores implements Serializable {
         else if (12 <= avg_temp && avg_temp <= 24) scrTmp = (float) 1.0;
         else scrTmp = (float) 0;
 
-        if (0.0 <= spikeOverTotalSoundPoint && 0.05 <= spikeOverTotalSoundPoint)
-            scrSound = (float) 2.5;
-        else if (0.05 <= spikeOverTotalSoundPoint && 0.15 <= spikeOverTotalSoundPoint)
-            scrSound = (float) 2.0;
-        else if (0.15 <= spikeOverTotalSoundPoint && 0.40 <= spikeOverTotalSoundPoint)
-            scrSound = (float) 1.0;
+        if (0.0 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.05)
+            scrSound = (float) (136.27 * Math.pow(spikeOverTotalSoundPoint, 3) - 9.8512 * Math.pow(10, -61) * Math.pow(spikeOverTotalSoundPoint, 2) - 10.341 * spikeOverTotalSoundPoint + 2.5);
+        else if (0.05 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.2)
+            scrSound = (float) (-18.404 * Math.pow(spikeOverTotalSoundPoint, 3) + 23.201 * Math.pow(spikeOverTotalSoundPoint, 2) - 11.501 * spikeOverTotalSoundPoint + 2.5193);
+        else if (0.2 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.5)
+            scrSound = (float) (-13.543 * Math.pow(spikeOverTotalSoundPoint, 3) + 20.284 * Math.pow(spikeOverTotalSoundPoint, 2) - 10.917 * spikeOverTotalSoundPoint + 2.4804);
+        else if (0.5 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 1)
+            scrSound = (float) (0.019841 * Math.pow(spikeOverTotalSoundPoint, 3) - 0.059524 * Math.pow(spikeOverTotalSoundPoint, 2) - 0.74544 * spikeOverTotalSoundPoint + 0.78512);
         else {
             scrSound = (float) 0;
         }
 
-        if (0.0 <= spikeOverTotalMotionPoint && 0.01 <= spikeOverTotalMotionPoint) {
+        if (motionDeviation < 2) {
             scrMotion = (float) 2.5;
-        } else if (0.0 <= spikeOverTotalMotionPoint && 0.03 <= spikeOverTotalMotionPoint) {
+        } else if (motionDeviation < 5) {
             scrMotion = (float) 2.0;
-        } else if (0.03 <= spikeOverTotalMotionPoint && 0.20 <= spikeOverTotalMotionPoint) {
+        } else if (motionDeviation < 10) {
             scrMotion = (float) 1.0;
         } else scrMotion = (float) 0;
 
@@ -93,8 +106,10 @@ public class Scores implements Serializable {
     //Calculates the average of a data set.
     private float calculateAveragefloat(ArrayList<Float> marks) {
         Float sum = (float) 0;
+        float average;
+
         if (!marks.isEmpty()) {
-            float average;
+
             for (Float mark : marks) {
                 sum += mark;
             }
