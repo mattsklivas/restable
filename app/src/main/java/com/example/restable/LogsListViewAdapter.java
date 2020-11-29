@@ -32,6 +32,7 @@ public class LogsListViewAdapter extends ArrayAdapter<SleepData> {
     protected TextView durationTextView;
     protected TextView startTimeTextView;
     protected TextView endTimeTextView;
+    protected TextView sleepScoreTextView;
 
     private Context context;
     private int resource;
@@ -57,6 +58,7 @@ public class LogsListViewAdapter extends ArrayAdapter<SleepData> {
         LocalDateTime stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(getItem(position).getEndTime()), ZoneId.systemDefault());
         Log.i(TAG, "startTime" + startTime.toString());
         Log.i(TAG, "stopTime" + stopTime.toString());
+        Scores scores = new Scores(getItem(position));
 
         Duration duration = Duration.between(startTime, stopTime);
         Log.i(TAG, "duration" + String.format(Locale.getDefault(), "%d:%tM", duration.toHours(), duration.toMinutes()));
@@ -66,16 +68,18 @@ public class LogsListViewAdapter extends ArrayAdapter<SleepData> {
         convertView = inflater.inflate(resource, parent, false);
 
         // Get views
-        startDateTextView = (TextView) convertView.findViewById(R.id.startDateTextViewLogs);
-        durationTextView = (TextView) convertView.findViewById(R.id.hoursTextViewLogs);
-        startTimeTextView = (TextView) convertView.findViewById(R.id.startTimeTextViewLogs);
-        endTimeTextView = (TextView) convertView.findViewById(R.id.endTimeTextViewLogs);
+        startDateTextView = convertView.findViewById(R.id.startDateTextViewLogs);
+        durationTextView = convertView.findViewById(R.id.hoursTextViewLogs);
+        startTimeTextView = convertView.findViewById(R.id.startTimeTextViewLogs);
+        endTimeTextView = convertView.findViewById(R.id.endTimeTextViewLogs);
+        sleepScoreTextView = convertView.findViewById(R.id.sleepScoreTextViewLogs);
 
         // Set views
         startTimeTextView.setText(startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
         durationTextView.setText(String.format(Locale.getDefault(), "%dh %dm", duration.toHours(), duration.toMinutes()));
         startDateTextView.setText(format(Locale.getDefault(), "%s %d", startTime.getMonth().toString(), startTime.getDayOfMonth()));
         endTimeTextView.setText(stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
+        sleepScoreTextView.setText(String.format("Total Score: %1$s%2$s", scores.getScore(), "/10"));
 
         return convertView;
     }
