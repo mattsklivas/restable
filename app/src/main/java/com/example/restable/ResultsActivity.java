@@ -8,12 +8,18 @@ import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +73,7 @@ public class ResultsActivity extends AppCompatActivity {
     protected LocalDateTime stopTime, startTime;
 
     //Defining TextView of activity_results.xml
-    protected TextView start_Time, stop_Time, average_Temp, average_Humid, time_Slept, scoreTot, scoreH, scoreT, scoreM, scoreS,
+    protected TextView start_Time, stop_Time, average_Temp, average_Humid, time_Slept, viewScore,
             recTitle, humidTitle, tempTitle, soundTitle, motionTitle;
 
     //Defining ImageView for optimal temperature/humidity conditions
@@ -84,6 +90,9 @@ public class ResultsActivity extends AppCompatActivity {
 
     //SharedPreference for setting theme
     SharedPref sharedpref;
+
+    //Add PopupWindow for Sleep Score
+    protected PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,11 +179,16 @@ public class ResultsActivity extends AppCompatActivity {
                 condImage.setImageResource(R.drawable.opt_cond);
             }
 
-            scoreTot = (TextView) findViewById(R.id.scoreTotal);
-            //scoreH =(TextView) findViewById(R.id.scoreHum);
-            //scoreT =(TextView) findViewById(R.id.scoreTemp);
-            //scoreM =(TextView) findViewById(R.id.scoreMot);
-            //scoreS=(TextView) findViewById(R.id.scoreSound);
+            //Click "View Sleep Score" to open up the sleep score PopupWindow
+            viewScore = (TextView) findViewById(R.id.viewScore);
+            viewScore.setPaintFlags(viewScore.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            viewScore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopup(scores);
+                }
+            });
+
             databaseReference = FirebaseDatabase.getInstance().getReference("Sessions");
 
             humidityChart = findViewById(R.id.line_chart_humidity);
@@ -214,11 +228,13 @@ public class ResultsActivity extends AppCompatActivity {
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
 
 
-            scoreTot.setText(String.format("Total Score: %1$s%2$s", scores.getScore(), "/10"));
-//            scoreH.setText("Humidity score: "+ scores.getScrHum());
-//            scoreT.setText("Temperature score: "+ scores.getScrTmp());
-//            scoreS.setText("Sound score: "+ scores.getScrSound());
-//            scoreM.setText("Motion score: "+ scores.getScrMotion());
+            //Add a delay to create the PopupWindow after the Activity has been initialized
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showPopup(scores);
+                }
+            },100);
         }
 
         //Setup doneButton
@@ -272,6 +288,46 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //Display the PopupWindow
+    public void showPopup(Scores scores) {
+        //Inflate the layout of the PopupWindow
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.pop_up_layout, null);
+
+        //Create the PopupWindow
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        //Show the PopupWindow
+        popupWindow.showAtLocation(findViewById(R.id.result_layout), Gravity.CENTER, 0, 0);
+
+        //Get TextViews
+        TextView humidScore = popupView.findViewById(R.id.humidText);
+        TextView tempScore = popupView.findViewById(R.id.tempText);
+        TextView soundScore = popupView.findViewById(R.id.soundText);
+        TextView motionScore = popupView.findViewById(R.id.motionText);
+        TextView finalScore = popupView.findViewById(R.id.finalText);
+
+        //Add scores to PopupWindow
+        humidScore.setText(String.format("Humidity Score: %1$s%2$s", scores.getScrHum(), "/2.5"));
+        tempScore.setText(String.format("Temperature Score: %1$s%2$s", scores.getScrTmp(), "/2.5"));
+        soundScore.setText(String.format("Sound Levels Score: %1$s%2$s", scores.getScrSound(), "/2.5"));
+        motionScore.setText(String.format("Movement Score: %1$s%2$s", scores.getScrMotion(), "/2.5"));
+        finalScore.setText(String.format("Final Score: %1$s%2$s", scores.getScore(), "/10"));
+
+        //Dismiss the PopupWindow when clicked
+        Button closeButton = popupView.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     //Configuration of each Chart on the activity.

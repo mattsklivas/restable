@@ -111,23 +111,6 @@
                 app:layout_constraintTop_toTopOf="@+id/line_chart_sound_log"
                 app:layout_constraintVertical_bias="1.0" />
 
-            <EditText
-                android:id="@+id/notesText_log"
-                android:layout_width="337dp"
-                android:layout_height="124dp"
-                android:layout_marginTop="20dp"
-                android:autofillHints="Add Notes"
-                android:editable="false"
-                android:gravity="start"
-                android:hint="No Notes Saved"
-                android:textColor="?attr/colorMain"
-                android:textColorHint="?attr/colorMain"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.545"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageOptCond_log" />
-
             <!-- disabled but kept for constraint purposes -->
             <TextView
                 android:id="@+id/x_axis_title_humidity_chart_log"
@@ -321,17 +304,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/x_axis_title_motion_chart_log" />
 
             <TextView
-                android:id="@+id/scoreTotal_log"
+                android:id="@+id/viewScore_log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/stop_time_log"
+                android:layout_below="@+id/stop_time"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/total_score"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:text="View Sleep Score"
                 android:textColor="?attr/colorMain"
-                android:textSize="12sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stop_time_log" />
 
@@ -380,18 +365,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/average_temp_log" />
 
-            <TextView
-                android:id="@+id/dummyText_log"
-                android:layout_width="153dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="212dp"
-                android:layout_marginTop="1dp"
-                android:textColor="?attr/colorMain"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageOptCond_log" />
-
             <ImageView
                 android:id="@+id/imageOptCond_log"
                 android:layout_width="210dp"
@@ -408,13 +381,44 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="12dp"
+                android:paddingStart="4dp"
                 android:text="Notes:"
                 android:textColor="?attr/colorMain"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/notesText_log"
                 app:layout_constraintStart_toStartOf="@+id/notesText_log" />
 
+            <EditText
+                android:id="@+id/notesText_log"
+                android:layout_width="337dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="50dp"
+                android:paddingStart="4dp"
+                android:autofillHints="Add Notes"
+                android:editable="false"
+                android:gravity="start"
+                android:hint="No Notes Saved"
+                android:background="@color/colorTransparent"
+                android:textColor="?attr/colorMain"
+                android:textColorHint="?attr/colorMain"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.54"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageOptCond_log" />
+
+            <TextView
+                android:id="@+id/dummyText"
+                android:layout_width="153dp"
+                android:layout_height="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="211dp"
+                android:layout_marginTop="1293dp"
+                android:textColor="?attr/colorMain"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
