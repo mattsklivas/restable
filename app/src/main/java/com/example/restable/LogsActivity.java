@@ -26,8 +26,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class LogsActivity extends AppCompatActivity {
 
@@ -38,12 +44,17 @@ public class LogsActivity extends AppCompatActivity {
     private ArrayList<SleepData> sleepSessions;
     private ArrayList<String> sleepLogKeys;
     private ArrayList<Scores> sleepLogScores;
+    private float averageSleepTime;
+    private float averageSleepScore;
+
     protected ListView listView;
     protected LogsListViewAdapter adapter;
     protected ProgressBar progressBar;
     protected TextView noSessions;
     protected ConstraintLayout rootLayout;
     protected AnimationDrawable animDrawable;
+    protected TextView averageScoreTextView;
+    protected TextView averageTimeTextView;
 
     //SharedPreference for setting theme
     SharedPref sharedpref;
@@ -79,6 +90,10 @@ public class LogsActivity extends AppCompatActivity {
         // Progress bar
         progressBar = findViewById(R.id.progressBarLogs);
 
+        // Textviews
+        averageTimeTextView = findViewById(R.id.average_duration);
+        averageScoreTextView = findViewById(R.id.average_score);
+
         // Get sleep sessions from db to be displayed in list view
         sleepSessions = new ArrayList<>();
         sleepLogKeys = new ArrayList<>();
@@ -103,6 +118,18 @@ public class LogsActivity extends AppCompatActivity {
                     noSessions.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 configureListView();
+                // Calculate the average sleep time and score within the last 30 days
+                averageScoreTextView.setVisibility(View.VISIBLE);
+                averageTimeTextView.setVisibility(View.VISIBLE);
+                findViewById(R.id.average_duration_title).setVisibility(View.VISIBLE);
+                findViewById(R.id.average_score_title).setVisibility(View.VISIBLE);
+                findViewById(R.id.average_title).setVisibility(View.VISIBLE);
+                findViewById(R.id.hours).setVisibility(View.VISIBLE);
+
+                averageSleepTime = calculateAverageSleepTime();
+                averageSleepScore = calculateAverageSleepScore();
+                averageTimeTextView.setText(String.valueOf(averageSleepTime));
+                averageScoreTextView.setText(String.valueOf(averageSleepScore));
             }
 
             @Override
@@ -114,6 +141,42 @@ public class LogsActivity extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    // Calculate the average sleep score
+    private float calculateAverageSleepScore() {
+        LocalDate now = LocalDate.now();
+        LocalDate cutoff = now.minusDays(30);
+        float sum = 0;
+        int count = 0;
+
+        for (SleepData sd: sleepSessions) {
+            if(sd.getStartTime() >= cutoff.toEpochDay()){ // If within 30 days
+                Scores scores = new Scores(sd);
+                float totalScore = scores.getScore();
+                sum += totalScore;
+                count++;
+            }
+        }
+        return sum / count;
+    }
+
+    private float calculateAverageSleepTime() {
+        LocalDate now = LocalDate.now();
+        LocalDate cutoff = now.minusDays(30);
+        float sum = 0; // in hours
+        int count = 0;
+
+        for (SleepData sd: sleepSessions) {
+            LocalDateTime startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sd.getStartTime()), ZoneId.systemDefault());
+            LocalDateTime stopTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sd.getEndTime()), ZoneId.systemDefault());
+            Duration duration = Duration.between(startTime, stopTime);
+            if(sd.getStartTime() >= cutoff.toEpochDay()){ // If within 30 days
+                sum += duration.toHours();
+                count++;
+            }
+        }
+        return sum / count;
     }
 
     // Configure and display the ListView
