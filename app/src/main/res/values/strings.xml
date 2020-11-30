@@ -64,4 +64,5 @@
     <string name="score_humidity">Score humidity</string>
     <string name="total_score">Total Score:</string>
     <string name="score_sound">Score sound</string>
+    <string name="please_connect">Please connect to device</string>
 </resources>

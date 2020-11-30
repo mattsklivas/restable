@@ -75,8 +75,8 @@ public class Scores implements Serializable {
         else if (25 <= avg_hum && avg_hum <= 62) scrHum = (float) 1.0;
         else scrHum = (float) 0;
 
-        if (17 <= avg_temp && avg_temp <= 18.5) scrTmp = (float) 2.5;
-        else if (15 <= avg_temp && avg_temp <= 19.5) scrTmp = (float) 2.0;
+        if (17 <= avg_temp && avg_temp <= 20) scrTmp = (float) 2.5;
+        else if (15 <= avg_temp && avg_temp <= 22) scrTmp = (float) 2.0;
         else if (12 <= avg_temp && avg_temp <= 24) scrTmp = (float) 1.0;
         else scrTmp = (float) 0;
 

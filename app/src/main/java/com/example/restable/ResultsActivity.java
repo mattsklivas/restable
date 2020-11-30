@@ -119,10 +119,9 @@ public class ResultsActivity extends AppCompatActivity {
         time_Slept = findViewById(R.id.time_slept);
 
         sleepData = (SleepData) getIntent().getSerializableExtra("sleepData");
-        scores = new Scores(sleepData);
 
         //If there is no data found from sleep data, This will send the user to the no result activity xml page.
-        if (sleepData == null) {
+        if (sleepData.getHumidityData() == null) {
             setContentView(R.layout.activity_no_result);
             Log.d(TAG, "Activity No Result called");
 
@@ -133,7 +132,7 @@ public class ResultsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "other_done_button onClick called");
-                    Intent intent = new Intent(ResultsActivity.this, RecActivity.class);
+                    Intent intent = new Intent(ResultsActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             });
@@ -141,6 +140,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         //otherwise proceeds on filling up all the charts and ArrayList with the necessary data
         else {
+            scores = new Scores(sleepData);
 
             setContentView(R.layout.activity_results);
             Log.d(TAG, "onCreate called");
@@ -227,6 +227,56 @@ public class ResultsActivity extends AppCompatActivity {
             average_Humid.setText(String.format("Average\nHumidity: %1$s%2$s", calculateAverage(humidityData), "%"));
             time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes() - duration.toHours()*60));
 
+            //Setup doneButton
+            done_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "done_button onClick called");
+                    Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
+                    Log.i(TAG, "Starting MainActivity");
+                    startActivity(main_intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
+
+            //Setup saveButton
+            save_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Log.d(TAG, "save_button onClick called");
+                    Log.i(TAG, "saving to firebase database");
+
+                    // Extract notes text to be saved and add to SleepData
+                    String notesText = notes.getText().toString();
+                    sleepData.setNotes(notesText);
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    assert user != null;
+                    String owner = user.getUid();
+                    DatabaseReference dbRefPush = databaseReference.child(owner).push();
+                    dbRefPush.setValue(sleepData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Write was successful!
+                                    Log.i(TAG, "Write to firebase database successful");
+                                    //Store the ArrayLists in the Intent
+                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                    Log.i(TAG, "Starting MainActivity");
+                                    startActivity(intent);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Write failed
+                                    Log.e(TAG, "Write to firebase database failed");
+                                    Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            });
 
             //Add a delay to create the PopupWindow after the Activity has been initialized
             new Handler().postDelayed(new Runnable() {
@@ -236,58 +286,6 @@ public class ResultsActivity extends AppCompatActivity {
                 }
             },100);
         }
-
-        //Setup doneButton
-        done_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "done_button onClick called");
-                Intent main_intent = new Intent(ResultsActivity.this, MainActivity.class);
-                Log.i(TAG, "Starting MainActivity");
-                startActivity(main_intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
-
-        //Setup saveButton
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "save_button onClick called");
-                Log.i(TAG, "saving to firebase database");
-
-                // Extract notes text to be saved and add to SleepData
-                String notesText = notes.getText().toString();
-                sleepData.setNotes(notesText);
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                assert user != null;
-                String owner = user.getUid();
-                DatabaseReference dbRefPush = databaseReference.child(owner).push();
-                dbRefPush.setValue(sleepData)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Write was successful!
-                                Log.i(TAG, "Write to firebase database successful");
-                                //Store the ArrayLists in the Intent
-                                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                                Log.i(TAG, "Starting MainActivity");
-                                startActivity(intent);
-                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Write failed
-                                Log.e(TAG, "Write to firebase database failed");
-                                Toast.makeText(ResultsActivity.this, "Database write failed", Toast.LENGTH_LONG).show();
-                            }
-                        });
-            }
-        });
-
     }
 
     //Display the PopupWindow

@@ -17,7 +17,10 @@ public class SleepData implements Serializable {
     private String notes;
 
     public SleepData() {
-
+        this.humidityData = null;
+        this.tempData = null;
+        this.soundData = null;
+        this.motionData = null;
     }
 
     public SleepData(ArrayList<Float> humidityData, ArrayList<Float> tempData, ArrayList<Float> soundData, ArrayList<Float> motionData, LocalDateTime startTime, LocalDateTime endTime) {

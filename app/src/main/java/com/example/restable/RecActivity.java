@@ -157,6 +157,7 @@ public class RecActivity  extends BlunoLibrary {
                     intent.putExtra("sleepData", parsedData);
                 }
                 else {
+                    /*
                     Log.d(TAG, "dummy data being stored");
                     //Dummy sensor data from hardware
                     double[] humidity = {53.5, 53.6, 53.6, 53.5, 53.6, 53.6, 53.5, 53.6, 53.5, 53.6, 53.5, 53.5, 53.5, 53.6, 53.6, 53.5, 53.5, 53.5, 53.5, 53.5, 53.6, 53.5, 53.6, 53.7, 53.6, 53.6, 53.7};
@@ -179,7 +180,9 @@ public class RecActivity  extends BlunoLibrary {
                     }
 
                     SleepData parsedData = new SleepData(humidityData, tempData, soundData, motionData, startTime, endTime);
-                    intent.putExtra("sleepData", parsedData);
+                    intent.putExtra("sleepData", parsedData); */
+                    SleepData noData = new SleepData();
+                    intent.putExtra("sleepData", noData);
                 }
                 //Store dummy sensor data in the ArrayLists so developers without access to hardware can work on the app
                 Log.i(TAG, "starting ResultsActivity");
@@ -242,6 +245,7 @@ public class RecActivity  extends BlunoLibrary {
                 break;
             case isDisconnecting:
                 Toast.makeText(RecActivity.this, "Device disconnected", Toast.LENGTH_SHORT).show();
+                statusText.setText(R.string.please_connect);
                 break;
             default:
                 break;
