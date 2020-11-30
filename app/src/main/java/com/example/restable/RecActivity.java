@@ -81,6 +81,9 @@ public class RecActivity  extends BlunoLibrary {
         startTime = LocalDateTime.now();
         super.onCreate(savedInstanceState);
 
+        //Prevent screen from turning off
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // Make activity fullscreen and set the content view
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

@@ -203,7 +203,7 @@ public class ViewLogActivity extends AppCompatActivity {
         stop_Time.setText(String.format("Stop Time %s", stopTime.format(DateTimeFormatter.ofPattern("h:mm a"))));
         average_Temp.setText(String.format("Average\nTemperature: %1$s%2$s", calculateAverage(tempData), "°C"));
         average_Humid.setText(String.format("Average\nHumidity: %1$s%2$s", calculateAverage(humidityData), "%"));
-        time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes()));
+        time_Slept.setText(String.format(Locale.getDefault(), "Time Slept: %d Hours %d Minutes", duration.toHours(), duration.toMinutes() - duration.toHours()*60));
 
     }
 
@@ -271,7 +271,7 @@ public class ViewLogActivity extends AppCompatActivity {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setLabelCount(6, true);
-        xAxis.setTextSize(8);
+        xAxis.setTextSize(7);
         xAxis.setValueFormatter(new MyXAxisValueformatter(TimeArray));
 
         LineData linedata = new LineData(dataSets);

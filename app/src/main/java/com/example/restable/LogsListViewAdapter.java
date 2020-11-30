@@ -61,7 +61,7 @@ public class LogsListViewAdapter extends ArrayAdapter<SleepData> {
         Scores scores = new Scores(getItem(position));
 
         Duration duration = Duration.between(startTime, stopTime);
-        Log.i(TAG, "duration" + String.format(Locale.getDefault(), "%d:%tM", duration.toHours(), duration.toMinutes()));
+        Log.i(TAG, "duration" + String.format(Locale.getDefault(), "%d:%tM", duration.toHours(), duration.toMinutes() - duration.toHours()*60));
 
         // Show the listView for the selected Log
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -76,7 +76,7 @@ public class LogsListViewAdapter extends ArrayAdapter<SleepData> {
 
         // Set views
         startTimeTextView.setText(startTime.format(DateTimeFormatter.ofPattern("h:mm a")));
-        durationTextView.setText(String.format(Locale.getDefault(), "%dh %dm", duration.toHours(), duration.toMinutes()));
+        durationTextView.setText(String.format(Locale.getDefault(), "%dh %dm", duration.toHours(), duration.toMinutes() - duration.toHours()*60));
         startDateTextView.setText(format(Locale.getDefault(), "%s %d", startTime.getMonth().toString(), startTime.getDayOfMonth()));
         endTimeTextView.setText(stopTime.format(DateTimeFormatter.ofPattern("h:mm a")));
         sleepScoreTextView.setText(String.format("Total Score: %1$s%2$s", scores.getScore(), "/10"));
