@@ -245,7 +245,7 @@ public class RecActivity  extends BlunoLibrary {
                 break;
             case isDisconnecting:
                 Toast.makeText(RecActivity.this, "Device disconnected", Toast.LENGTH_SHORT).show();
-                statusText.setText(R.string.please_connect);
+                statusText.setText("Recording complete");
                 break;
             default:
                 break;

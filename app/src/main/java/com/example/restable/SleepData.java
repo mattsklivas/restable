@@ -11,6 +11,7 @@ public class SleepData implements Serializable {
     private ArrayList<Float> humidityData;
     private ArrayList<Float> tempData;
     private ArrayList<Float> soundData;
+    private ArrayList<Float> motionTemp;
     private ArrayList<Float> motionData;
     private long startTime;
     private long endTime;
@@ -63,6 +64,16 @@ public class SleepData implements Serializable {
                     break;
             }
         }
+
+        // Prevent out of range data from being included in motionData
+        motionTemp = new ArrayList<>();
+        for (float val : motionData) {
+            if (val != 0) {
+                motionTemp.add(val);
+            }
+        }
+
+        motionData = motionTemp;
     }
 
     public ArrayList<Float> getHumidityData() {
