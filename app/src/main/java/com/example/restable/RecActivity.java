@@ -257,8 +257,8 @@ public class RecActivity  extends BlunoLibrary {
     public void onSerialReceived(String theString) {
         Log.i(TAG, theString + "from sensor");
         //Append the text into the EditText and print it to to the Scrollview (for debugging purposes)
-        serialReceivedText.append(theString);
-        ((ScrollView)serialReceivedText.getParent()).fullScroll(View.FOCUS_DOWN);
+        //serialReceivedText.append(theString);
+        //((ScrollView)serialReceivedText.getParent()).fullScroll(View.FOCUS_DOWN);
 
         //Store the received data in receivedData for ResultsActivity
         receivedData.append(theString);

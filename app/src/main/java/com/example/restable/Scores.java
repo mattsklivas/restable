@@ -1,6 +1,7 @@
 package com.example.restable;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Scores implements Serializable {
@@ -80,17 +81,22 @@ public class Scores implements Serializable {
         else if (12 <= avg_temp && avg_temp <= 24) scrTmp = (float) 1.0;
         else scrTmp = (float) 0;
 
+        float tempScrSound = 0;
         if (0.0 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.05)
-            scrSound = (float) (136.27 * Math.pow(spikeOverTotalSoundPoint, 3) - 9.8512 * Math.pow(10, -61) * Math.pow(spikeOverTotalSoundPoint, 2) - 10.341 * spikeOverTotalSoundPoint + 2.5);
+            tempScrSound = (float) (136.27 * Math.pow(spikeOverTotalSoundPoint, 3) - 9.8512 * Math.pow(10, -61) * Math.pow(spikeOverTotalSoundPoint, 2) - 10.341 * spikeOverTotalSoundPoint + 2.5);
         else if (0.05 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.2)
-            scrSound = (float) (-18.404 * Math.pow(spikeOverTotalSoundPoint, 3) + 23.201 * Math.pow(spikeOverTotalSoundPoint, 2) - 11.501 * spikeOverTotalSoundPoint + 2.5193);
+            tempScrSound = (float) (-18.404 * Math.pow(spikeOverTotalSoundPoint, 3) + 23.201 * Math.pow(spikeOverTotalSoundPoint, 2) - 11.501 * spikeOverTotalSoundPoint + 2.5193);
         else if (0.2 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 0.5)
-            scrSound = (float) (-13.543 * Math.pow(spikeOverTotalSoundPoint, 3) + 20.284 * Math.pow(spikeOverTotalSoundPoint, 2) - 10.917 * spikeOverTotalSoundPoint + 2.4804);
+            tempScrSound = (float) (-13.543 * Math.pow(spikeOverTotalSoundPoint, 3) + 20.284 * Math.pow(spikeOverTotalSoundPoint, 2) - 10.917 * spikeOverTotalSoundPoint + 2.4804);
         else if (0.5 <= spikeOverTotalSoundPoint && spikeOverTotalSoundPoint <= 1)
-            scrSound = (float) (0.019841 * Math.pow(spikeOverTotalSoundPoint, 3) - 0.059524 * Math.pow(spikeOverTotalSoundPoint, 2) - 0.74544 * spikeOverTotalSoundPoint + 0.78512);
+            tempScrSound = (float) (0.019841 * Math.pow(spikeOverTotalSoundPoint, 3) - 0.059524 * Math.pow(spikeOverTotalSoundPoint, 2) - 0.74544 * spikeOverTotalSoundPoint + 0.78512);
         else {
-            scrSound = (float) 0;
+            tempScrSound = (float) 0;
         }
+
+        // Display 2 decimal places
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        scrSound = Float.valueOf(decimalFormat.format(tempScrSound));
 
         if (motionDeviation < 2) {
             scrMotion = (float) 2.5;
@@ -127,9 +133,7 @@ public class Scores implements Serializable {
         return scrTmp;
     }
 
-    public float getScrSound() {
-        return scrSound;
-    }
+    public float getScrSound() { return scrSound; }
 
     public float getScrMotion() {
         return scrMotion;
