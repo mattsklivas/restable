@@ -227,8 +227,6 @@ public class RecActivity  extends BlunoLibrary {
         Log.d(TAG, "onConnectionStateChange called for state " + theConnectionState);
         switch (theConnectionState) {
             case isConnected:
-                // Enable HW to send serial data
-                serialSend(Integer.toString(1));
                 buttonScan.setText(R.string.disconnect);
                 Toast.makeText(RecActivity.this, "Device connected!", Toast.LENGTH_SHORT).show();
                 statusText.setText(R.string.restable_now_recording);

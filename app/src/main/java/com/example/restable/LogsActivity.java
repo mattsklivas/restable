@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -129,7 +130,7 @@ public class LogsActivity extends AppCompatActivity {
                 averageSleepTime = calculateAverageSleepTime();
                 averageSleepScore = calculateAverageSleepScore();
                 averageTimeTextView.setText(String.valueOf(averageSleepTime));
-                averageScoreTextView.setText(String.valueOf(averageSleepScore));
+                averageScoreTextView.setText(String.format("%1$s%2$s", String.valueOf(averageSleepScore), "/10"));
             }
 
             @Override
@@ -149,6 +150,7 @@ public class LogsActivity extends AppCompatActivity {
         LocalDate cutoff = now.minusDays(30);
         float sum = 0;
         int count = 0;
+        float reslult = 0;
 
         for (SleepData sd: sleepSessions) {
             if(sd.getStartTime() >= cutoff.toEpochDay()){ // If within 30 days
@@ -158,7 +160,11 @@ public class LogsActivity extends AppCompatActivity {
                 count++;
             }
         }
-        return sum / count;
+        reslult = sum / count;
+        // Display 2 decimal places
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        reslult = Float.valueOf(decimalFormat.format(reslult));
+        return reslult;
     }
 
     private float calculateAverageSleepTime() {
@@ -166,6 +172,7 @@ public class LogsActivity extends AppCompatActivity {
         LocalDate cutoff = now.minusDays(30);
         float sum = 0; // in hours
         int count = 0;
+        float result = 0;
 
         for (SleepData sd: sleepSessions) {
             LocalDateTime startTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(sd.getStartTime()), ZoneId.systemDefault());
@@ -176,7 +183,11 @@ public class LogsActivity extends AppCompatActivity {
                 count++;
             }
         }
-        return sum / count;
+        result = sum / count;
+        // Display 2 decimal places
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        result = Float.valueOf(decimalFormat.format(result));
+        return result;
     }
 
     // Configure and display the ListView
