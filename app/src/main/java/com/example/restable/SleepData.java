@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Map;
 
+// Class used to obtain the ArrayLists of recorded data
 public class SleepData implements Serializable {
 
     private ArrayList<Float> humidityData;

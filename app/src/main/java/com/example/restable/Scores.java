@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+// Class used to obtain the sleep scores based on recorded data
 public class Scores implements Serializable {
 
     private final float scrHum;
