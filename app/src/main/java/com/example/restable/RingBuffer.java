@@ -1,5 +1,10 @@
 package com.example.restable;
 
+/**
+ * Ring buffer used to interface with Bluno Nano over BLE
+ *
+ * Source: https://github.com/DFRobot/BlunoBasicDemo
+ */
 @SuppressWarnings("unchecked")
 public class RingBuffer<T> {
 

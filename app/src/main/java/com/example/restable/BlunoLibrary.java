@@ -31,6 +31,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Library used to interface with Bluno Nano over BLE
+ *
+ * Source: https://github.com/DFRobot/BlunoBasicDemo
+ */
+
 public abstract  class BlunoLibrary  extends AppCompatActivity{
 
     private Context mainContext=this;
